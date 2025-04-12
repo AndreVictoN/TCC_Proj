@@ -52,7 +52,7 @@ public class Door : MonoBehaviour
         }
     }
 
-    void O2D(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.CompareTag("Player"))
         {
