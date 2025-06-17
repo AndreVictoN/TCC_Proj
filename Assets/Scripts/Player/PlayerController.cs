@@ -4,15 +4,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
+using Core.Singleton;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Core.Singleton.Singleton<PlayerController>
 {
+    [Header("Player Settings")]
+    GameManager gameManager;
+
     [Header("Movement Settings")]
     public Rigidbody2D rb;
     public float moveSpeed = 5f;
     public InputActionReference move;
     public Animator animator;
     public Animator battleAnimator;
+    public Sprite idleDown;
 
     #region tags to compare
     [Header("ScenesToLoad")]
@@ -50,17 +55,26 @@ public class PlayerController : MonoBehaviour
     private Vector2 _lastMoveDirection = Vector2.down;
     #endregion
 
-    void Awake()
+    protected override void Awake()
     {
-        if(SceneManager.GetActiveScene().name == battleScene)
+        gameManager = GameObject.FindFirstObjectByType<GameManager>();
+
+        if (SceneManager.GetActiveScene().name == battleScene)
         {
             defaultPosition = new Vector3(-3.7f, 1.3f, 0);
             this.gameObject.transform.position = defaultPosition;
-        }else{
+        }
+        else if (SceneManager.GetActiveScene().name == classroom)
+        {
+            defaultPosition = new Vector3(-10.53f, 6f, 0);
+            this.gameObject.transform.position = defaultPosition;
+        }
+        else
+        {
             this.gameObject.transform.position = new Vector3(0, 0, 0);
         }
-        
-        if(rb == null && this.gameObject.GetComponent<Rigidbody2D>() != null)
+
+        if (rb == null && this.gameObject.GetComponent<Rigidbody2D>() != null)
         {
             rb = this.gameObject.GetComponent<Rigidbody2D>();
         }
@@ -71,32 +85,33 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(SceneManager.GetActiveScene().name == battleScene) 
+        if (SceneManager.GetActiveScene().name == battleScene)
         {
             _isBattleScene = true;
 
             _currentTween = battleManager.GoToDefaultPosition(this.gameObject, _isMovingBattle, _currentTween, defaultPosition, attackTime);
-        }else
+        }
+        else
         {
             _isBattleScene = false;
         }
 
         _canMove = !_isBattleScene;
 
-        if(_canMove) _moveDirection = move.action.ReadValue<Vector2>();
+        if (_canMove) _moveDirection = move.action.ReadValue<Vector2>();
 
         AnimateMovement();
     }
 
     public void AnimateMovement()
     {
-        if(!_isBattleScene)
+        if (!_isBattleScene)
         {
             animator.SetFloat("Horizontal", _moveDirection.x);
             animator.SetFloat("Vertical", _moveDirection.y);
             animator.SetFloat("Speed", _moveDirection.sqrMagnitude);
 
-            if(_moveDirection.sqrMagnitude > 0.01f)
+            if (_moveDirection.sqrMagnitude > 0.01f)
             {
                 _lastMoveDirection = _moveDirection;
                 animator.SetFloat("LastHorizontal", _moveDirection.x);
@@ -107,8 +122,8 @@ public class PlayerController : MonoBehaviour
 
     void OnMouseOver()
     {
-        if(!_isBattleScene) return;
-        
+        if (!_isBattleScene) return;
+
         Color colorToFade = spriteRenderer.color;
         colorToFade.b += 1f;
         _currentCoroutine = battleManager.FadeToColor(colorToFade, _currentCoroutine, spriteRenderer, fadeTime);
@@ -130,33 +145,51 @@ public class PlayerController : MonoBehaviour
 
     public void AnimateAttack()
     {
-        if(!_isBattleScene) return;
+        if (!_isBattleScene) return;
 
         battleAnimator.SetTrigger("Attack");
     }
 
     void OnMouseExit()
     {
-        if(!_isBattleScene) return;
+        if (!_isBattleScene) return;
         _currentCoroutine = battleManager.FadeToColor(defaultColor, _currentCoroutine, spriteRenderer, fadeTime);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag(npcTag) || collision.gameObject.CompareTag(doorTag))
+        if (collision.gameObject.CompareTag(npcTag) || collision.gameObject.CompareTag(doorTag))
         {
             rb.linearVelocity = Vector2.zero;
-        }else if(collision.gameObject.CompareTag(stairsTag))
+        }
+        else if (collision.gameObject.CompareTag(stairsTag))
         {
-            if(SceneManager.GetActiveScene().name == prototypeScene) StartCoroutine(LoadFloor(firstFloor));
-            else if(SceneManager.GetActiveScene().name == firstFloor) StartCoroutine(LoadFloor(prototypeScene));
+            if (SceneManager.GetActiveScene().name == prototypeScene) StartCoroutine(LoadFloor(firstFloor));
+            else if (SceneManager.GetActiveScene().name == firstFloor) StartCoroutine(LoadFloor(prototypeScene));
 
             _canMove = false;
-        }else if(collision.gameObject.CompareTag(changeSceneTag))
+        }
+        else if (collision.gameObject.CompareTag(changeSceneTag))
         {
-            collision.gameObject.GetComponent<ToOtherScene>().StartLoadNewScene(classroom);
+            string sceneToLoad;
+
+            if (SceneManager.GetActiveScene().name == prototypeScene)
+            {
+                sceneToLoad = classroom;
+                gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
+            }
+            else if (SceneManager.GetActiveScene().name == classroom)
+            {
+                sceneToLoad = prototypeScene;
+                gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
+            }
             _canMove = false;
         }
+    }
+
+    public void SetCanMove(bool canMove)
+    {
+        _canMove = canMove;
     }
 
     IEnumerator LoadFloor(string sceneName)
@@ -186,5 +219,16 @@ public class PlayerController : MonoBehaviour
     public void MovePlayer()
     {
         rb.linearVelocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
+    }
+
+    public void SetSpriteDown()
+    {
+        animator.SetFloat("LastVertical", 0);
+        this.gameObject.GetComponent<SpriteRenderer>().sprite = idleDown;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 }

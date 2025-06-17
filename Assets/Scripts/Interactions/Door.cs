@@ -7,6 +7,7 @@ public class Door : MonoBehaviour
     public GameObject player;
     public Sprite doorOpened;
     public Sprite doorClosed;
+    public string identifier;
 
     //Privates
     private bool _playerIsClose;
@@ -16,25 +17,54 @@ public class Door : MonoBehaviour
     {
         _playerIsClose = false;
         _isClosed = true;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && _playerIsClose)
+        if (Input.GetKeyDown(KeyCode.E) && _playerIsClose)
         {
-            if(_isClosed)
+            if (_isClosed)
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = doorOpened;
-                Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), this.gameObject.GetComponent<BoxCollider2D>(), true);
+                ChangeSprite("open");
+                IgnoreCollision(player, true);
 
                 _isClosed = false;
-            }else
+            }
+            else
             {
-                gameObject.GetComponent<SpriteRenderer>().sprite = doorClosed;
-                Physics2D.IgnoreCollision(player.GetComponent<BoxCollider2D>(), this.gameObject.GetComponent<BoxCollider2D>(), false);
+                ChangeSprite("close");
+                IgnoreCollision(player, false);
 
                 _isClosed = true;
             }
+        }
+    }
+
+    public void IgnoreCollision(GameObject newPlayer, bool ignore)
+    {
+        Physics2D.IgnoreCollision(newPlayer.GetComponent<BoxCollider2D>(), this.gameObject.GetComponent<BoxCollider2D>(), ignore);
+    }
+
+    public void SetIsClosed(bool isClosed)
+    {
+        _isClosed = isClosed;
+    }
+    
+    public void ChangePlayer(GameObject newPlayer)
+    {
+        player = newPlayer;
+    }
+
+    public void ChangeSprite(string status)
+    {
+        if (status == "open")
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = doorOpened;
+        }
+        else if (status == "close")
+        {
+            this.gameObject.GetComponent<SpriteRenderer>().sprite = doorClosed;
         }
     }
 

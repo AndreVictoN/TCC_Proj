@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class Cards : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    public List<GameObject> cardsList = new List<GameObject>();
     public Transform transformCard;
     public Vector3 defaultPosition;
 
@@ -19,7 +18,6 @@ public class Cards : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, I
 
     void Awake()
     {
-        cardsList.AddRange(GameObject.FindGameObjectsWithTag("Card"));
         transformCard = this.gameObject.transform;
         defaultPosition = transformCard.position;
         arrow = GameObject.FindGameObjectWithTag("Arrow");
