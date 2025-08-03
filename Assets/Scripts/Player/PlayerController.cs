@@ -1,12 +1,11 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Core.Singleton;
 
-public class PlayerController : Core.Singleton.Singleton<PlayerController>
+public class PlayerController : Singleton<PlayerController>
 {
     [Header("Player Settings")]
     GameManager gameManager;
