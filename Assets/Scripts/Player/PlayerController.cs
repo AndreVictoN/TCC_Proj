@@ -1,15 +1,15 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Core.Singleton;
+using System.Collections.Generic;
 
-public class PlayerController : Core.Singleton.Singleton<PlayerController>
+public abstract class PlayerController : Singleton<PlayerController>
 {
     [Header("Player Settings")]
-    GameManager gameManager;
+    protected GameManager gameManager;
 
     [Header("Movement Settings")]
     public Rigidbody2D rb;
@@ -26,9 +26,10 @@ public class PlayerController : Core.Singleton.Singleton<PlayerController>
     public string battleScene = "BattleScene";
     public string classroom = "Classroom";
 
-    private string npcTag = "NPC";
-    private string doorTag = "Door";
-    private string stairsTag = "Stairs";
+    protected string npcTag = "NPC";
+    protected List<string> npcTags = new() {"Ezequiel", "Estella", "Yuri", "Rebecca"};
+    protected string doorTag = "Door";
+    protected string stairsTag = "Stairs";
     public string changeSceneTag = "ToOtherScene";
     #endregion
 
@@ -44,15 +45,15 @@ public class PlayerController : Core.Singleton.Singleton<PlayerController>
     public Vector3 defaultPosition;
 
     #region Privates
-    private Vector2 _moveDirection;
-    private Vector3 _positionBeforeFloor;
-    private bool _canMove = true;
-    private bool _isBattleScene = false;
-    private bool _isMovingBattle = false;
-    private Coroutine _currentCoroutine;
-    private Tween _currentTween;
-    private string _walkingDown;
-    private Vector2 _lastMoveDirection = Vector2.down;
+    protected Vector2 _moveDirection;
+    protected Vector3 _positionBeforeFloor;
+    protected bool _canMove = true;
+    protected bool _isBattleScene = false;
+    protected bool _isMovingBattle = false;
+    protected Coroutine _currentCoroutine;
+    protected Tween _currentTween;
+    protected string _walkingDown;
+    protected Vector2 _lastMoveDirection = Vector2.down;
     #endregion
 
     protected override void Awake()
@@ -96,7 +97,7 @@ public class PlayerController : Core.Singleton.Singleton<PlayerController>
             _isBattleScene = false;
         }
 
-        _canMove = !_isBattleScene;
+        if(_isBattleScene) _canMove = false;
 
         if (_canMove) _moveDirection = move.action.ReadValue<Vector2>();
 
@@ -158,7 +159,7 @@ public class PlayerController : Core.Singleton.Singleton<PlayerController>
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag(npcTag) || collision.gameObject.CompareTag(doorTag))
+        if (collision.gameObject.CompareTag(npcTag) || collision.gameObject.CompareTag(doorTag) || npcTags.Contains(collision.gameObject.tag))
         {
             rb.linearVelocity = Vector2.zero;
         }
@@ -218,7 +219,8 @@ public class PlayerController : Core.Singleton.Singleton<PlayerController>
 
     public void MovePlayer()
     {
-        rb.linearVelocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
+        if(_canMove){rb.linearVelocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);}
+        else{rb.linearVelocity = Vector2.zero; _moveDirection = Vector2.zero;}
     }
 
     public void SetSpriteDown()
@@ -230,5 +232,30 @@ public class PlayerController : Core.Singleton.Singleton<PlayerController>
     public void SetSpeed(float speed)
     {
         moveSpeed = speed;
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("PrototypeEzequielTrigger1"))
+        {
+            _canMove = false;
+            gameManager.CallEzequiel("PrototypeEzequielTrigger1");
+        }
+    }
+
+    public void SetAnimation(string animation)
+    {
+        animator.Play(animation);
+    }
+
+    public IEnumerator GoTo(float time, Vector2 position)
+    {
+        _canMove = false;
+
+        this.transform.DOMoveX(position.x, time);
+        yield return new WaitForSeconds(time);
+
+        animator.Play("Moving");
+        _canMove = true;
     }
 }

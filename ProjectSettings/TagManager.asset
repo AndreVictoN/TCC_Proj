@@ -15,6 +15,13 @@ TagManager:
   - ToOtherScene
   - Row
   - TransitionImage
+  - PlayerAnimal
+  - Player_Image
+  - CurrentDay
+  - Objective
+  - PrototypeEzequielTrigger1
+  - Ezequiel
+  - SkipText
   layers:
   - Default
   - TransparentFX

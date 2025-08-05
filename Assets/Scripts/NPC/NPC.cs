@@ -7,19 +7,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class NPC : MonoBehaviour
+public abstract class NPC : DialogueBox
 {
     [Header("GeneralSettings")]
     public Color defaultColor;
     public Vector3 defaultPosition;
-
-    [Header("Dialogue")]
-    public GameObject dialoguePanel;
-    public GameObject continueButton;
-    public TextMeshProUGUI continueButtonText;
-    public TextMeshProUGUI dialogueText;
-    public List<String> dialogue = new List<String>();
-    public float wordSpeed;
 
     [Header("Battle")]
     public Animator battleAnimator;
@@ -30,22 +22,15 @@ public class NPC : MonoBehaviour
     public float fadeTime = 0.5f;
 
     #region Privates
-    private Coroutine _currentCoroutine;
-    private Tween _currentTween;
-    private bool _playerIsClose;
-    private bool _isBattling;
-    private String _npcName;
-    private bool _isMoving;
-    private bool _isTyping;
-    private int _i;
+    protected Coroutine _currentCoroutine;
+    protected Tween _currentTween;
+    protected bool _playerIsClose;
+    protected bool _isBattling;
+    protected String _npcName;
+    protected bool _isMoving;
+    protected PlayerController _player;
+    protected bool _isAutomatic = false;
     #endregion
-
-    void Awake()
-    {
-        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
-        defaultColor = spriteRenderer.color;
-        _npcName = this.gameObject.name;
-    }
 
     void Start()
     {
@@ -58,16 +43,24 @@ public class NPC : MonoBehaviour
         }
     }
 
-    private Vector3 getPosition()
+    protected void BasicSettings()
     {
-        return _npcName switch
+        spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        defaultColor = spriteRenderer.color;
+        _npcName = this.gameObject.name;
+    }
+
+    protected virtual Vector3 getPosition()
+    {
+        /*return _npcName switch
         {
             "Estella" => new Vector3(-5.3f, 0.01f, 0),
             "Rebecca" => new Vector3(-6.9f, 3.7f, 0),
             "Ezequiel" => new Vector3(-5.3f, 2.5f, 0),
             "Yuri" => new Vector3(-6.9f, -1.1f, 0),
             _ => this.gameObject.transform.position,
-        };
+        };*/
+        return this.gameObject.transform.position;
     }
 
     void Update()
@@ -102,11 +95,11 @@ public class NPC : MonoBehaviour
         }*/
     }
 
-    private Color CheckColorAspectByNPC()
+    protected virtual Color CheckColorAspectByNPC()
     {
         Color colorToFade = spriteRenderer.color;
 
-        switch(_npcName)
+        /*switch(_npcName)
         {
             case "Estella":
                 colorToFade.r += 0.2f;
@@ -120,7 +113,7 @@ public class NPC : MonoBehaviour
             case "Yuri":
                 colorToFade.b -= 1f;
                 break;
-        }
+        }*/
 
         return colorToFade;
     }
@@ -141,93 +134,46 @@ public class NPC : MonoBehaviour
 
     public virtual void UpdateNPC()
     {
-        if(Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping)
+        if(!_isAutomatic)
         {
-            if(!dialoguePanel.activeSelf)
+            if(Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping)
             {
-                dialogueText.text = "";
-                _i = 0;
+                if(!dialoguePanel.activeSelf)
+                {
+                    dialogueText.text = "";
+                    _i = 0;
 
-                SetDialoguePanel();
-                StartCoroutine(Typing());
-            }
-            else
+                    SetDialoguePanel();
+                    StartCoroutine(Typing());
+                }
+                else
+                {
+                    dialoguePanel.SetActive(false);
+                    StopCoroutine(Typing());
+                    ResetText();
+                }
+            }else if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return)) && _playerIsClose && _isTyping)
             {
-                dialoguePanel.SetActive(false);
                 StopCoroutine(Typing());
-                ResetText();
+                dialogueText.text = dialogue[_i];
+                //continueButton.SetActive(true);
+            }else if(Input.GetKeyDown(KeyCode.Return) && !_isTyping && _playerIsClose && dialoguePanel.activeSelf)
+            {
+                NextLine();
             }
-        }else if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return)) && _playerIsClose && _isTyping)
-        {
-            StopCoroutine(Typing());
-            dialogueText.text = dialogue[_i];
-            continueButton.SetActive(true);
-        }else if(Input.GetKeyDown(KeyCode.Return) && !_isTyping && _playerIsClose && dialoguePanel.activeSelf)
-        {
-            NextLine();
-        }
 
-        if(dialogueText.text == dialogue[_i])
-        {
-            continueButton.SetActive(true);
+            if(dialogueText.text == dialogue[_i])
+            {
+                //continueButton.SetActive(true);
+            }
         }
     }
 
-    public void SetDialoguePanel()
-    {
-        dialoguePanel.SetActive(true);
-
-        GameObject npcImage = GameObject.FindGameObjectWithTag("NPC_Image");
-        npcImage.GetComponent<Image>().sprite = this.gameObject.GetComponent<SpriteRenderer>().sprite;
-
-        GameObject npcName = GameObject.FindGameObjectWithTag("NPC_Name");
-        npcName.GetComponent<TextMeshProUGUI>().text = this.gameObject.name.ToString();
-    }
-
-    public virtual void ResetText()
+    public override void ResetText()
     {
         if(_isBattling) return;
 
-        dialogueText.text = "";
-        _i = 0;
-
-        if(dialoguePanel != null) dialoguePanel.SetActive(false);
-    }
-
-    IEnumerator Typing()
-    {
-        _isTyping = true;
-
-        if(dialogueText.text != "")
-        {
-            dialogueText.text = "";
-        }
-
-        foreach(char letter in dialogue[_i].ToCharArray())
-        {
-            if(dialogueText.text != dialogue[_i])
-            {
-                dialogueText.text += letter;
-                yield return new WaitForSeconds(wordSpeed);
-            }
-        }
-
-        _isTyping = false;
-    }
-
-    public virtual void NextLine()
-    {
-        continueButton.SetActive(false);
-
-        if(_i < dialogue.Count - 1)
-        {
-            _i++;
-            dialogueText.text = "";
-            StartCoroutine(Typing());
-        }else
-        {
-            ResetText();
-        }
+        base.ResetText();
     }
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
@@ -252,5 +198,63 @@ public class NPC : MonoBehaviour
         if (!_isBattling) return;
 
         battleAnimator.SetTrigger("Attack");
+    }
+
+    public virtual void RecieveTrigger(GameObject player, string trigger) {}
+
+    protected IEnumerator GoToPlayer(float time, GameObject player)
+    {
+        this.transform.DOMoveY(player.transform.localPosition.y, time);
+        yield return new WaitForSeconds(time);
+
+        this.transform.DOMoveX(player.transform.localPosition.x - 0.8f, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+
+        if(!dialoguePanel.activeSelf)
+        {
+            dialogueText.text = "";
+            _i = 0;
+
+            SetDialoguePanel();
+            StartCoroutine(Typing());
+        }
+    }
+
+    protected IEnumerator GoTo(float time, Vector2 position)
+    {
+        this.transform.DOMoveX(position.x, time);
+        yield return new WaitForSeconds(time);
+
+        if(_isAutomatic) _isAutomatic = false;
+    }
+
+    protected IEnumerator StartAutomaticTalk()
+    {
+        GameObject skipText = new();
+
+        yield return new WaitForSeconds(0.5f);
+        if(!dialoguePanel.activeSelf)
+        {
+            dialogueText.text = "";
+            _i = 0;
+
+            SetDialoguePanel();
+            skipText = GameObject.FindGameObjectWithTag("SkipText");
+            skipText.SetActive(false);
+            StartCoroutine(Typing());
+        }
+
+        while(_i != dialogue.Count - 1)
+        {
+            yield return null;
+
+            if(!_isTyping)
+            {
+                yield return new WaitForSeconds(1.5f);
+                NextLine();
+            }
+        }
+
+        if(skipText != null) skipText.SetActive(true);
     }
 }

@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 700530619727109075}
   - component: {fileID: 1298753006876154662}
   - component: {fileID: 5107896920165576419}
-  - component: {fileID: 118487397908353872}
   m_Layer: 0
   m_Name: NPC_Prototype
   m_TagString: NPC
@@ -200,21 +199,3 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.8
---- !u!114 &118487397908353872
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8158669730699148495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1828aa74cc06b5744bd67c19b79f4e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialoguePanel: {fileID: 0}
-  continueButton: {fileID: 0}
-  continueButtonText: {fileID: 0}
-  dialogueText: {fileID: 0}
-  dialogue: []
-  wordSpeed: 0.1

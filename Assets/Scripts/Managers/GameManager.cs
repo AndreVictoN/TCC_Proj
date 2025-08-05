@@ -5,13 +5,19 @@ using UnityEngine.SceneManagement;
 using Core.Singleton;
 using UnityEngine.UI;
 using Unity.Cinemachine;
+using TMPro;
 
 public class GameManager : Singleton<GameManager>
 {
-    public GameObject PlayerPFB;
+    public GameObject playerPFB;
+    public GameObject animalPlayerPFB;
     public Image transitionImage;
     public List<GameObject> doors;
     public CinemachineCamera cinemachineCamera;
+    public TextMeshProUGUI currentDay;
+    public TextMeshProUGUI currentObjective;
+    private PlayerController _playerController;
+    private Ezequiel _ezequiel;
 
     protected override void Awake()
     {
@@ -19,11 +25,39 @@ public class GameManager : Singleton<GameManager>
         PlayerManagement();
     }
 
+    void Start()
+    {
+        if(SceneManager.GetActiveScene().name.Equals("PrototypeScene"))
+        {
+            PrototypeConfig();
+        }
+    }
+
+    private void PrototypeConfig()
+    {
+        if(currentDay == null){currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>();}
+        if(currentObjective == null){currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>();}
+        transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
+        currentObjective.color = new Vector4(currentObjective.color.r, currentObjective.color.g, currentObjective.color.b, 0f);
+        AnimateTransition(3f, true);
+        AnimateText(currentDay, 3f, true);
+        AnimateText(currentObjective, 6f, false);
+        StartCoroutine(SetPlayerCanMove());
+    }
+
+    IEnumerator SetPlayerCanMove()
+    {
+        _playerController.SetCanMove(false);
+        yield return new WaitForSeconds(3f);
+        _playerController.SetCanMove(true);
+    }
+
     public void PlayerManagement()
     {
         if (GameObject.FindFirstObjectByType<PlayerController>() == null)
         {
-            CinemachineFollow(GameObject.Instantiate(PlayerPFB).GetComponent<Transform>());
+            CinemachineFollow(GameObject.Instantiate(playerPFB).GetComponent<Transform>());
+            _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }
     }
 
@@ -63,7 +97,7 @@ public class GameManager : Singleton<GameManager>
             player.GetComponent<PlayerController>().SetSpeed(8f);
             door.SetIsClosed(true);
         }
-        else if (sceneName == "PrototypeScene")
+        else if (sceneName == "TestScene")
         {
             doors.Clear();
             doors.AddRange(GameObject.FindGameObjectsWithTag("Door"));
@@ -107,9 +141,9 @@ public class GameManager : Singleton<GameManager>
         doors.Clear();
     }
 
-    void AnimateTransition(float time, bool inRoom)
+    void AnimateTransition(float time, bool toTransparent)
     {
-        if (!inRoom)
+        if (!toTransparent)
         {
             Color newColor = new Color(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
             StartCoroutine(FadeTransition(transitionImage.color, newColor, time));
@@ -118,6 +152,35 @@ public class GameManager : Singleton<GameManager>
         {
             Color newColor = new Color(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 0f);
             StartCoroutine(FadeTransition(transitionImage.color, newColor, time));
+        }
+    }
+
+    void AnimateText(TextMeshProUGUI textToFade, float time, bool toTransparent)
+    {
+        if (!toTransparent)
+        {
+            Color newColor = new Color(1f, 1f, 1f, 1f);
+            StartCoroutine(FadeText(textToFade, textToFade.color, newColor, time));
+        }
+        else
+        {
+            Color newColor = new Color(1f, 1f, 1f, 0f);
+            StartCoroutine(FadeText(textToFade, textToFade.color, newColor, time));
+        }
+    }
+
+    private IEnumerator FadeText(TextMeshProUGUI textToFade, Color old, Color color, float time)
+    {
+        float elapsedTime = 0f;
+
+        while(elapsedTime < time)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float lerpAmount = Mathf.Clamp01(elapsedTime/time);
+            textToFade.color = Color.Lerp(old, color, lerpAmount);
+
+            yield return null;
         }
     }
 
@@ -133,6 +196,16 @@ public class GameManager : Singleton<GameManager>
             transitionImage.color = Color.Lerp(old, color, lerpAmount);
 
             yield return null;
+        }
+    }
+
+    public void CallEzequiel(string trigger)
+    {
+        if(trigger.Equals("PrototypeEzequielTrigger1"))
+        {
+            _ezequiel = GameObject.FindGameObjectWithTag("Ezequiel").GetComponent<Ezequiel>();
+            _ezequiel.RecieveTrigger(_playerController.gameObject, "PrototypeEzequielTrigger1");
+            Destroy(GameObject.FindGameObjectWithTag("PrototypeEzequielTrigger1"));
         }
     }
 }
