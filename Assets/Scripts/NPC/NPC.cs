@@ -204,14 +204,31 @@ public abstract class NPC : DialogueBox
 
     public virtual void RecieveTrigger(GameObject player, string trigger) {}
 
-    protected IEnumerator GoToPlayer(float time, GameObject player)
+    protected IEnumerator GoToPlayer(float time, GameObject player, string trigger)
     {
-        this.transform.DOMoveY(player.transform.localPosition.y, time);
-        yield return new WaitForSeconds(time);
+        _dialogueStarted = false;
 
-        this.transform.DOMoveX(player.transform.localPosition.x - 0.8f, 0.5f);
-        yield return new WaitForSeconds(0.5f);
+        if(trigger.Equals("PrototypeEzequielTrigger1"))
+        {
+            this.transform.DOMoveY(player.transform.localPosition.y, time);
+            yield return new WaitForSeconds(time);
 
+            this.transform.DOMoveX(player.transform.localPosition.x - 0.8f, 0.5f);
+            yield return new WaitForSeconds(0.5f);
+        }else if(trigger.Equals("GirlTrigger"))
+        {
+            animator.Play("IdleR");
+            yield return new WaitForSeconds(0.5f);
+            animator.Play("WalkingRight");
+
+            this.transform.DOMoveX(-0.96f, time);
+            yield return new WaitForSeconds(time);
+            animator.Play("IdleR");
+        }
+    }
+
+    protected void StartDialogue()
+    {
         if(!dialoguePanel.activeSelf)
         {
             dialogueText.text = "";

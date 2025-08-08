@@ -849,7 +849,6 @@ GameObject:
   - component: {fileID: 177853683}
   - component: {fileID: 177853682}
   - component: {fileID: 177853681}
-  - component: {fileID: 177853680}
   - component: {fileID: 177853686}
   m_Layer: 0
   m_Name: Estella
@@ -858,18 +857,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &177853680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177853679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1828aa74cc06b5744bd67c19b79f4e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &177853681
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -2968,7 +2955,6 @@ GameObject:
   - component: {fileID: 509888288}
   - component: {fileID: 509888287}
   - component: {fileID: 509888286}
-  - component: {fileID: 509888285}
   - component: {fileID: 509888290}
   m_Layer: 0
   m_Name: Rebecca
@@ -2992,18 +2978,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1365693754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &509888285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509888283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1828aa74cc06b5744bd67c19b79f4e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &509888286
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3680,7 +3654,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1330226256}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: Movement
         m_Mode: 1
@@ -3704,7 +3678,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1330226256}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: AnimateAttack
         m_Mode: 1
@@ -6877,7 +6851,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 177853680}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: Movement
         m_Mode: 1
@@ -6901,7 +6875,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 177853680}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: AnimateAttack
         m_Mode: 1
@@ -7162,7 +7136,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 509888285}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: Movement
         m_Mode: 1
@@ -7186,7 +7160,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 509888285}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: AnimateAttack
         m_Mode: 1
@@ -7392,7 +7366,6 @@ GameObject:
   - component: {fileID: 1330226259}
   - component: {fileID: 1330226258}
   - component: {fileID: 1330226257}
-  - component: {fileID: 1330226256}
   - component: {fileID: 1330226261}
   m_Layer: 0
   m_Name: Yuri
@@ -7416,18 +7389,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1365693754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1330226256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330226254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1828aa74cc06b5744bd67c19b79f4e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &1330226257
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8251,7 +8212,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1934887271}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: Movement
         m_Mode: 1
@@ -8275,7 +8236,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1934887271}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NPC, Assembly-CSharp
         m_MethodName: AnimateAttack
         m_Mode: 1
@@ -9620,8 +9581,8 @@ GameObject:
   - component: {fileID: 1934887274}
   - component: {fileID: 1934887273}
   - component: {fileID: 1934887272}
-  - component: {fileID: 1934887271}
   - component: {fileID: 1934887276}
+  - component: {fileID: 1934887277}
   m_Layer: 0
   m_Name: Ezequiel
   m_TagString: NPC
@@ -9644,18 +9605,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1365693754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1934887271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934887269}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1828aa74cc06b5744bd67c19b79f4e55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &1934887272
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -9842,6 +9791,35 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1934887277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934887269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c63c015c45cc58e44a8f1c011bbf680d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 0}
+  dialogueText: {fileID: 0}
+  dialogue: []
+  wordSpeed: 0
+  _secondsToReturn: 1.5
+  _npcSprite: {fileID: 0}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  defaultPosition: {x: 0, y: 0, z: 0}
+  animator: {fileID: 0}
+  battleAnimator: {fileID: 1934887276}
+  battleManager: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  enemy: {fileID: 0}
+  attackTime: 0.3
+  fadeTime: 0.5
+  prototypeDialogue: []
+  prototypeDialogue2: []
 --- !u!1 &1957169233
 GameObject:
   m_ObjectHideFlags: 0

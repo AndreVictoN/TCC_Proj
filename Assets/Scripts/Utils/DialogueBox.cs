@@ -19,6 +19,8 @@ public abstract class DialogueBox : MonoBehaviour
     protected int _i;
     protected bool _isTyping;
     protected int _currentDialogue = 1;
+    protected bool _canSkip;
+    protected bool _dialogueStarted = false;
 
     public virtual void SetDialoguePanel()
     {
@@ -88,4 +90,5 @@ public abstract class DialogueBox : MonoBehaviour
     }
     
     protected virtual void CheckCharacter(int i){}
+    public void SetCanSkip(bool can){_canSkip = can;}
 }

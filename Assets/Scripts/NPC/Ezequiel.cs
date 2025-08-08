@@ -78,7 +78,7 @@ public class Ezequiel : NPC
     protected void SetupSecondDialogue()
     {
         if(_player == null){ _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>(); }
-        _player.SetAnimation("H_WalkingLeft");
+        _player.SetAnimation("H_WalkingLeft", 0);
         _isAutomatic = true;
         StartCoroutine(GoTo(77.5f, new Vector2(-40, this.gameObject.transform.position.y), 'x'));
         StartCoroutine(_player.GoTo(77.5f, new Vector2(-40 + 0.8f, this.gameObject.transform.position.y), 'x', true));
@@ -105,7 +105,8 @@ public class Ezequiel : NPC
 
         if(trigger == "PrototypeEzequielTrigger1")
         {
-            StartCoroutine(GoToPlayer(2f, player));
+            StartCoroutine(GoToPlayer(2f, player, trigger));
+            if(!_dialogueStarted) StartDialogue();
         }
     }
 }

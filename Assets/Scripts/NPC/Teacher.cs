@@ -33,12 +33,12 @@ public class Teacher : NPC
                 dialogueText.fontStyle = FontStyles.Normal;
                 if(i == 0 || i == 2){
                     dialogueText.alignment = TextAlignmentOptions.Right;
-                    playerImage.GetComponent<Image>().color = new Vector4(playerImage.GetComponent<Image>().color.r, playerImage.GetComponent<Image>().color.g, playerImage.GetComponent<Image>().color.b, 1);
-                    npcImage.GetComponent<Image>().color = new Vector4(npcImage.GetComponent<Image>().color.r, npcImage.GetComponent<Image>().color.g, npcImage.GetComponent<Image>().color.b, 0.75f);
+                    if(playerImage != null) playerImage.GetComponent<Image>().color = new Vector4(playerImage.GetComponent<Image>().color.r, playerImage.GetComponent<Image>().color.g, playerImage.GetComponent<Image>().color.b, 1);
+                    if(npcImage != null) npcImage.GetComponent<Image>().color = new Vector4(npcImage.GetComponent<Image>().color.r, npcImage.GetComponent<Image>().color.g, npcImage.GetComponent<Image>().color.b, 0.75f);
                 }else{
                     dialogueText.alignment = TextAlignmentOptions.Left;
-                    playerImage.GetComponent<Image>().color = new Vector4(playerImage.GetComponent<Image>().color.r, playerImage.GetComponent<Image>().color.g, playerImage.GetComponent<Image>().color.b, 0.75f);
-                    npcImage.GetComponent<Image>().color = new Vector4(npcImage.GetComponent<Image>().color.r, npcImage.GetComponent<Image>().color.g, npcImage.GetComponent<Image>().color.b, 1);
+                    if(playerImage != null) playerImage.GetComponent<Image>().color = new Vector4(playerImage.GetComponent<Image>().color.r, playerImage.GetComponent<Image>().color.g, playerImage.GetComponent<Image>().color.b, 0.75f);
+                    if(npcImage != null) npcImage.GetComponent<Image>().color = new Vector4(npcImage.GetComponent<Image>().color.r, npcImage.GetComponent<Image>().color.g, npcImage.GetComponent<Image>().color.b, 1);
                 }
             }
         }
@@ -47,7 +47,7 @@ public class Teacher : NPC
     public override void UpdateNPC()
     {
         base.UpdateNPC();
-        if(Input.GetKeyDown(KeyCode.Return) && !_isTyping && _isAutomatic && dialoguePanel.activeSelf){ NextLine(); }
+        if(Input.GetKeyDown(KeyCode.Return) && !_isTyping && _isAutomatic && dialoguePanel.activeSelf && _canSkip){ NextLine(); }
     }
 
     public override void OnTriggerExit2D(Collider2D collision)

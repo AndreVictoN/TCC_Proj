@@ -28,6 +28,8 @@ TagManager:
   - BattleManager
   - PrototypeFirstInteractionTrigger
   - Teacher
+  - StopTrigger
+  - GirlTrigger
   layers:
   - Default
   - TransparentFX

@@ -55,6 +55,7 @@ public abstract class PlayerController : Subject
     protected string _walkingDown;
     protected Vector2 _lastMoveDirection = Vector2.down;
     protected string collisionTag = "collision";
+    private float _defaultAnimatorSpeed;
     #endregion
 
     protected override void Awake()
@@ -74,6 +75,7 @@ public abstract class PlayerController : Subject
         }
         else
         {
+            _defaultAnimatorSpeed = animator.speed;
             this.gameObject.transform.position = new Vector3(0, 0, 0);
         }
 
@@ -193,6 +195,10 @@ public abstract class PlayerController : Subject
                 gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
             }
             _canMove = false;
+        }else if(collision.gameObject.CompareTag("StopTrigger"))
+        {
+            _canMove = false;
+            Notify(EventsEnum.StopInteraction);
         }
     }
 
@@ -255,12 +261,19 @@ public abstract class PlayerController : Subject
         {
             _canMove = false;
             Notify(EventsEnum.PrototypeFirstInteraction);
+        }else if(collision.gameObject.CompareTag("GirlTrigger"))
+        {
+            _canMove = false;
+            Notify(EventsEnum.PrototypeGirl);
         }
     }
 
-    public void SetAnimation(string animation)
+    public void SetAnimation(string animation, int animationSpeed)
     {
         animator.Play(animation);
+
+        if(animationSpeed != 0) animator.speed = animationSpeed;
+        else{animator.speed = _defaultAnimatorSpeed;}
     }
 
     public IEnumerator GoTo(float time, Vector2 position, char xy, bool canMoveAfter)

@@ -4,5 +4,7 @@ public enum EventsEnum
 {
     CallPrototypeEzequiel,
     PrototypeBattle,
-    PrototypeFirstInteraction
+    PrototypeFirstInteraction,
+    PrototypeGirl,
+    StopInteraction
 }

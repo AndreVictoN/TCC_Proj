@@ -20,6 +20,10 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     [Header("Prototype")]
     [SerializeField] private GameObject _prototypeTeacher;
+    [SerializeField] private GameObject _prototypeGirl;
+    [SerializeField] private GameObject _girlTrigger;
+    [SerializeField] private GameObject _battleTrigger;
+    public string stopDialogue;
 
     [Header("Texts")]
     public GameObject dialoguePanel;
@@ -55,6 +59,9 @@ public class GameManager : Singleton<GameManager>, IObserver
         if(currentObjective == null){currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>();}
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         currentObjective.color = new Vector4(currentObjective.color.r, currentObjective.color.g, currentObjective.color.b, 0f);
+        if(_girlTrigger.activeSelf == true) _girlTrigger.SetActive(false);
+        if(_prototypeGirl.activeSelf == true) _prototypeGirl.SetActive(false);
+        if(_battleTrigger.activeSelf == true) _battleTrigger.SetActive(false);
         AnimateTransition(3f, true);
         AnimateText(currentDay, 3f, true);
         AnimateText(currentObjective, 6f, false);
@@ -225,6 +232,43 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
     }
 
+    public void CallGirl(string trigger)
+    {
+        if(trigger.Equals("GirlTrigger"))
+        {
+            StartCoroutine(GirlActions());
+            Destroy(GameObject.FindGameObjectWithTag("GirlTrigger"));
+        }
+    }
+
+    IEnumerator GirlActions()
+    {
+        if(_playerController.transform.localPosition.y < _prototypeGirl.transform.localPosition.y) { _playerController.SetAnimation("H_WalkingUp", 0); }
+        else if(_playerController.transform.localPosition.y > _prototypeGirl.transform.localPosition.y){ _playerController.SetAnimation("H_WalkingDown", 0); }
+
+        float movementTime = _playerController.ToY(_prototypeGirl.transform.localPosition.y);
+        yield return new WaitForSeconds(movementTime);
+        _playerController.SetAnimation("H_IdleL", 0);
+
+        _prototypeGirl.GetComponent<Girl>().RecieveTrigger(_playerController.gameObject, "GirlTrigger");
+
+        while(!_prototypeGirl.GetComponent<Girl>().GetIsClosed()) { yield return null; }
+
+        _playerController.SetAnimation("H_WalkingLeft", 2);
+        StartCoroutine(_playerController.GoTo(1f, new Vector2(5.15f, _playerController.transform.localPosition.y), 'x', false));
+        yield return new WaitForSeconds(1);
+
+        _playerController.SetAnimation("H_WalkingUp", 3);
+        StartCoroutine(_playerController.GoTo(4f, new Vector2(_playerController.transform.localPosition.x, 80.11f), 'y', false));
+        yield return new WaitForSeconds(4f);
+
+        _playerController.SetAnimation("H_WalkingLeft", 0);
+        StartCoroutine(_playerController.GoTo(3f, new Vector2(7.18f, _playerController.transform.localPosition.y), 'x', false));
+        yield return new WaitForSeconds(3f);
+        _playerController.SetAnimation("TransformL", 0);
+        _battleTrigger.SetActive(true);
+    }
+
     public void OnNotify(EventsEnum evt)
     {
         if(evt == EventsEnum.CallPrototypeEzequiel)
@@ -233,22 +277,38 @@ public class GameManager : Singleton<GameManager>, IObserver
         }else if(evt == EventsEnum.PrototypeBattle)
         {
             StartCoroutine(LoadBattleScene("PrototypeScene"));
+            _battleTrigger.SetActive(false);
         }else if(evt == EventsEnum.PrototypeFirstInteraction)
         {
-            ManagePrototypeInteraction();
+            ManageTeacherPrototypeInteraction(evt);
+        }else if(evt == EventsEnum.StopInteraction)
+        {
+            StopPlayer(evt);
+        }else if(evt == EventsEnum.PrototypeGirl)
+        {
+            CallGirl("GirlTrigger");
         }
     }
 
-    private void ManagePrototypeInteraction()
+    private void StopPlayer(EventsEnum evt)
     {
+        dialogue.Clear();
+        if(stopDialogue != null) dialogue.Add(stopDialogue);
+        StartCoroutine(StartAutomaticTalk(evt));
+    }
+
+    private void ManageTeacherPrototypeInteraction(EventsEnum evt)
+    {
+        dialogue.Clear();
+        
         if(dialogue.Count < 2)
         {
             dialogue.Add("Que lugar enorme...");
-            dialogue.Add("acho que vou ter que pedir informaÇÃo para alguÉm... de preferÊncia um professor.");
+            dialogue.Add("vou ter que pedir informaÇÃo para alguÉm se eu quiser encontrar a secretaria... de preferÊncia um professor.");
         }
 
         Destroy(GameObject.FindGameObjectWithTag("PrototypeFirstInteractionTrigger"));
-        StartCoroutine(StartAutomaticTalk());
+        StartCoroutine(StartAutomaticTalk(evt));
     }
 
     protected IEnumerator Typing()
@@ -272,7 +332,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         _isTyping = false;
     }
 
-    protected IEnumerator StartAutomaticTalk()
+    protected IEnumerator StartAutomaticTalk(EventsEnum evt)
     {
         GameObject skipText = null;
 
@@ -310,47 +370,59 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
 
         if(skipText != null) skipText.SetActive(true);
+
         _canSkip = true;
         _skipped = false;
 
-        StartCoroutine(TeacherTalk());
+        if(evt == EventsEnum.PrototypeFirstInteraction){StartCoroutine(TeacherTalk(skipText));}
+        else{
+            while(!_skipped) yield return null;
+            dialogueText.fontStyle = FontStyles.Normal;
+            _playerController.SetCanMove(true);
+        }
     }
 
-    private IEnumerator TeacherTalk()
+    private IEnumerator TeacherTalk(GameObject skipText)
     {
         while(!_skipped) yield return null;
+        dialogueText.fontStyle = FontStyles.Normal;
 
-        if(_playerController.gameObject.transform.localPosition.x > 18.44f) _playerController.SetAnimation("H_WalkingLeft");
-        else if(_playerController.gameObject.transform.localPosition.x < 18.44f) _playerController.SetAnimation("H_WalkingRight");
+        if(_playerController.gameObject.transform.localPosition.x > 18.44f) _playerController.SetAnimation("H_WalkingLeft", 0);
+        else if(_playerController.gameObject.transform.localPosition.x < 18.44f) _playerController.SetAnimation("H_WalkingRight", 0);
 
         float seconds = _playerController.ToX(18.44f);
         yield return new WaitForSeconds(seconds);
 
-        if(_playerController.gameObject.transform.localPosition.y > 65.22f) _playerController.SetAnimation("H_WalkingDown");
-        else if(_playerController.gameObject.transform.localPosition.y < 65.22f) _playerController.SetAnimation("H_WalkingUp");
+        if(_playerController.gameObject.transform.localPosition.y > 65.22f) _playerController.SetAnimation("H_WalkingDown", 0);
+        else if(_playerController.gameObject.transform.localPosition.y < 65.22f) _playerController.SetAnimation("H_WalkingUp", 0);
 
         seconds = _playerController.ToY(65.22f);
         yield return new WaitForSeconds(seconds);
 
-        _playerController.SetAnimation("H_IdleR");
+        _playerController.SetAnimation("H_IdleR", 0);
 
         _prototypeTeacher.SetActive(true);
-
         _prototypeTeacher.GetComponent<Teacher>().Move(4f, new Vector2(this.gameObject.transform.position.x, 65.22f), 'y');
         _prototypeTeacher.GetComponent<Teacher>().SetAnimation("WalkingDown");
         yield return new WaitForSeconds(1f);
+        _prototypeTeacher.GetComponent<Teacher>().SetCanSkip(false);
         StartCoroutine(_prototypeTeacher.GetComponent<Teacher>().StartAutomaticTalk());
         yield return new WaitForSeconds(4f);
         _prototypeTeacher.GetComponent<Teacher>().Move(2f, new Vector2(this.gameObject.transform.position.x, 51.33f), 'y');
+        if(skipText.activeSelf == false) skipText.SetActive(true);
+        _prototypeTeacher.GetComponent<Teacher>().SetCanSkip(true);
         yield return new WaitForSeconds(3f);
 
         while(!_prototypeTeacher.GetComponent<Teacher>().GetIsClosed()) yield return null;
         
         _prototypeTeacher.GetComponent<Teacher>().SetIsAutomatic(false);
         _playerController.SetCanMove(true);
-        _playerController.SetAnimation("Moving");
+        _playerController.SetAnimation("Moving", 0);
 
         Destroy(_prototypeTeacher);
+
+        _prototypeGirl.SetActive(true);
+        _girlTrigger.SetActive(true);
     }
 
     public virtual void NextLine()
