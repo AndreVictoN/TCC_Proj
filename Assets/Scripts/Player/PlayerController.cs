@@ -7,6 +7,9 @@ using Core.Singleton;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using TMPro;
+using System;
+using UnityEngine.InputSystem.Controls;
 
 public abstract class PlayerController : Subject, IHealthManager
 {
@@ -20,6 +23,7 @@ public abstract class PlayerController : Subject, IHealthManager
     public Animator animator;
     public Animator battleAnimator;
     public Sprite idleDown;
+    public Sprite idleLeft;
 
     #region tags to compare
     [Header("ScenesToLoad")]
@@ -43,18 +47,26 @@ public abstract class PlayerController : Subject, IHealthManager
     [Header("BattleSettings")]
     public float myDamage;
     public GameObject enemy;
+    public Image playerSplash;
     public float attackTime = 0.5f;
     public Vector3 defaultPosition;
     public BattleManager battleManager;
     [SerializeField] protected bool _myTurn;
-
-    [Header("HealthManagement")]
-    public float healthAmount;
+    public TextMeshProUGUI sanity;
+    public TextMeshProUGUI anxiety;
+    public TextMeshProUGUI maxAnxiety;
+    public TextMeshProUGUI maxSanity;
+    [SerializeField] protected int _numSanity;
+    [SerializeField] protected int _numAnxiety;
+    [SerializeField] protected int _numMaxSanity;
+    [SerializeField] protected int _numMaxAnxiety;
 
     #region Privates
     protected Vector2 _moveDirection;
     protected Vector3 _positionBeforeFloor;
     protected bool _canMove = true;
+    private bool _canAct = true;
+    private bool _canAttack = true;
     protected bool _isBattleScene = false;
     protected bool _isMovingBattle = false;
     protected Coroutine _currentCoroutine;
@@ -72,9 +84,7 @@ public abstract class PlayerController : Subject, IHealthManager
 
         if (SceneManager.GetActiveScene().name == battleScene)
         {
-            defaultPosition = new Vector3(-3.7f, 1.3f, 0);
-            if(PlayerPrefs.GetString("pastScene") == "PrototypeScene"){myDamage = 5f;}
-            this.gameObject.transform.position = defaultPosition;
+            BattleSceneSettings();
         }
         else if (SceneManager.GetActiveScene().name == classroom)
         {
@@ -101,6 +111,7 @@ public abstract class PlayerController : Subject, IHealthManager
         if (SceneManager.GetActiveScene().name == battleScene)
         {
             _isBattleScene = true;
+            playerSplash = GameObject.FindGameObjectWithTag("AlexOctopus").GetComponent<Image>();
 
             _currentTween = battleManager.GoToDefaultPosition(this.gameObject, _isMovingBattle, _currentTween, defaultPosition, attackTime);
         }
@@ -114,6 +125,27 @@ public abstract class PlayerController : Subject, IHealthManager
         if (_canMove) _moveDirection = move.action.ReadValue<Vector2>();
 
         AnimateMovement();
+    }
+
+    private void BattleSceneSettings()
+    {
+        _canAct = true;
+        _canAttack = true;
+        defaultPosition = new Vector3(-3.7f, 1.3f, 0);
+        if(PlayerPrefs.GetString("pastScene") == "PrototypeScene"){myDamage = 5f;}
+        this.gameObject.transform.position = defaultPosition;
+
+        if(sanity == null) sanity = GameObject.FindGameObjectWithTag("AlexSanity").GetComponent<TextMeshProUGUI>();
+        if(maxSanity == null) maxSanity = GameObject.FindGameObjectWithTag("AlexMaxSanity").GetComponent<TextMeshProUGUI>();
+        if(anxiety == null) anxiety = GameObject.FindGameObjectWithTag("AlexAnxiety").GetComponent<TextMeshProUGUI>();
+        if(maxAnxiety == null) maxAnxiety = GameObject.FindGameObjectWithTag("AlexMaxAnxiety").GetComponent<TextMeshProUGUI>();
+
+        maxAnxiety.text = "/" + _numMaxAnxiety.ToString();
+        maxSanity.text = "/" + _numMaxSanity.ToString();
+        _numAnxiety = _numMaxAnxiety - _numMaxAnxiety + _numMaxAnxiety/2;
+        _numSanity = _numMaxSanity;
+        anxiety.text = _numAnxiety.ToString();
+        sanity.text = _numSanity.ToString();
     }
 
     public void AnimateMovement()
@@ -131,6 +163,12 @@ public abstract class PlayerController : Subject, IHealthManager
                 animator.SetFloat("LastVertical", _moveDirection.y);
             }
         }
+    }
+
+    public void SetIdle(char position)
+    {
+        if(position == 'L'){this.gameObject.GetComponent<SpriteRenderer>().sprite = idleLeft;}
+        if(position == 'D'){this.gameObject.GetComponent<SpriteRenderer>().sprite = idleDown;}
     }
 
     void OnMouseOver()
@@ -151,6 +189,7 @@ public abstract class PlayerController : Subject, IHealthManager
     public void PlayerMovement()
     {
         if(!_myTurn) return;
+        if(!_canAct && !_canAttack) return;
 
         Vector2 enemyPosition = enemy.transform.position;
         _isMovingBattle = true;
@@ -160,18 +199,21 @@ public abstract class PlayerController : Subject, IHealthManager
 
     public void AnimateAttack()
     {
-        if (!_isBattleScene || !_myTurn) return;
+        if (!_isBattleScene || !_myTurn || (!_canAct && !_canAttack)) return;
 
         StartCoroutine(AttackAnimation());
     }
 
     IEnumerator AttackAnimation()
     {
+        playerSplash.gameObject.SetActive(true);
         yield return new WaitForSeconds(0.3f);
         battleAnimator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.2f);
         battleManager.DamageEnemy(myDamage);
         _myTurn = false;
+        yield return new WaitForSeconds(0.5f);
+        playerSplash.gameObject.SetActive(false);
     }
 
     void OnMouseExit()
@@ -212,6 +254,18 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             _canMove = false;
             Notify(EventsEnum.StopInteraction);
+        }else if(collision.gameObject.CompareTag("ToSecretary"))
+        {
+            _canMove = false;
+            Notify(EventsEnum.IntoSecretary);
+        }else if(collision.gameObject.CompareTag("ExitGame"))
+        {
+            _canMove = false;
+            Notify(EventsEnum.ExitGame);
+        }else if(collision.gameObject.CompareTag("EnterSchool"))
+        {
+            _canMove = false;
+            Notify(EventsEnum.EnterSchool);
         }
     }
 
@@ -219,6 +273,9 @@ public abstract class PlayerController : Subject, IHealthManager
     {
         _canMove = canMove;
     }
+
+    public void SetCanAct(bool canAct){ _canAct = canAct; }
+    public void SetCanAttack(bool canAttack){ _canAttack = canAttack; }
 
     IEnumerator LoadFloor(string sceneName)
     {
@@ -278,6 +335,13 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             _canMove = false;
             Notify(EventsEnum.PrototypeGirl);
+        }else if(collision.gameObject.CompareTag("ToOutside"))
+        {
+            if(this.gameObject.transform.localPosition.y > collision.gameObject.transform.localPosition.y)
+            {
+                _canMove = false;
+                Notify(EventsEnum.ToOutside);
+            }
         }
     }
 
@@ -287,6 +351,11 @@ public abstract class PlayerController : Subject, IHealthManager
 
         if(animationSpeed != 0) animator.speed = animationSpeed;
         else{animator.speed = _defaultAnimatorSpeed;}
+    }
+
+    public void SetAnimationTrigger(string trigger)
+    {
+        battleAnimator.SetTrigger(trigger);
     }
 
     public IEnumerator GoTo(float time, Vector2 position, char xy, bool canMoveAfter)
@@ -355,21 +424,35 @@ public abstract class PlayerController : Subject, IHealthManager
 
     public void SetMyTurn(bool myTurn){_myTurn = myTurn;}
     public bool GetMyTurn(){return _myTurn;}
+    public bool GetCanAct(){return _canAct;}
+    public bool GetCanAttack(){return _canAttack;}
 
 #region HealthManagement
     public void TakeDamage(float damage)
     {
         if(!_isBattleScene) return;
 
-        healthAmount -= damage;
+        _numSanity -= (int) Math.Round(damage);
+        sanity.text = _numSanity.ToString();
+
+        _numAnxiety += (int)(Math.Round(damage) * 1.5);
+        anxiety.text = _numAnxiety.ToString();
     }
 
     public void Heal(float healingAmount)
     {
         if(!_isBattleScene) return;
 
-        healthAmount += healingAmount;
-        healthAmount = Mathf.Clamp(healthAmount, 0, 100);
+        _numSanity += (int) Math.Round(healingAmount);
+        _numSanity = Mathf.Clamp(_numSanity, 0, _numMaxSanity);
+        sanity.text = _numSanity.ToString();
+
+        _numAnxiety -= (int)(Math.Round(healingAmount) * 1.5);
+        _numAnxiety = Mathf.Clamp(_numAnxiety, 0, _numMaxAnxiety);
+        anxiety.text = _numAnxiety.ToString();
     }
+
+    public int GetSanity(){ return _numSanity; }
+    public int GetAnxiety(){ return _numAnxiety; }
 #endregion
 }

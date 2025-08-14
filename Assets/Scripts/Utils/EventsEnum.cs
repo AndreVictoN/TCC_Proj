@@ -6,5 +6,10 @@ public enum EventsEnum
     PrototypeBattle,
     PrototypeFirstInteraction,
     PrototypeGirl,
-    StopInteraction
+    StopInteraction,
+    EnemyDead,
+    IntoSecretary,
+    ToOutside,
+    ExitGame,
+    EnterSchool
 }

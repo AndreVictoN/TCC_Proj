@@ -33,6 +33,7 @@ public class MenuButtonsManager : MonoBehaviour
         StartCoroutine(FadeTransition(transitionImage.color, newColor, 0.5f));
 
         yield return new WaitForSeconds(0.5f);
+        PlayerPrefs.SetString("pastScene", "Menu");
         SceneManager.LoadScene("PrototypeScene");
     }
 

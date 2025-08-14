@@ -15,7 +15,8 @@ public class Ezequiel : NPC
     void Awake()
     {
         BasicSettings();
-
+        
+        this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
         if(SceneManager.GetActiveScene().name == "PrototypeScene"){dialogue = prototypeDialogue; _inPrototype = true;}
     }
 
@@ -34,7 +35,6 @@ public class Ezequiel : NPC
                     npcImage.GetComponent<Image>().color = new Vector4(npcImage.GetComponent<Image>().color.r, npcImage.GetComponent<Image>().color.g, npcImage.GetComponent<Image>().color.b, 0.75f);
 
                     if(i == 17){_currentDialogue = 2;}
-                    GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().SetCanMove(true);
                 }else if(i == 6)
                 {
                     dialogueText.alignment = TextAlignmentOptions.Center;
@@ -78,11 +78,74 @@ public class Ezequiel : NPC
     protected void SetupSecondDialogue()
     {
         if(_player == null){ _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>(); }
-        _player.SetAnimation("H_WalkingLeft", 0);
         _isAutomatic = true;
-        StartCoroutine(GoTo(77.5f, new Vector2(-40, this.gameObject.transform.position.y), 'x'));
-        StartCoroutine(_player.GoTo(77.5f, new Vector2(-40 + 0.8f, this.gameObject.transform.position.y), 'x', true));
+        StartCoroutine(Moving());
         StartCoroutine(StartAutomaticTalk());
+    }
+
+    private IEnumerator Moving()
+    {
+        _isMoving = true;
+
+        this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        this.gameObject.GetComponent<CircleCollider2D>().radius = 2;
+
+        _player.SetAnimation("H_WalkingLeft", 0);
+        animator.Play("H_WalkingL");
+        //77.5f
+        StartCoroutine(GoTo(3f, new Vector2(1.88f, this.gameObject.transform.position.y), 'x'));
+        StartCoroutine(_player.GoTo(3.3f, new Vector2(3.64f, this.gameObject.transform.position.y), 'x', false));
+        yield return new WaitForSeconds(3f);
+
+        animator.Play("H_WalkingD");
+        _player.SetAnimation("H_WalkingDown", 0);
+        StartCoroutine(GoTo(16f, new Vector2(this.gameObject.transform.position.x, 63.3f), 'y'));
+        StartCoroutine(_player.GoTo(16f, new Vector2(_player.gameObject.transform.position.x, 65.5f), 'y', false));
+        yield return new WaitForSeconds(16f);
+        
+        _player.SetAnimation("H_Idle", 0);
+        animator.Play("H_WalkingR");
+        this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
+        StartCoroutine(GoTo(20f, new Vector2(38f, this.gameObject.transform.position.y), 'x'));
+        yield return new WaitForSeconds(1f);
+        this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+        _player.SetAnimation("H_WalkingDown", 0);
+        StartCoroutine(_player.GoTo(0.5f, new Vector2(_player.gameObject.transform.position.x, this.gameObject.transform.position.y), 'y', false));
+        yield return new WaitForSeconds(0.5f);
+
+        _player.SetAnimation("H_WalkingRight", 0);
+        StartCoroutine(_player.GoTo(20f, new Vector2(36f, this.gameObject.transform.position.y), 'x', false));
+        yield return new WaitForSeconds(20);
+
+        _player.SetAnimation("H_WalkingUp", 0);
+        animator.Play("H_WalkingU");
+        StartCoroutine(GoTo(27f, new Vector2(this.gameObject.transform.position.x, 92f), 'y'));
+        StartCoroutine(_player.GoTo(27f, new Vector2(_player.gameObject.transform.position.x, 90f), 'y', false));
+        yield return new WaitForSeconds(27);
+
+        _player.SetAnimation("H_IdleUp", 0);
+        animator.Play("H_WalkingL");
+        this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
+        StartCoroutine(GoTo(10, new Vector2(18.79f, this.gameObject.transform.position.y), 'x'));
+        yield return new WaitForSeconds(1f);
+        this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+
+        _player.SetAnimation("H_WalkingUp", 0);
+        StartCoroutine(_player.GoTo(0.5f, new Vector2(_player.gameObject.transform.position.x, this.gameObject.transform.position.y), 'y', false));
+        yield return new WaitForSeconds(0.5f);
+
+        _player.SetAnimation("H_WalkingLeft", 0);
+        StartCoroutine(_player.GoTo(10f, new Vector2(21f, this.gameObject.transform.position.y), 'x', true));
+        yield return new WaitForSeconds(10f);
+        animator.Play("H_IdleR");
+
+        this.gameObject.GetComponent<CircleCollider2D>().radius = 0.9f;
+        _isMoving = false;
+
+        while(dialoguePanel.activeSelf) yield return null;
+        
+        this.gameObject.GetComponent<CircleCollider2D>().enabled = false;
     }
 
     protected override Vector3 getPosition()
@@ -102,11 +165,28 @@ public class Ezequiel : NPC
     public override void RecieveTrigger(GameObject player, string trigger)
     {
         if(player == null) return;
+        player.GetComponent<PlayerController>().SetCanMove(false);
 
         if(trigger == "PrototypeEzequielTrigger1")
         {
-            StartCoroutine(GoToPlayer(2f, player, trigger));
-            if(!_dialogueStarted) StartDialogue();
+            //StartCoroutine(GoToPlayer(2f, player, trigger));
+            StartCoroutine(StartEzequielBehaviour());
         }
+    }
+
+    private IEnumerator StartEzequielBehaviour()
+    {
+        yield return new WaitForSeconds(3);
+        if(!_dialogueStarted) StartDialogue();
+    }
+
+    protected override void BattleSettings()
+    {
+        if(sanity == null) sanity = GameObject.FindGameObjectWithTag("EzAnxiety").GetComponent<TextMeshProUGUI>();
+        if(maxSanity == null) maxSanity = GameObject.FindGameObjectWithTag("EzMaxSanity").GetComponent<TextMeshProUGUI>();
+        if(anxiety == null) anxiety = GameObject.FindGameObjectWithTag("EzAnxiety").GetComponent<TextMeshProUGUI>();
+        if(maxAnxiety == null) maxAnxiety = GameObject.FindGameObjectWithTag("EzMaxAnxiety").GetComponent<TextMeshProUGUI>();
+
+        base.BattleSettings();
     }
 }

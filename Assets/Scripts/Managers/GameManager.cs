@@ -6,7 +6,6 @@ using Core.Singleton;
 using UnityEngine.UI;
 using Unity.Cinemachine;
 using TMPro;
-using UnityEditor.PackageManager;
 
 public class GameManager : Singleton<GameManager>, IObserver
 {
@@ -17,12 +16,16 @@ public class GameManager : Singleton<GameManager>, IObserver
     public CinemachineCamera cinemachineCamera;
     public TextMeshProUGUI currentDay;
     public TextMeshProUGUI currentObjective;
+    public GameObject exitGame;
 
     [Header("Prototype")]
     [SerializeField] private GameObject _prototypeTeacher;
     [SerializeField] private GameObject _prototypeGirl;
     [SerializeField] private GameObject _girlTrigger;
     [SerializeField] private GameObject _battleTrigger;
+    [SerializeField] private GameObject _ezequielTrigger;
+    [SerializeField] private GameObject _firstInteractionTrigger;
+    [SerializeField] private GameObject _stopTrigger;
     public string stopDialogue;
 
     [Header("Texts")]
@@ -32,7 +35,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     public float wordSpeed = 0.6f;
 
     private PlayerController _playerController;
-    private Ezequiel _ezequiel;
+    [SerializeField] private Ezequiel _ezequiel;
     private bool _isTyping;
     private bool _skipped;
     private bool _canSkip;
@@ -43,7 +46,6 @@ public class GameManager : Singleton<GameManager>, IObserver
         cinemachineCamera = GameObject.FindFirstObjectByType<CinemachineCamera>();
         PlayerManagement();
         _canSkip = false;
-        PlayerPrefs.SetString("pastScene", null);
     }
 
     void Start()
@@ -56,16 +58,52 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     private void PrototypeConfig()
     {
+        transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         if(currentDay == null){currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>();}
         if(currentObjective == null){currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>();}
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         currentObjective.color = new Vector4(currentObjective.color.r, currentObjective.color.g, currentObjective.color.b, 0f);
+
+        if(PlayerPrefs.GetString("pastScene") == "BattleScene")
+        {
+            PostBattleConfig();
+        }else
+        {
+            BasicConfig();
+        }
+
+        AnimateTransition(3f, true);
+        AnimateText(currentObjective, 6f, false);
+    }
+
+    private void PostBattleConfig()
+    {
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>();
+        if(exitGame.activeSelf == false) exitGame.SetActive(true);
         if(_girlTrigger.activeSelf == true) _girlTrigger.SetActive(false);
         if(_prototypeGirl.activeSelf == true) _prototypeGirl.SetActive(false);
         if(_battleTrigger.activeSelf == true) _battleTrigger.SetActive(false);
-        AnimateTransition(3f, true);
+        if(_stopTrigger.activeSelf == true) _stopTrigger.SetActive(false);
+        if(_ezequielTrigger.activeSelf == false) _ezequielTrigger.SetActive(true);
+        if(_firstInteractionTrigger.activeSelf == true) _firstInteractionTrigger.SetActive(false);
+        if(_ezequiel.gameObject.activeSelf == false) _ezequiel.gameObject.SetActive(true);
+        if(currentDay.gameObject.activeSelf == true) currentDay.gameObject.SetActive(false);
+        _ezequiel.gameObject.transform.localPosition = new Vector2(5.54f, 80.11f);
+        _playerController.gameObject.transform.localPosition = new Vector2(7.18f, 80.11f);
+        _playerController.SetAnimation("H_IdleL", 0);
+        _ezequiel.SetAnimation("H_IdleR");
+    }
+
+    private void BasicConfig()
+    {
+        if(exitGame.activeSelf == true) exitGame.SetActive(false);
+        if(_girlTrigger.activeSelf == true) _girlTrigger.SetActive(false);
+        if(_prototypeGirl.activeSelf == true) _prototypeGirl.SetActive(false);
+        if(_battleTrigger.activeSelf == true) _battleTrigger.SetActive(false);
+        if(_ezequielTrigger.activeSelf == true) _ezequielTrigger.SetActive(false);
+        if(_ezequiel.gameObject.activeSelf == true) _ezequiel.gameObject.SetActive(false);
         AnimateText(currentDay, 3f, true);
-        AnimateText(currentObjective, 6f, false);
         StartCoroutine(SetPlayerCanMove());
     }
 
@@ -167,6 +205,8 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     void AnimateTransition(float time, bool toTransparent)
     {
+        transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
+
         if (!toTransparent)
         {
             Color newColor = new Color(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
@@ -228,6 +268,8 @@ public class GameManager : Singleton<GameManager>, IObserver
         if(trigger.Equals("PrototypeEzequielTrigger1"))
         {
             _ezequiel = GameObject.FindGameObjectWithTag("Ezequiel").GetComponent<Ezequiel>();
+            if(_playerController == null) _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            _playerController.SetCanMove(false);
             _ezequiel.RecieveTrigger(_playerController.gameObject, "PrototypeEzequielTrigger1");
             Destroy(GameObject.FindGameObjectWithTag("PrototypeEzequielTrigger1"));
         }
@@ -288,7 +330,84 @@ public class GameManager : Singleton<GameManager>, IObserver
         }else if(evt == EventsEnum.PrototypeGirl)
         {
             CallGirl("GirlTrigger");
+        }else if(evt == EventsEnum.IntoSecretary)
+        {
+            StartCoroutine(InAndOutSecretary());
+        }else if(evt == EventsEnum.ToOutside)
+        {
+            StartCoroutine(OutSchool());
+        }else if(evt == EventsEnum.ExitGame)
+        {
+            StartCoroutine(LeaveSchool());
+        }else if(evt == EventsEnum.EnterSchool)
+        {
+            StartCoroutine(InSchool());
         }
+    }
+
+    private IEnumerator InSchool()
+    {
+        AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1);
+
+        _playerController.SetCanMove(true);
+        _playerController.gameObject.transform.localPosition = new Vector2(11.44f, 23.33f);
+
+        _playerController.SetAnimation("H_IdleUp", 0);
+
+        yield return new WaitForSeconds(1f);
+
+        AnimateTransition(1f, true);
+
+        _playerController.SetAnimation("Moving", 0);
+    }
+
+    private IEnumerator LeaveSchool()
+    {
+        AnimateTransition(1f,false);
+        yield return new WaitForSeconds(1);
+
+        SceneManager.LoadScene("EndScene");
+    }
+
+    private IEnumerator OutSchool()
+    {
+        AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1);
+
+        _playerController.SetCanMove(true);
+        _playerController.gameObject.transform.localPosition = new Vector2(11.44f, 6.40f);
+        currentObjective.text = "";
+
+        _playerController.SetAnimation("H_Idle", 0);
+
+        yield return new WaitForSeconds(1f);
+
+        AnimateTransition(1f, true);
+
+        _playerController.SetAnimation("Moving", 0);
+    }
+
+    private IEnumerator InAndOutSecretary()
+    {
+        AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1);
+
+        _ezequiel.gameObject.SetActive(false);
+        _playerController.SetCanMove(true);
+        _playerController.gameObject.transform.localPosition = new Vector2(21.49f, 93f);
+        currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>();
+        currentObjective.text = "Objetivo: Saia da Escola";
+
+        GameObject.FindGameObjectWithTag("ToSecretary").GetComponentInChildren<Door>().ChangeSprite("close");
+        _playerController.SetAnimation("H_Idle", 0);
+
+        yield return new WaitForSeconds(1f);
+
+        AnimateTransition(1f, true);
+
+
+        _playerController.SetAnimation("Moving", 0);
     }
 
     private void StopPlayer(EventsEnum evt)
@@ -467,6 +586,9 @@ public class GameManager : Singleton<GameManager>, IObserver
         yield return new WaitForSeconds(1f);
 
         PlayerPrefs.SetString("pastScene", pastScene);
+        Destroy(_stopTrigger);
+        Destroy(_battleTrigger);
+        exitGame.SetActive(true);
         SceneManager.LoadScene("BattleScene", LoadSceneMode.Single);
     }
 }

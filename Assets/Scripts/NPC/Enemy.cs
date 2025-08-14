@@ -2,27 +2,38 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
 
-public class Enemy : MonoBehaviour, IHealthManager
+public class Enemy : Subject, IHealthManager
 {
     public Image healthBar;
     public float healthAmount;
     public Animator animator;
+    public float myDamage;
 
     [SerializeField]private bool _myTurn;
+    private bool _isDead;
 
     void Start()
     {
+        Subscribe(GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>());
+
         if(healthBar == null) healthBar = GameObject.FindGameObjectWithTag("EnemyHealth").GetComponent<Image>();
         if(animator == null) animator = this.gameObject.GetComponent<Animator>();
+        _isDead = false;
 
-        if(healthAmount == 0 && PlayerPrefs.GetString("pastScene") == "PrototypeScene") healthAmount = 100;
+        if(healthAmount == 0 && PlayerPrefs.GetString("pastScene") == "PrototypeScene")
+        {
+            healthAmount = 100;
+            myDamage = 10;
+        }
     }
 
     void Update()
     {
-        if(healthAmount == 0)
+        if(healthAmount == 0 && !_isDead)
         {
+            _isDead = true;
             Destroy(this.gameObject);
+            Notify(EventsEnum.EnemyDead);
         }
     }
 
@@ -35,7 +46,10 @@ public class Enemy : MonoBehaviour, IHealthManager
     {
         yield return new WaitForSeconds(1f);
         animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
+        player.SetAnimationTrigger("Damage");
+        player.TakeDamage(myDamage);
+        yield return new WaitForSeconds(1f);
         yield return new WaitForSeconds(0.5f);
         player.SetMyTurn(true);
         BattleManager.Instance.SetEnemyIsAttacking(false);
@@ -57,5 +71,7 @@ public class Enemy : MonoBehaviour, IHealthManager
 
         healthBar.fillAmount = healthAmount / 100f;
     }
+
+    public float GetHealth(){ return healthAmount; }
 #endregion
 }

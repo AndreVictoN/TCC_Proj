@@ -128,6 +128,7 @@ MonoBehaviour:
   animator: {fileID: 705586796808578349}
   battleAnimator: {fileID: 0}
   idleDown: {fileID: 5215816355140854581, guid: 22733f59d4f597b4b891114d8ae9e70d, type: 3}
+  idleLeft: {fileID: -1974887168, guid: 22733f59d4f597b4b891114d8ae9e70d, type: 3}
   prototypeScene: PrototypeScene
   firstFloor: FirstFloorPrototype
   battleScene: BattleScene
@@ -136,10 +137,20 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   defaultColor: {r: 0, g: 0, b: 0, a: 0}
   fadeTime: 1
-  battleManager: {fileID: 0}
+  myDamage: 0
   enemy: {fileID: 0}
   attackTime: 0.5
   defaultPosition: {x: 0, y: 0, z: 0}
+  battleManager: {fileID: 0}
+  _myTurn: 0
+  sanity: {fileID: 0}
+  anxiety: {fileID: 0}
+  maxAnxiety: {fileID: 0}
+  maxSanity: {fileID: 0}
+  _numSanity: 0
+  _numAnxiety: 0
+  _numMaxSanity: 0
+  _numMaxAnxiety: 0
 --- !u!114 &415419490434733595
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public abstract class NPC : DialogueBox
+public abstract class NPC : DialogueBox, IHealthManager
 {
     [Header("GeneralSettings")]
     public Color defaultColor;
@@ -21,6 +23,14 @@ public abstract class NPC : DialogueBox
     public GameObject enemy;
     public float attackTime = 0.3f;
     public float fadeTime = 0.5f;
+    public TextMeshProUGUI sanity;
+    public TextMeshProUGUI anxiety;
+    public TextMeshProUGUI maxAnxiety;
+    public TextMeshProUGUI maxSanity;
+    [SerializeField] protected int _numSanity;
+    [SerializeField] protected int _numAnxiety;
+    [SerializeField] protected int _numMaxSanity;
+    [SerializeField] protected int _numMaxAnxiety;
 
     #region Privates
     protected Coroutine _currentCoroutine;
@@ -38,10 +48,24 @@ public abstract class NPC : DialogueBox
         if(SceneManager.GetActiveScene().name != "BattleScene")
         {
             ResetText();
+            if(_player == null) _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         }else{
-            defaultPosition = getPosition();
-            this.gameObject.transform.position = defaultPosition;
+            BattleSettings();
         }
+    }
+
+    protected virtual void BattleSettings()
+    {
+        defaultPosition = getPosition();
+        this.gameObject.transform.position = defaultPosition;
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
+
+        maxAnxiety.text = "/" + _numMaxAnxiety.ToString();
+        maxSanity.text = "/" + _numMaxSanity.ToString();
+        _numAnxiety = _numMaxAnxiety - _numMaxAnxiety + _numMaxAnxiety/2;
+        _numSanity = _numMaxSanity;
+        anxiety.text = _numAnxiety.ToString();
+        sanity.text = _numSanity.ToString();
     }
 
     protected void BasicSettings()
@@ -137,7 +161,7 @@ public abstract class NPC : DialogueBox
     {
         if(!_isAutomatic)
         {
-            if(Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping && !_isAutomatic)
+            if(Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping && !_isAutomatic && !_isMoving)
             {
                 if(!dialoguePanel.activeSelf)
                 {
@@ -154,19 +178,39 @@ public abstract class NPC : DialogueBox
                     StopCoroutine(Typing());
                     ResetText();
                 }
-            }else if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return)) && _playerIsClose && _isTyping)
+            }else if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return)) && _playerIsClose && _isTyping && !_isAutomatic && !_isMoving)
             {
+                if(this.gameObject.CompareTag("Ezequiel") && _isMoving)
+                {
+                    return;
+                }
+
                 StopCoroutine(Typing());
                 dialogueText.text = dialogue[_i];
                 //continueButton.SetActive(true);
             }else if(Input.GetKeyDown(KeyCode.Return) && !_isTyping && _playerIsClose && dialoguePanel.activeSelf)
             {
+                if(this.gameObject.CompareTag("Ezequiel") && _isMoving)
+                {
+                    return;
+                }
+
                 NextLine();
             }
 
             if(dialogueText.text == dialogue[_i])
             {
                 //continueButton.SetActive(true);
+            }
+        }
+
+        if(!_isMoving)
+        {
+            if(_player.gameObject.transform.localPosition.y >= this.gameObject.transform.localPosition.y)
+            {
+                this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
+            }else{
+                this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
             }
         }
     }
@@ -199,7 +243,15 @@ public abstract class NPC : DialogueBox
     {
         if (!_isBattling) return;
 
+        StartCoroutine(AttackActions());
+    }
+
+    private IEnumerator AttackActions()
+    {
+        yield return new WaitForSeconds(0.3f);
         battleAnimator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.2f);
+        battleManager.DamageEnemy(enemy.GetComponent<Enemy>().GetHealth());
     }
 
     public virtual void RecieveTrigger(GameObject player, string trigger) {}
@@ -293,4 +345,29 @@ public abstract class NPC : DialogueBox
 
         animator.Play(animation);
     }
+
+#region HealthManagement
+    public void TakeDamage(float damage)
+    {
+        _numSanity -= (int) Math.Round(damage);
+        sanity.text = _numSanity.ToString();
+
+        _numAnxiety += (int)(Math.Round(damage) * 1.5);
+        anxiety.text = _numAnxiety.ToString();
+    }
+
+    public void Heal(float healingAmount)
+    {
+        _numSanity += (int) Math.Round(healingAmount);
+        _numSanity = Mathf.Clamp(_numSanity, 0, _numMaxSanity);
+        sanity.text = _numSanity.ToString();
+
+        _numAnxiety -= (int)(Math.Round(healingAmount) * 1.5);
+        _numAnxiety = Mathf.Clamp(_numAnxiety, 0, _numMaxAnxiety);
+        anxiety.text = _numAnxiety.ToString();
+    }
+
+    public int GetSanity(){ return _numSanity; }
+    public int GetAnxiety(){ return _numAnxiety; }
+#endregion
 }

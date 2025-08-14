@@ -33,7 +33,17 @@ TagManager:
   - EnemyHealth
   - AlexSanity
   - AlexAnxiety
-  - PlayerHealth
+  - AlexMaxSanity
+  - AlexMaxAnxiety
+  - EzSanity
+  - EzAnxiety
+  - EzMaxSanity
+  - EzMaxAnxiety
+  - ToSecretary
+  - ToOutside
+  - ExitGame
+  - EnterSchool
+  - AlexOctopus
   layers:
   - Default
   - TransparentFX
