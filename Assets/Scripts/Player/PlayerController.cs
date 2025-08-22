@@ -18,7 +18,7 @@ public abstract class PlayerController : Subject, IHealthManager
 
     [Header("Movement Settings")]
     public Rigidbody2D rb;
-    public float moveSpeed = 5f;
+    public float moveSpeed = 3f;
     public InputActionReference move;
     public Animator animator;
     public Animator battleAnimator;
@@ -327,7 +327,7 @@ public abstract class PlayerController : Subject, IHealthManager
         }else if(collision.gameObject.CompareTag("PrototypeBattleTrigger"))
         {
             Notify(EventsEnum.PrototypeBattle);
-        }else if(collision.transform.parent.gameObject.CompareTag("PrototypeFirstInteractionTrigger"))
+        }else if(collision.transform.parent != null && collision.transform.parent.gameObject.CompareTag("PrototypeFirstInteractionTrigger"))
         {
             _canMove = false;
             Notify(EventsEnum.PrototypeFirstInteraction);
