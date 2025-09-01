@@ -41,6 +41,7 @@ public abstract class NPC : DialogueBox, IHealthManager
     protected bool _isMoving;
     protected PlayerController _player;
     protected bool _inPrototype;
+    private bool _playerIsSet;
     #endregion
 
     void Start()
@@ -48,10 +49,17 @@ public abstract class NPC : DialogueBox, IHealthManager
         if(SceneManager.GetActiveScene().name != "BattleScene")
         {
             ResetText();
-            if(_player == null) _player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            SetPlayer();
         }else{
             BattleSettings();
         }
+    }
+
+    private void SetPlayer()
+    {
+        if(_player == null) _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+
+        if(_player != null) _playerIsSet = true;
     }
 
     protected virtual void BattleSettings()
@@ -93,6 +101,7 @@ public abstract class NPC : DialogueBox, IHealthManager
         if(SceneManager.GetActiveScene().name != "BattleScene")
         {
             UpdateNPC();
+            if(_playerIsSet == false){SetPlayer();}
         }else
         {
             _isBattling = true;
@@ -206,7 +215,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
         if(!_isMoving)
         {
-            if(_player.gameObject.transform.localPosition.y >= this.gameObject.transform.localPosition.y)
+            if(_player?.gameObject.transform.localPosition.y >= this.gameObject.transform.localPosition.y)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
             }else{

@@ -11,5 +11,6 @@ public enum EventsEnum
     IntoSecretary,
     ToOutside,
     ExitGame,
-    EnterSchool
+    EnterSchool,
+    Inventory
 }

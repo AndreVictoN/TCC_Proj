@@ -17,6 +17,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     public TextMeshProUGUI currentDay;
     public TextMeshProUGUI currentObjective;
     public GameObject exitGame;
+    public GameObject inventory;
 
     [Header("Prototype")]
     [SerializeField] private GameObject _prototypeTeacher;
@@ -36,6 +37,7 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     private PlayerController _playerController;
     [SerializeField] private Ezequiel _ezequiel;
+    private string _classroomScene = "Classroom";
     private bool _isTyping;
     private bool _skipped;
     private bool _canSkip;
@@ -147,13 +149,17 @@ public class GameManager : Singleton<GameManager>, IObserver
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         yield return null;
 
-        cinemachineCamera = GameObject.FindFirstObjectByType<CinemachineCamera>();
-        CinemachineFollow(player.GetComponent<Transform>());
+        if(sceneName != _classroomScene && sceneName != "TestScene")
+        {
+            cinemachineCamera = GameObject.FindFirstObjectByType<CinemachineCamera>();
+            CinemachineFollow(player.GetComponent<Transform>());
+        }
 
         Door door = null;
 
-        if (sceneName == "Classroom")
+        if (sceneName == _classroomScene)
         {
+            player = GameObject.Instantiate(playerPFB);
             door = GameObject.FindFirstObjectByType<Door>();
             player.transform.localScale = new Vector3(1.7f, 1.7f, 1f);
             player.GetComponent<PlayerController>().SetSpeed(8f);
@@ -172,6 +178,7 @@ public class GameManager : Singleton<GameManager>, IObserver
                     break;
                 }
             }
+            player = GameObject.FindGameObjectWithTag("Player");
             player.transform.localScale = new Vector3(0.7f, 0.7f, 1f);
             player.GetComponent<PlayerController>().SetSpeed(5f);
         }
@@ -342,7 +349,16 @@ public class GameManager : Singleton<GameManager>, IObserver
         }else if(evt == EventsEnum.EnterSchool)
         {
             StartCoroutine(InSchool());
+        }else if(evt == EventsEnum.Inventory)
+        {
+            Inventory();
         }
+    }
+
+    private void Inventory()
+    {
+        if(inventory.activeSelf == false) {inventory.SetActive(true);}
+        else{inventory.SetActive(false);}
     }
 
     private IEnumerator InSchool()

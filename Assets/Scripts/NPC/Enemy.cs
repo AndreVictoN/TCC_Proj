@@ -10,7 +10,7 @@ public class Enemy : Subject, IHealthManager
     public Animator animator;
     public float myDamage;
     
-    public float dodgeChance = 0.3f; // 20% de chance de esquiva
+    public float dodgeChance = 0.3f;
 
     [SerializeField] private bool _myTurn;
     private bool _isDead;
@@ -28,10 +28,10 @@ public class Enemy : Subject, IHealthManager
             healthAmount = 100;
             myDamage = 10;
         }
-        for (int i = 0; i < 10; i++)
+        /*for (int i = 0; i < 10; i++)
         {
             TakeDamage(10);
-        }
+        }*/
     }
 
     void Update()
@@ -67,11 +67,11 @@ public class Enemy : Subject, IHealthManager
 #region HealthManagement
     public void TakeDamage(float damage)
     {
-        if (Random.value < dodgeChance)
+        /*if (Random.value < dodgeChance)
         {
             Debug.Log("Inimigo desviou!");
             return;
-        }
+        }*/
         healthAmount -= damage;
         healthBar.fillAmount = healthAmount / 100f;
     }
@@ -87,10 +87,9 @@ public class Enemy : Subject, IHealthManager
     public float GetHealth(){ return healthAmount; }
 #endregion
 
-// Chame este método quando quiser reiniciar a cena
-public void RestartScene()
-{
-    PlayerPrefs.DeleteAll(); 
-    SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
-}
+    /*public void RestartScene()
+    {
+        PlayerPrefs.DeleteAll(); 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+    }*/
 }

@@ -71,7 +71,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0005219579, y: -0.19999999}
+  m_Offset: {x: 0.0005219877, y: -0.19999999}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -81,7 +81,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.0001134, y: 0.6}
+  m_Size: {x: 0.78980535, y: 0.6}
   m_EdgeRadius: 0
 --- !u!50 &7768344390528361825
 Rigidbody2D:
@@ -123,13 +123,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  moveSpeed: 7
+  moveSpeed: 5
   move: {fileID: -1680190386980627800, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   animator: {fileID: 705586796808578349}
   battleAnimator: {fileID: 0}
-  idleDown: {fileID: 5215816355140854581, guid: 22733f59d4f597b4b891114d8ae9e70d, type: 3}
-  idleLeft: {fileID: -1974887168, guid: 22733f59d4f597b4b891114d8ae9e70d, type: 3}
-  prototypeScene: PrototypeScene
+  idleDown: {fileID: 439352838, guid: dd0d1c125c59d594d85105822a822a36, type: 3}
+  idleLeft: {fileID: -1217453344, guid: dd0d1c125c59d594d85105822a822a36, type: 3}
+  testScene: TestScene
   firstFloor: FirstFloorPrototype
   battleScene: BattleScene
   classroom: Classroom
@@ -139,6 +139,7 @@ MonoBehaviour:
   fadeTime: 1
   myDamage: 0
   enemy: {fileID: 0}
+  playerSplash: {fileID: 0}
   attackTime: 0.5
   defaultPosition: {x: 0, y: 0, z: 0}
   battleManager: {fileID: 0}
@@ -225,7 +226,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 5215816355140854581, guid: 22733f59d4f597b4b891114d8ae9e70d, type: 3}
+  m_Sprite: {fileID: 439352838, guid: dd0d1c125c59d594d85105822a822a36, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

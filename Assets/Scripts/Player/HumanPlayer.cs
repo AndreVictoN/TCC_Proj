@@ -13,6 +13,14 @@ public class HumanPlayer : PlayerController
 
         if (_canMove) _moveDirection = move.action.ReadValue<Vector2>();
 
+        if(!_isBattleScene && _canAct)
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                Notify(EventsEnum.Inventory);
+            }
+        }
+
         AnimateMovement();
     }
 }

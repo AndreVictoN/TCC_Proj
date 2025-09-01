@@ -44,6 +44,7 @@ TagManager:
   - ExitGame
   - EnterSchool
   - AlexOctopus
+  - Inventory
   layers:
   - Default
   - TransparentFX

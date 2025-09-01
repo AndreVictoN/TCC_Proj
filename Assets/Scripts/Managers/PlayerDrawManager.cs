@@ -9,20 +9,34 @@ public class PlayerDrawManager : MonoBehaviour
     public GameObject player;
     public SpriteRenderer playerSR;
 
+    private bool _playerIsSet = false;
+
     void Start()
     {
+        _playerIsSet = false;
+        SetPlayer();
+    }
+
+    private void SetPlayer()
+    {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerSR = player.GetComponent<SpriteRenderer>();
+        if(player != null)
+        {
+            playerSR = player.GetComponent<SpriteRenderer>();
+            _playerIsSet = true;
+        }
     }
 
     void Update()
     {
         DrawManagement();
+
+        if(_playerIsSet == false) {SetPlayer();}
     }
 
     public void DrawManagement()
     {
-        if(SceneManager.GetActiveScene().name == "Classroom")
+        if(SceneManager.GetActiveScene().name == "Classroom" && _playerIsSet)
         {
             if (player.transform.position.y > rows[0].transform.position.y)
             {

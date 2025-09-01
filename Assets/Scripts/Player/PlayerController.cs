@@ -27,7 +27,7 @@ public abstract class PlayerController : Subject, IHealthManager
 
     #region tags to compare
     [Header("ScenesToLoad")]
-    public string prototypeScene = "PrototypeScene";
+    public string testScene = "TestScene";
     public string firstFloor = "FirstFloorPrototype";
     public string battleScene = "BattleScene";
     public string classroom = "Classroom";
@@ -65,7 +65,7 @@ public abstract class PlayerController : Subject, IHealthManager
     protected Vector2 _moveDirection;
     protected Vector3 _positionBeforeFloor;
     protected bool _canMove = true;
-    private bool _canAct = true;
+    protected bool _canAct = true;
     private bool _canAttack = true;
     protected bool _isBattleScene = false;
     protected bool _isMovingBattle = false;
@@ -90,6 +90,10 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             defaultPosition = new Vector3(-10.53f, 6f, 0);
             this.gameObject.transform.position = defaultPosition;
+        }
+        else if(SceneManager.GetActiveScene().name == testScene)
+        {
+            this.gameObject.transform.localScale = new Vector3(0.7f,0.7f,0.7f);
         }
         else
         {
@@ -230,8 +234,8 @@ public abstract class PlayerController : Subject, IHealthManager
         }
         else if (collision.gameObject.CompareTag(stairsTag))
         {
-            if (SceneManager.GetActiveScene().name == prototypeScene) StartCoroutine(LoadFloor(firstFloor));
-            else if (SceneManager.GetActiveScene().name == firstFloor) StartCoroutine(LoadFloor(prototypeScene));
+            if (SceneManager.GetActiveScene().name == testScene) StartCoroutine(LoadFloor(firstFloor));
+            else if (SceneManager.GetActiveScene().name == firstFloor) StartCoroutine(LoadFloor(testScene));
 
             _canMove = false;
         }
@@ -239,14 +243,14 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             string sceneToLoad;
 
-            if (SceneManager.GetActiveScene().name == prototypeScene)
+            if (SceneManager.GetActiveScene().name == testScene)
             {
                 sceneToLoad = classroom;
                 gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
             }
             else if (SceneManager.GetActiveScene().name == classroom)
             {
-                sceneToLoad = prototypeScene;
+                sceneToLoad = testScene;
                 gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
             }
             _canMove = false;
