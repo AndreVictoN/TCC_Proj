@@ -250,6 +250,22 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3334465786362009637, guid: 9bdb7d929c232674bb11139cc279ac3d, type: 3}
   m_PrefabInstance: {fileID: 197485317}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &197485319 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8425234160302903458, guid: 9bdb7d929c232674bb11139cc279ac3d, type: 3}
+  m_PrefabInstance: {fileID: 197485317}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &197485320 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4340834637568914538, guid: 9bdb7d929c232674bb11139cc279ac3d, type: 3}
+  m_PrefabInstance: {fileID: 197485317}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1023172738
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +374,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6a4d6bb6e8233c4fa9b921416287d71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialoguePanel: {fileID: 197485320}
+  dialogueText: {fileID: 197485319}
+  dialogue:
+  - 'Alex, Alex, acorde meu amor, vai se atrasar pro seu primeiro dia de aula. '
+  - "Sim m\xE3e, j\xE1 estou acordado."
+  - "*Alex responde a m\xE3e, claramente carregando a menor vontade de se fazer presente
+    no primeiro dia de aula.*"
+  - "*Mesmo relutante, Alex levanta, se arruma e caminha em dire\xE7\xE3o ao ponto
+    de \xF4nibus.*"
+  - "*Ao entrar em seu \xF4nibus instantaneamente p\xF5e seu fone se dando ao luxo
+    de s\xF3 ouvir ao trocador e a mais ningu\xE9m.*"
+  - "*Observando a paisagem, o sossego de Alex \xE9 interrompido ao sentir algu\xE9m
+    @ cutucar.*"
+  - "*E cutucava incans\xE1velmente.*"
+  - '*Quando finalmente se virou, Alex percebeu...*'
+  - '*Era... uma garota...*'
+  - "*Que tamb\xE9m vestia o mesmo uniforme.*"
+  - "C-com licen\xE7a, posso me sentar aqui?"
+  - ...
+  - "*Alex n\xE3o responde, mas libera o assento do lado para ela.*"
+  - "*Um sil\xEAncio se instaurou no mesmo momento que a garota se sentou, que com
+    uma express\xE3o neutra em seu rosto, seguiu viagem ao lado de Alex.*"
+  wordSpeed: 0.6
 --- !u!4 &1276952174
 Transform:
   m_ObjectHideFlags: 0
