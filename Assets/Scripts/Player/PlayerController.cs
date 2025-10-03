@@ -363,7 +363,7 @@ public abstract class PlayerController : Subject, IHealthManager
         }
     }
 
-    public void SetAnimation(string animation, int animationSpeed)
+    public void SetAnimation(string animation, float animationSpeed)
     {
         animator.Play(animation);
 

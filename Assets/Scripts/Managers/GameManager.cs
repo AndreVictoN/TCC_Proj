@@ -388,7 +388,10 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
         else if (evt == EventsEnum.FirstInteraction)
         {
-            
+            if (!arrivalManager.gameObject.activeSelf) arrivalManager.gameObject.SetActive(true);
+            StartCoroutine(arrivalManager.FirstInteractionScene());
+            Destroy(GameObject.FindGameObjectWithTag("FirstInteractionTrigger"));
+            Destroy(GameObject.FindGameObjectWithTag("StopTrigger"));
         }
     }
 

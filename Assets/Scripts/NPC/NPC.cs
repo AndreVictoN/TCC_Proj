@@ -300,7 +300,7 @@ public abstract class NPC : DialogueBox, IHealthManager
         }
     }
 
-    protected IEnumerator GoTo(float time, Vector2 position, char xy)
+    public IEnumerator GoTo(float time, Vector2 position, char xy)
     {
         if(xy == 'x') this.transform.DOMoveX(position.x, time);
         else if(xy == 'y') this.transform.DOMoveY(position.y, time);
