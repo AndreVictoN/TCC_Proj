@@ -23,7 +23,7 @@ public class PlayerDrawManager : MonoBehaviour
         if(player != null)
         {
             playerSR = player.GetComponent<SpriteRenderer>();
-            _playerIsSet = true;
+            if(playerSR != null) _playerIsSet = true;
         }
     }
 
@@ -36,6 +36,7 @@ public class PlayerDrawManager : MonoBehaviour
 
     public void DrawManagement()
     {
+        if (!_playerIsSet) return;
         if (SceneManager.GetActiveScene().name == "Classroom" && _playerIsSet)
         {
             if (player.transform.position.y > rows[0].transform.position.y)
@@ -58,7 +59,8 @@ public class PlayerDrawManager : MonoBehaviour
             {
                 playerSR.sortingOrder = 4;
             }
-        } else if (SceneManager.GetActiveScene().name == "PrototypeScene")
+        }
+        else if (SceneManager.GetActiveScene().name == "PrototypeScene")
         {
             if (player.transform.position.x >= 0.68f && player.transform.position.x <= 9.11f)
             {
@@ -80,7 +82,8 @@ public class PlayerDrawManager : MonoBehaviour
                 {
                     playerSR.sortingOrder = -1;
                 }
-            }else { playerSR.sortingOrder = 1; }
+            }
+            else { playerSR.sortingOrder = 1; }
         }
     }
 }

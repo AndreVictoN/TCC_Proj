@@ -49,6 +49,7 @@ TagManager:
   - PlayerName
   - Instruction
   - FirstInteractionTrigger
+  - ToOtherFloor
   layers:
   - Default
   - TransparentFX

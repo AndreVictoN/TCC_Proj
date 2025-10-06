@@ -50,6 +50,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     protected override void Awake()
     {
         //PlayerPrefs.SetString("pastScene", "Menu");
+        //PlayerPrefs.SetString("currentState", "Start");
         cinemachineCamera = GameObject.FindFirstObjectByType<CinemachineCamera>();
         PlayerManagement();
         _canSkip = false;
@@ -63,7 +64,11 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
         else if (SceneManager.GetActiveScene().name.Equals("Terreo"))
         {
-            ArrivalConfig();
+            if (PlayerPrefs.GetString("currentState").Equals("Start")) ArrivalConfig();
+        }
+        else if (SceneManager.GetActiveScene().name.Equals("Class"))
+        {
+            if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
         }
     }
 
@@ -78,6 +83,15 @@ public class GameManager : Singleton<GameManager>, IObserver
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>(); }
         if (instruction == null) instruction = GameObject.FindGameObjectWithTag("Instruction").GetComponent<TextMeshProUGUI>();
         StartCoroutine(arrivalManager.FirstLines());
+    }
+
+    private void FirstClassConfig()
+    {
+        transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
+        transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
+        AnimateTransition(3f, true);
+        arrivalManager.SetGameManager(this);
+        StartCoroutine(arrivalManager.FirstClass());
     }
 
     private void PrototypeConfig()
@@ -234,7 +248,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
-    void AnimateTransition(float time, bool toTransparent)
+    public void AnimateTransition(float time, bool toTransparent)
     {
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
 

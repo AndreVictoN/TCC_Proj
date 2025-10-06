@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ArrivalManager : DialogueBox
@@ -12,9 +14,13 @@ public class ArrivalManager : DialogueBox
     public GameManager gameManager;
     private PlayerController _playercontroller;
 
-    [SerializeField] private Image playerImage;
+    [SerializeField] private CinemachineCamera estellaView;
+    [SerializeField] private Door toOtherFloorDoor;
     [SerializeField] private GameObject playerName;
     [SerializeField] private GameObject npcName;
+    [SerializeField] private Door classroomDoor;
+    [SerializeField] private Image playerImage;
+    [SerializeField] private NPC estella;
     [SerializeField] private Image npcImage;
     private float defaultTimeToReturn;
 
@@ -78,34 +84,54 @@ public class ArrivalManager : DialogueBox
         npcName = GameObject.FindGameObjectWithTag("NPC_Name");
         playerName = GameObject.FindGameObjectWithTag("PlayerName");
 
-        if (i < 3 || i == 6 || i == 7)
+        if (i < 3 || i == 6 || i == 7 || i == 9 || (i >= 12 && i <= 14) || (i >= 17 && i <= 19))
         {
-            if (i < 3){
+            if (i < 3)
+            {
                 npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
                 npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0f);
                 playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
-            }else if (i == 6 || i == 7){
-                if(i == 6) _secondsToReturn = 8f;
+            }
+            else if (i == 6 || i == 7)
+            {
+                if (i == 6) _secondsToReturn = 8f;
                 npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
                 npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
                 playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
                 playerName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
-            }else{
+            }
+            else if (i == 9)
+            {
+                npcs[0].GetComponent<Animator>().Play("IdleR");
+            }
+            else
+            {
                 npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
                 playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
             }
             dialogueText.alignment = TextAlignmentOptions.Center;
             dialogueText.fontStyle = FontStyles.Normal;
-        }else if (i == 3 || i == 5){
+        }
+        else if (i == 3 || i == 5 || i == 10)
+        {
             if (i == 3) npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
             else { npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f); }
             playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
             dialogueText.alignment = TextAlignmentOptions.Right;
             dialogueText.fontStyle = FontStyles.Italic;
-        }else if (i == 4){
+        }
+        else if (i == 4 || i == 8 || i == 15 || i == 16 || i == 11)
+        {
+            if (i == 4){
+                npcName.GetComponent<TextMeshProUGUI>().text = "RÔmilo";
+                npcImage.GetComponent<Image>().sprite = npcImages[0];
+            }
+            else if (i == 8){
+                npcName.GetComponent<TextMeshProUGUI>().text = "Assilon";
+                npcImage.GetComponent<Image>().sprite = npcs[0].GetComponent<NPC>().GetNPCSprite();
+            }
+
             npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 1);
-            npcName.GetComponent<TextMeshProUGUI>().text = "RÔmilo";
-            npcImage.GetComponent<Image>().sprite = npcImages[0];
             npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
             playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
             dialogueText.alignment = TextAlignmentOptions.Left;
@@ -146,14 +172,12 @@ public class ArrivalManager : DialogueBox
             if (skipText != null) skipText.SetActive(true);
             if (!_canSkip) _canSkip = true;
         }
+        _playercontroller.SetCanMove(true);
     }
 
     public IEnumerator FirstInteractionScene()
     {
-        if (_playercontroller == null) _playercontroller = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        _playercontroller?.SetCanMove(false);
-        _isAutomatic = true;
-        _canSkip = false;
+        BasicPlayerCutsceneConfig();
 
         for (int i = 3; i <= 7; i++) dialogue.Add(arrivalDialogue[i]);
 
@@ -198,7 +222,74 @@ public class ArrivalManager : DialogueBox
         _playercontroller.SetAnimation("H_WalkingUp", 0.5f);
         StartCoroutine(_playercontroller.GoTo(3f, new Vector2(_playercontroller.gameObject.transform.localPosition.x, 104.67f), 'y', false));
         yield return new WaitForSeconds(3f);
-        
+
         _playercontroller.SetAnimation("H_IdleUp", 0);
+        EstellaFirstSetup();
+        estellaView.gameObject.SetActive(true);
+        estellaView.Follow = estella.gameObject.transform;
+        StartCoroutine(estella.GoTo(3f, new Vector2(estella.gameObject.transform.localPosition.x, 110.3f), 'y'));
+        yield return new WaitForSeconds(3f);
+
+        estella.gameObject.GetComponent<Animator>().Play("WalkingRight");
+        StartCoroutine(estella.GoTo(3f, new Vector2(17.91f, estella.gameObject.transform.localPosition.y), 'x'));
+        yield return new WaitForSeconds(3f);
+
+        estella.gameObject.GetComponent<Animator>().Play("WalkingUp");
+        estella.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        StartCoroutine(estella.GoTo(1f, new Vector2(estella.gameObject.transform.localPosition.x, 112.24f), 'y'));
+        yield return new WaitForSeconds(1f);
+
+        estella.gameObject.GetComponent<Animator>().Play("Idle_U");
+        toOtherFloorDoor.ChangeState(true);
+        yield return new WaitForSeconds(0.5f);
+
+        estella.gameObject.GetComponent<Animator>().Play("WalkingUp");
+        StartCoroutine(estella.GoTo(1f, new Vector2(estella.gameObject.transform.localPosition.x, 112.9f), 'y'));
+        yield return new WaitForSeconds(1f);
+
+        estella.gameObject.GetComponent<Animator>().Play("Idle_U");
+        yield return new WaitForSeconds(0.5f);
+
+        estella.gameObject.SetActive(false);
+        toOtherFloorDoor.GetComponent<BoxCollider2D>().enabled = false;
+        toOtherFloorDoor.ChangeState(false);
+
+        gameManager.AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("Floor2");
+    }
+
+    public IEnumerator FirstClass()
+    {
+        BasicPlayerCutsceneConfig();
+
+        for (int i = 0; i <= 11/*19*/; i++) dialogue.Add(arrivalDialogue[i]);
+        _playercontroller.gameObject.SetActive(false);
+        if (!npcs[0].gameObject.activeSelf) npcs[0].SetActive(true);
+        npcs[0].GetComponent<Animator>().Play("IdleD");
+
+        StartCoroutine(StartAutomaticTalk(8));
+
+        yield return new WaitForSeconds(5f);
+
+        classroomDoor.ChangeState(true);
+        _playercontroller.gameObject.SetActive(true);
+
+    }
+
+    private void BasicPlayerCutsceneConfig()
+    {
+        if (_playercontroller == null) _playercontroller = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        _playercontroller?.SetCanMove(false);
+        _isAutomatic = true;
+        _canSkip = false;
+    }
+
+    private void EstellaFirstSetup()
+    {
+        estella.gameObject.SetActive(true);
+        estella.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
+        estella.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        estella.gameObject.GetComponent<Animator>().Play("WalkingUp");
     }
 }

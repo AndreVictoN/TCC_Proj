@@ -40,6 +40,7 @@ public class MenuManager : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
         PlayerPrefs.SetString("pastScene", "Menu");
+        PlayerPrefs.SetString("currentState", "Start");
         SceneManager.LoadScene("Cutscene");
     }
 

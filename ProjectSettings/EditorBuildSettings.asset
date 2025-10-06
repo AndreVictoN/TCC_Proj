@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Terreo.unity
     guid: faf83a6f578094242adb202a8a8b4890
+  - enabled: 1
+    path: Assets/Scenes/Floor2.unity
+    guid: 46d914f8001e50741b65b4381d9c1194
   - enabled: 0
     path: Assets/Scenes/PrototypeScene.unity
     guid: 3a1a612d5f9adc14cb2b88ef001fb773

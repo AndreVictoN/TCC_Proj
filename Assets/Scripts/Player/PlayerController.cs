@@ -96,6 +96,10 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             this.gameObject.transform.localScale = new Vector3(0.7f, 0.7f, 0.7f);
         }
+        else if (SceneManager.GetActiveScene().name == "Class")
+        {
+            this.gameObject.transform.localPosition = new Vector2(4.54f, 8.05f);
+        }
         else
         {
             _defaultAnimatorSpeed = animator.speed;

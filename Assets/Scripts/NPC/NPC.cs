@@ -46,20 +46,22 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     void Start()
     {
-        if(SceneManager.GetActiveScene().name != "BattleScene")
+        if (SceneManager.GetActiveScene().name != "BattleScene")
         {
             ResetText();
             SetPlayer();
-        }else{
+        }
+        else
+        {
             BattleSettings();
         }
     }
 
     private void SetPlayer()
     {
-        if(_player == null) _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
+        if (_player == null) _player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();
 
-        if(_player != null) _playerIsSet = true;
+        if (_player != null) _playerIsSet = true;
     }
 
     protected virtual void BattleSettings()
@@ -70,7 +72,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
         maxAnxiety.text = "/" + _numMaxAnxiety.ToString();
         maxSanity.text = "/" + _numMaxSanity.ToString();
-        _numAnxiety = _numMaxAnxiety - _numMaxAnxiety + _numMaxAnxiety/2;
+        _numAnxiety = _numMaxAnxiety - _numMaxAnxiety + _numMaxAnxiety / 2;
         _numSanity = _numMaxSanity;
         anxiety.text = _numAnxiety.ToString();
         sanity.text = _numSanity.ToString();
@@ -98,11 +100,12 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     void Update()
     {
-        if(SceneManager.GetActiveScene().name != "BattleScene")
+        if (SceneManager.GetActiveScene().name != "BattleScene")
         {
             UpdateNPC();
-            if(_playerIsSet == false){SetPlayer();}
-        }else
+            if (_playerIsSet == false) { SetPlayer(); }
+        }
+        else
         {
             _isBattling = true;
             BattleManagement();
@@ -111,7 +114,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public void BattleManagement()
     {
-        if(!_isBattling) return;
+        if (!_isBattling) return;
         battleAnimator = this.gameObject.GetComponent<Animator>();
 
         _currentTween = battleManager.GoToDefaultPosition(this.gameObject, _isMoving, _currentTween, defaultPosition, attackTime);
@@ -119,7 +122,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     void OnMouseOver()
     {
-        if(SceneManager.GetActiveScene().name != "BattleScene") return;
+        if (SceneManager.GetActiveScene().name != "BattleScene") return;
         _currentCoroutine = battleManager.FadeToColor(CheckColorAspectByNPC(), _currentCoroutine, spriteRenderer, fadeTime);
 
         /*if(Input.GetMouseButtonDown(0))
@@ -162,17 +165,17 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     void OnMouseExit()
     {
-        if(SceneManager.GetActiveScene().name != "BattleScene") return;
+        if (SceneManager.GetActiveScene().name != "BattleScene") return;
         _currentCoroutine = battleManager.FadeToColor(defaultColor, _currentCoroutine, spriteRenderer, fadeTime);
     }
 
     public virtual void UpdateNPC()
     {
-        if(!_isAutomatic)
+        if (!_isAutomatic)
         {
-            if(Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping && !_isAutomatic && !_isMoving)
+            if (Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping && !_isAutomatic && !_isMoving)
             {
-                if(!dialoguePanel.activeSelf)
+                if (!dialoguePanel.activeSelf)
                 {
                     dialogueText.text = "";
                     _i = 0;
@@ -187,9 +190,10 @@ public abstract class NPC : DialogueBox, IHealthManager
                     StopCoroutine(Typing());
                     ResetText();
                 }
-            }else if((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return)) && _playerIsClose && _isTyping && !_isAutomatic && !_isMoving)
+            }
+            else if ((Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return)) && _playerIsClose && _isTyping && !_isAutomatic && !_isMoving)
             {
-                if(this.gameObject.CompareTag("Ezequiel") && _isMoving)
+                if (this.gameObject.CompareTag("Ezequiel") && _isMoving)
                 {
                     return;
                 }
@@ -197,9 +201,10 @@ public abstract class NPC : DialogueBox, IHealthManager
                 StopCoroutine(Typing());
                 dialogueText.text = dialogue[_i];
                 //continueButton.SetActive(true);
-            }else if(Input.GetKeyDown(KeyCode.Return) && !_isTyping && _playerIsClose && dialoguePanel.activeSelf)
+            }
+            else if (Input.GetKeyDown(KeyCode.Return) && !_isTyping && _playerIsClose && dialoguePanel.activeSelf)
             {
-                if(this.gameObject.CompareTag("Ezequiel") && _isMoving)
+                if (this.gameObject.CompareTag("Ezequiel") && _isMoving)
                 {
                     return;
                 }
@@ -207,18 +212,20 @@ public abstract class NPC : DialogueBox, IHealthManager
                 NextLine();
             }
 
-            if(dialogueText.text == dialogue[_i])
+            /*if (dialogueText.text == dialogue[_i])
             {
                 //continueButton.SetActive(true);
-            }
+            }*/
         }
 
-        if(!_isMoving)
+        if (!_isMoving)
         {
-            if(_player?.gameObject.transform.localPosition.y >= this.gameObject.transform.localPosition.y)
+            if (_player?.gameObject.transform.localPosition.y >= this.gameObject.transform.localPosition.y)
             {
                 this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 2;
-            }else{
+            }
+            else
+            {
                 this.gameObject.GetComponent<SpriteRenderer>().sortingOrder = 0;
             }
         }
@@ -226,14 +233,14 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public override void ResetText()
     {
-        if(_isBattling) return;
+        if (_isBattling) return;
 
         base.ResetText();
     }
 
     public virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             _playerIsClose = true;
         }
@@ -241,7 +248,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public virtual void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             _playerIsClose = false;
             ResetText();
@@ -263,20 +270,21 @@ public abstract class NPC : DialogueBox, IHealthManager
         battleManager.DamageEnemy(enemy.GetComponent<Enemy>().GetHealth());
     }
 
-    public virtual void RecieveTrigger(GameObject player, string trigger) {}
+    public virtual void RecieveTrigger(GameObject player, string trigger) { }
 
     protected IEnumerator GoToPlayer(float time, GameObject player, string trigger)
     {
         _dialogueStarted = false;
 
-        if(trigger.Equals("PrototypeEzequielTrigger1"))
+        if (trigger.Equals("PrototypeEzequielTrigger1"))
         {
             this.transform.DOMoveY(player.transform.localPosition.y, time);
             yield return new WaitForSeconds(time);
 
             this.transform.DOMoveX(player.transform.localPosition.x - 0.8f, 0.5f);
             yield return new WaitForSeconds(0.5f);
-        }else if(trigger.Equals("GirlTrigger"))
+        }
+        else if (trigger.Equals("GirlTrigger"))
         {
             animator.Play("IdleR");
             yield return new WaitForSeconds(0.5f);
@@ -290,7 +298,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     protected void StartDialogue()
     {
-        if(!dialoguePanel.activeSelf)
+        if (!dialoguePanel.activeSelf)
         {
             dialogueText.text = "";
             _i = 0;
@@ -302,12 +310,12 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public IEnumerator GoTo(float time, Vector2 position, char xy)
     {
-        if(xy == 'x') this.transform.DOMoveX(position.x, time);
-        else if(xy == 'y') this.transform.DOMoveY(position.y, time);
-        
+        if (xy == 'x') this.transform.DOMoveX(position.x, time);
+        else if (xy == 'y') this.transform.DOMoveY(position.y, time);
+
         yield return new WaitForSeconds(time);
 
-        if(_isAutomatic && this.gameObject.name.Equals("Ezequiel")) _isAutomatic = false;
+        if (_isAutomatic && this.gameObject.name.Equals("Ezequiel")) _isAutomatic = false;
     }
 
     public IEnumerator StartAutomaticTalk()
@@ -316,7 +324,7 @@ public abstract class NPC : DialogueBox, IHealthManager
         _isAutomatic = true;
 
         yield return new WaitForSeconds(0.5f);
-        if(!dialoguePanel.activeSelf)
+        if (!dialoguePanel.activeSelf)
         {
             dialogueText.text = "";
             _i = 0;
@@ -327,18 +335,18 @@ public abstract class NPC : DialogueBox, IHealthManager
             StartCoroutine(Typing());
         }
 
-        while(_i != dialogue.Count - 1)
+        while (_i != dialogue.Count - 1)
         {
             yield return null;
 
-            if(!_isTyping)
+            if (!_isTyping)
             {
                 yield return new WaitForSeconds(_secondsToReturn);
                 NextLine();
             }
         }
 
-        if(skipText != null) skipText.SetActive(true);
+        if (skipText != null) skipText.SetActive(true);
     }
 
     public void SetIsAutomatic(bool automatic)
@@ -346,19 +354,19 @@ public abstract class NPC : DialogueBox, IHealthManager
         _isAutomatic = automatic;
     }
 
-    public bool GetIsClosed() {return _isClosed;}
-    
+    public bool GetIsClosed() { return _isClosed; }
+
     public void SetAnimation(string animation)
     {
-        if(animator == null) animator = this.gameObject.GetComponent<Animator>();
+        if (animator == null) animator = this.gameObject.GetComponent<Animator>();
 
         animator.Play(animation);
     }
 
-#region HealthManagement
+    #region HealthManagement
     public void TakeDamage(float damage)
     {
-        _numSanity -= (int) Math.Round(damage);
+        _numSanity -= (int)Math.Round(damage);
         sanity.text = _numSanity.ToString();
 
         _numAnxiety += (int)(Math.Round(damage) * 1.5);
@@ -367,7 +375,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public void Heal(float healingAmount)
     {
-        _numSanity += (int) Math.Round(healingAmount);
+        _numSanity += (int)Math.Round(healingAmount);
         _numSanity = Mathf.Clamp(_numSanity, 0, _numMaxSanity);
         sanity.text = _numSanity.ToString();
 
@@ -376,7 +384,8 @@ public abstract class NPC : DialogueBox, IHealthManager
         anxiety.text = _numAnxiety.ToString();
     }
 
-    public int GetSanity(){ return _numSanity; }
-    public int GetAnxiety(){ return _numAnxiety; }
+    public int GetSanity() { return _numSanity; }
+    public int GetAnxiety() { return _numAnxiety; }
+    public Sprite GetNPCSprite() { return _npcSprite; }
 #endregion
 }

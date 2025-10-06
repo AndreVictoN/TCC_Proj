@@ -26,18 +26,30 @@ public class Door : MonoBehaviour
         {
             if (_isClosed)
             {
-                ChangeSprite("open");
-                IgnoreCollision(player, true);
-
-                _isClosed = false;
+                ChangeState(true);
             }
             else
             {
-                ChangeSprite("close");
-                IgnoreCollision(player, false);
-
-                _isClosed = true;
+                ChangeState(false);
             }
+        }
+    }
+
+    public void ChangeState(bool opening)
+    {
+        if (opening)
+        {
+            ChangeSprite("open");
+            IgnoreCollision(player, true);
+
+            _isClosed = false;
+        }
+        else
+        {
+            ChangeSprite("close");
+            IgnoreCollision(player, false);
+
+            _isClosed = true;
         }
     }
 
