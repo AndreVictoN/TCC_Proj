@@ -171,6 +171,8 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public virtual void UpdateNPC()
     {
+        if (PlayerPrefs.GetString("currentState").Equals("Start")) return ;
+
         if (!_isAutomatic)
         {
             if (Input.GetKeyDown(KeyCode.E) && _playerIsClose && !_isTyping && !_isAutomatic && !_isMoving)
@@ -233,7 +235,7 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public override void ResetText()
     {
-        if (_isBattling) return;
+        if (_isBattling || PlayerPrefs.GetString("currentState").Equals("Start")) return;
 
         base.ResetText();
     }

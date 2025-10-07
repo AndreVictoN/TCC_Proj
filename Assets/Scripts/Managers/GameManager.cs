@@ -70,6 +70,17 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
         }
+        else if (SceneManager.GetActiveScene().name.Equals("Floor2"))
+        {
+            if (PlayerPrefs.GetString("currentState").Equals("Start")) TransitionConfig();
+        }
+    }
+
+    private void TransitionConfig()
+    {
+        transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
+        transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
+        if(transitionImage != null) AnimateTransition(3f, true);
     }
 
     private void ArrivalConfig()
@@ -78,7 +89,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         if (currentDay == null) { currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>(); }
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(3f, true);
-        AnimateText(currentDay, 3f, true);
+        if (currentDay != null) AnimateText(currentDay, 3f, true);
         arrivalManager.SetGameManager(this);
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>(); }
         if (instruction == null) instruction = GameObject.FindGameObjectWithTag("Instruction").GetComponent<TextMeshProUGUI>();
@@ -126,7 +137,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         if (_ezequielTrigger.activeSelf == false) _ezequielTrigger.SetActive(true);
         if (_firstInteractionTrigger.activeSelf == true) _firstInteractionTrigger.SetActive(false);
         if (_ezequiel.gameObject.activeSelf == false) _ezequiel.gameObject.SetActive(true);
-        if (currentDay.gameObject.activeSelf == true) currentDay.gameObject.SetActive(false);
+        if (currentDay != null && currentDay.gameObject.activeSelf == true) currentDay.gameObject.SetActive(false);
         _ezequiel.gameObject.transform.localPosition = new Vector2(9.44f, 102.03f);
         _playerController.gameObject.transform.localPosition = new Vector2(11.52f, 102.03f);
         _playerController.SetAnimation("H_IdleL", 0);
@@ -141,7 +152,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         if (_battleTrigger.activeSelf == true) _battleTrigger.SetActive(false);
         if (_ezequielTrigger.activeSelf == true) _ezequielTrigger.SetActive(false);
         if (_ezequiel.gameObject.activeSelf == true) _ezequiel.gameObject.SetActive(false);
-        AnimateText(currentDay, 3f, true);
+        if(currentDay != null) AnimateText(currentDay, 3f, true);
         if (PlayerPrefs.GetString("pastScene") != "Cutscene") StartCoroutine(SetPlayerCanMove());
     }
 
@@ -407,6 +418,11 @@ public class GameManager : Singleton<GameManager>, IObserver
             Destroy(GameObject.FindGameObjectWithTag("FirstInteractionTrigger"));
             Destroy(GameObject.FindGameObjectWithTag("StopTrigger"));
         }
+        else if (evt == EventsEnum.FirstConflict)
+        {
+            if(arrivalManager != null && !arrivalManager.gameObject.activeSelf) arrivalManager.gameObject.SetActive(true);
+            StartCoroutine(arrivalManager.FirstConflictSequence());
+        }
     }
 
     private void Inventory()
@@ -419,7 +435,7 @@ public class GameManager : Singleton<GameManager>, IObserver
 
             if (inventoryHUD != null && inventoryHUD.activeSelf == false)
             {
-                if(instruction.IsActive()){ instruction.gameObject.SetActive(false); }
+                if(instruction != null && instruction.IsActive()){ instruction.gameObject.SetActive(false); }
                 inventoryHUD.SetActive(true); _playerController.InventorySet(true);
             }
             else if (inventoryHUD != null && inventoryHUD.activeSelf == true) { inventoryHUD.SetActive(false); _playerController.InventorySet(false); }
@@ -656,7 +672,7 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     void Update()
     {
-        if (arrivalManager.gameObject == null || !arrivalManager.gameObject.activeSelf)
+        if (!arrivalManager || !arrivalManager.gameObject.activeSelf)
         {
             if (_canSkip && Input.GetKeyDown(KeyCode.Return) && _isTyping)
             {

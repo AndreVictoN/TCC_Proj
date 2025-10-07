@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4675408674844833134
+--- !u!1 &4917859672631375356
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 31581576094206740}
-  - component: {fileID: 7142743462285724378}
-  - component: {fileID: 5089977382397778653}
-  - component: {fileID: 4877102822198472600}
-  - component: {fileID: 2131913614184625214}
-  - component: {fileID: 345397316110755899}
-  - component: {fileID: 1667017426264196136}
+  - component: {fileID: 4335070979778776018}
+  - component: {fileID: 4047998872681326059}
+  - component: {fileID: 9197996558088884767}
+  - component: {fileID: 2437912523311691817}
+  - component: {fileID: 2937898290118302272}
+  - component: {fileID: 7513107874734813087}
+  - component: {fileID: 6058499835928569304}
   m_Layer: 0
-  m_Name: Estella
-  m_TagString: NPC
+  m_Name: Ezequiel
+  m_TagString: Ezequiel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &31581576094206740
+--- !u!4 &4335070979778776018
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
+  m_GameObject: {fileID: 4917859672631375356}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.94, y: 2.76, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 10.25, y: 5.02, z: 0}
+  m_LocalScale: {x: 1.6, y: 1.6, z: 1.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &7142743462285724378
+--- !u!212 &4047998872681326059
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
+  m_GameObject: {fileID: 4917859672631375356}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -59,7 +59,7 @@ SpriteRenderer:
   m_SmallMeshCulling: 1
   m_ForceMeshLod: -1
   m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -83,25 +83,25 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -1975397515548953464, guid: 4ad389c293d3782418fb1efbaa3a8769, type: 3}
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 1946609052, guid: 12148a2765d70404aa277fb77c012931, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1.5}
+  m_Size: {x: 1, y: 1.875}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &5089977382397778653
+--- !u!61 &9197996558088884767
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
+  m_GameObject: {fileID: 4917859672631375356}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -129,26 +129,26 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0021389723, y: 0.07948363}
+  m_Offset: {x: 0.009966493, y: 0.074836}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1.5}
-    newSize: {x: 1, y: 1.5}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 1.875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.550874, y: 0.6528275}
+  m_Size: {x: 0.42195708, y: 0.85032797}
   m_EdgeRadius: 0
---- !u!50 &4877102822198472600
+--- !u!50 &2437912523311691817
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
+  m_GameObject: {fileID: 4917859672631375356}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -168,13 +168,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!58 &2131913614184625214
+--- !u!58 &2937898290118302272
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
+  m_GameObject: {fileID: 4917859672631375356}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -203,50 +203,28 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.8
---- !u!95 &345397316110755899
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e0161c8163303384bbd9177cf87eea21, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &1667017426264196136
+  m_Radius: 1.1
+--- !u!114 &7513107874734813087
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4675408674844833134}
+  m_GameObject: {fileID: 4917859672631375356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f4d09f8ef1c66e4eb2ec6df4d759a69, type: 3}
+  m_Script: {fileID: 11500000, guid: c63c015c45cc58e44a8f1c011bbf680d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Estella
+  m_EditorClassIdentifier: 
   dialoguePanel: {fileID: 0}
   dialogueText: {fileID: 0}
   dialogue: []
-  wordSpeed: 0
+  wordSpeed: 0.06
   _secondsToReturn: 1.5
-  _npcSprite: {fileID: 2483297053536778140, guid: 3d0848f6885579140bae9d0d0c54de17, type: 3}
-  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  _npcSprite: {fileID: 5762743835498201794, guid: 0e9404fe0bae46247bff1a876dd2f54e, type: 3}
+  defaultColor: {r: 1, g: 1, b: 1, a: 0}
   defaultPosition: {x: 0, y: 0, z: 0}
-  animator: {fileID: 345397316110755899}
+  animator: {fileID: 6058499835928569304}
   battleAnimator: {fileID: 0}
   battleManager: {fileID: 0}
   spriteRenderer: {fileID: 0}
@@ -261,3 +239,69 @@ MonoBehaviour:
   _numAnxiety: 0
   _numMaxSanity: 0
   _numMaxAnxiety: 0
+  prototypeDialogue:
+  - "Voc\xCA precisa de ajuda?"
+  - Eu sou Ezequiel, posso te ajudar com o que for preciso.
+  - ...
+  - "Olha, considerando que eu nunca te vi pela escola e que eu conhe\xC7o todo mundo
+    por aqui..."
+  - "Voc\xCA com certeza \xC9 calour@."
+  - '!...'
+  - "*Alex fica um pouco tr\xCAmul@, claramente desconfort\xC1vel*"
+  - Ei... ta tudo bem.
+  - "\xC9 normal se sentir estranho em um lugar novo."
+  - "Se falar comigo sobre o que voc\xCA precisa, ficar\xC1 muito mais f\xC1cil de
+    te ajudar..."
+  - Poderia pelo menos me dizer seu nome?
+  - "M-Meu nome \xC9 Alex..."
+  - Alex, haha, nome bacana!
+  - "Tudo bem Alex, aan vamos l\xC1, hoje \xC9 o seu primeiro dia aqui,"
+  - "voc\xCA precisa de ajuda com alguma coisa?"
+  - Eu preciso... secretaria...
+  - "Ah h\xC1! Ent\xC3o voc\xCA precisa ir at\xC9 a secretaria, bom, eu posso te
+    mostrar onde fica."
+  - T-Tudo bem.
+  prototypeDialogue2:
+  - "Bem... eu queria ouvir um pouco de voc\xCA."
+  - "De onde voc\xCA veio?"
+  - "*Alex fica calado, como quem n\xC3o quer falar sobre isso*"
+  - "Tudo bem ent\xC3o, que tal se eu come\xC7ar primeiro?"
+  - "Eu vim de uma escola p\xDAblica estadual. L\xC1 era todo mundo muito divertido,
+    por\xC9m desinteressado."
+  - "Eles n\xC3o estavam l\xC1 pra estudar, sabe?"
+  - "E sinceramente... eu tamb\xC9m n\xC3o. hehe."
+  - ???
+  - "*Alex olha diretamente para Ezequiel pela primeira vez, como se um grande questionamento
+    tivesse surgido em sua cabe\xC7a.*"
+  - "Pois\xC9, voc\xCA deve estar se perguntando o que eu to fazendo aqui..."
+  - "a resposta \xC9 que nem eu sei de verdade."
+  - "Mudando de assunto, algo que me atrai aqui \xC9 que sempre vejo algu\xC9m diferente,"
+  - "com sonhos e perspectivas pr\xD3prias, defendendo os pr\xD3prios ideais e espalhando
+    sua personalidade por a\xCD"
+  - "O que eu quero dizer com isso \xC9 que voc\xCA n\xC3o precisa ter medo de ser
+    voc\xCA."
+  - '*Com um tom um pouco mais confiante, Alex responde...*'
+  - Entendi, Ezequiel... Obrigad@.
+  - Bom, finalmente chegamos.
+--- !u!95 &6058499835928569304
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4917859672631375356}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 37a60d09044da684fafc0088edb3270c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -1,22 +1,19 @@
 fileFormatVersion: 2
-guid: 55ae91edbc21f384395c4bf8b634b925
+guid: b7ffa08cb2586c74aba4fc7ab608209a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5071324787140080236
-    second: Romulao_0
+      213: -5397455018668563906
+    second: MatheusSitting_0
   - first:
-      213: -2984702878574060846
-    second: Romulao_1
+      213: 6279435821347407456
+    second: MatheusSitting_1
   - first:
-      213: -4565973169397546287
-    second: Romulao_2
+      213: 8006857100659466752
+    second: MatheusSitting_2
   - first:
-      213: -656907708326502194
-    second: Romulao_3
-  - first:
-      213: -6619943511073222095
-    second: Romulao_4
+      213: 5517249848116347359
+    second: MatheusSitting_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -112,123 +109,255 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Romulao_0
+      name: MatheusSitting_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 30
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e326c19e1436815b0800000000000000
+      internalID: -5397455018668563906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: B1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 30
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06686411c99052750800000000000000
+      internalID: 6279435821347407456
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 30
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0022f146c121e1f60800000000000000
+      internalID: 8006857100659466752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MatheusSitting_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 30
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd18d065185319c40800000000000000
+      internalID: 5517249848116347359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MatheusSitting_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 15
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f889b6c3bb48ff4aad43e5148611a67
+      internalID: 1098673614
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MatheusSitting_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 15
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa1ea7a273980824ea07e21d693d44bd
+      internalID: -1316631643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 15
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 44e72217333d2954899f76e1e92bf556
+      internalID: -1475108679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MatheusSitting_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 15
+        width: 32
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac9f49eb0875ae345b199cae7d8d6c9d
+      internalID: 409486580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MatheusSitting_8
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
-        height: 64
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c623e1e5607f06640800000000000000
-      internalID: 5071324787140080236
+      spriteID: a1e7b146a5fd34d4cb5b32b939ddc9af
+      internalID: -1359124137
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Romulao_1
+      name: MatheusSitting_9
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
-        height: 64
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2dad18aab843496d0800000000000000
-      internalID: -2984702878574060846
+      spriteID: 3c24d07cf1197d74892d14506b251c8a
+      internalID: -1267376842
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Romulao_2
+      name: 3
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 64
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1d24810189762a0c0800000000000000
-      internalID: -4565973169397546287
+      spriteID: 10518fc0306e44c49a6f21a494f7be58
+      internalID: 508939226
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Romulao_3
+      name: MatheusSitting_11
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ec0abf27be132e6f0800000000000000
-      internalID: -656907708326502194
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Romulao_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 132145d537c3124a0800000000000000
-      internalID: -6619943511073222095
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: S1
-      rect:
-        serializedVersion: 2
-        x: 321
-        y: 40
-        width: 32
-        height: 17
+        height: 15
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,30 +366,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93a2234126c53c840955666ad007c5ca
-      internalID: 274517314
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: S2
-      rect:
-        serializedVersion: 2
-        x: 321
-        y: 23
-        width: 32
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c04105b11f6f227429331fe7fe0673fa
-      internalID: -2012642640
+      spriteID: 15edeb683eda5404ca677955faa7b1e2
+      internalID: 49833709
       vertices: []
       indices: 
       edges: []
@@ -269,7 +376,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2593c327b1142ec4688a2490e4b59503
+    spriteID: b68af51d40390c84e920ed344fa85101
     internalID: 0
     vertices: []
     indices: 
@@ -277,15 +384,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":15.0},"gridSpriteOffset":{"x":0.0,"y":3.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Romulao_0: 5071324787140080236
-      Romulao_1: -2984702878574060846
-      Romulao_2: -4565973169397546287
-      Romulao_3: -656907708326502194
-      Romulao_4: -6619943511073222095
-      S1: 274517314
-      S2: -2012642640
+      1: 8006857100659466752
+      2: -1475108679
+      3: 508939226
+      B1: 6279435821347407456
+      MatheusSitting_0: -5397455018668563906
+      MatheusSitting_11: 49833709
+      MatheusSitting_3: 5517249848116347359
+      MatheusSitting_4: 1098673614
+      MatheusSitting_5: -1316631643
+      MatheusSitting_7: 409486580
+      MatheusSitting_8: -1359124137
+      MatheusSitting_9: -1267376842
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

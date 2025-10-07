@@ -9,12 +9,15 @@ using UnityEngine.UI;
 public class ArrivalManager : DialogueBox
 {
     public List<string> arrivalDialogue = new();
+    public List<Sprite> playerImages = new();
     public List<Sprite> npcImages = new();
     public List<GameObject> npcs = new();
     public GameManager gameManager;
     private PlayerController _playercontroller;
 
+    [SerializeField] private CinemachineCamera conversationView;
     [SerializeField] private CinemachineCamera estellaView;
+    [SerializeField] private CinemachineCamera ezequielView;
     [SerializeField] private Door toOtherFloorDoor;
     [SerializeField] private GameObject playerName;
     [SerializeField] private GameObject npcName;
@@ -79,63 +82,107 @@ public class ArrivalManager : DialogueBox
         }
     }
 
+    private void DialoguePanelSettings(float playerNameAlpha, float playerImageAlpha, float npcNameAlpha, float npcImageAlpha, TextAlignmentOptions textAlignment, FontStyles fontStyle)
+    {
+        if (npcName == null || npcImage == null || playerName == null || playerImage == null || dialogueText == null) return;
+
+        npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, npcNameAlpha);
+        npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, npcImageAlpha);
+        playerName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, playerNameAlpha);
+        playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, playerImageAlpha);
+        dialogueText.alignment = textAlignment;
+        dialogueText.fontStyle = fontStyle;
+    }
+
     protected override void CheckCharacter(int i)
     {
         npcName = GameObject.FindGameObjectWithTag("NPC_Name");
         playerName = GameObject.FindGameObjectWithTag("PlayerName");
 
-        if (i < 3 || i == 6 || i == 7 || i == 9 || (i >= 12 && i <= 14) || (i >= 17 && i <= 19))
+        if (i < 3 || i == 6 || i == 7 || (i >= 12 && i <= 14) || (i >= 17 && i <= 19))
         {
             if (i < 3)
             {
-                npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
+                DialoguePanelSettings(0f, 0.5f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal);
+                /*npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
                 npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0f);
-                playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
+                playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);*/
             }
             else if (i == 6 || i == 7)
             {
                 if (i == 6) _secondsToReturn = 8f;
-                npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
+                DialoguePanelSettings(0f, 0f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal);
+                /*npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
                 npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
                 playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-                playerName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);
+                playerName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 0);*/
             }
-            else if (i == 9)
+            else if (i == 12) { _secondsToReturn = 11f; DialoguePanelSettings(0f, 0f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal); }
+            else if (i == 13) { _secondsToReturn = 1.5f; }
+            else if (i >= 14 && i <= 19)
             {
-                npcs[0].GetComponent<Animator>().Play("IdleR");
+                if (i == 17)
+                {
+                    npcs[2].transform.Find("part1").gameObject.GetComponent<SpriteRenderer>().sprite = npcImages[2];
+                    npcs[2].transform.Find("part2").gameObject.GetComponent<SpriteRenderer>().sprite = npcImages[5];
+                    npcs[3].transform.Find("part1").gameObject.GetComponent<SpriteRenderer>().sprite = npcImages[4];
+                    npcs[4].transform.Find("part1").gameObject.GetComponent<SpriteRenderer>().sprite = npcImages[3];
+                    conversationView.gameObject.SetActive(true);
+                    estellaView.gameObject.SetActive(false);
+                }else if(i == 18) { _secondsToReturn = 2.5f; }
+                DialoguePanelSettings(0f, 0f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal);
             }
             else
             {
-                npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
-                playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
+                DialoguePanelSettings(1f, 0.5f, 1f, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
+                /*npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
+                playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);*/
             }
-            dialogueText.alignment = TextAlignmentOptions.Center;
-            dialogueText.fontStyle = FontStyles.Normal;
         }
-        else if (i == 3 || i == 5 || i == 10)
+        else if (i == 3 || i == 5 || i == 10 || (i >= 20 && i <= 22))
         {
-            if (i == 3) npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0);
-            else { npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f); }
-            playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
+            if (i == 3 || (i >= 20 && i <= 22))
+            {
+                if (i == 21)
+                {
+                    _secondsToReturn = 2.5f;
+                    playerImage.sprite = playerImages[2];
+                }else if(i == 22){ playerImage.sprite = playerImages[1]; }
+                DialoguePanelSettings(1f, 1f, 0f, 0f, TextAlignmentOptions.Right, FontStyles.Italic);
+            }
+            else if (i == 10) { DialoguePanelSettings(1f, 1f, 1f, 0.5f, TextAlignmentOptions.Right, FontStyles.Normal); }
+            else { DialoguePanelSettings(1f, 1f, 1f, 0.5f, TextAlignmentOptions.Right, FontStyles.Italic); }
+            /*playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
             dialogueText.alignment = TextAlignmentOptions.Right;
-            dialogueText.fontStyle = FontStyles.Italic;
+            dialogueText.fontStyle = FontStyles.Italic;*/
         }
-        else if (i == 4 || i == 8 || i == 15 || i == 16 || i == 11)
+        else if (i == 4 || i == 8 || i == 9 || i == 15 || i == 16 || i == 11)
         {
-            if (i == 4){
+            if (i == 4)
+            {
                 npcName.GetComponent<TextMeshProUGUI>().text = "RÔmilo";
                 npcImage.GetComponent<Image>().sprite = npcImages[0];
             }
-            else if (i == 8){
+            else if (i == 8)
+            {
                 npcName.GetComponent<TextMeshProUGUI>().text = "Assilon";
                 npcImage.GetComponent<Image>().sprite = npcs[0].GetComponent<NPC>().GetNPCSprite();
+                DialoguePanelSettings(0f, 0f, 1f, 1f, TextAlignmentOptions.Left, FontStyles.Normal);
             }
+            else if (i == 9) { npcs[0].GetComponent<Animator>().Play("IdleR"); }
+            else if (i == 15 || i == 16)
+            {
+                npcName.GetComponent<TextMeshProUGUI>().text = "?";
+                npcImage.GetComponent<Image>().sprite = npcImages[0];
+                DialoguePanelSettings(0f, 0f, 1f, 1f, TextAlignmentOptions.Left, FontStyles.Italic);
+            }
+            else { DialoguePanelSettings(1f, 0.5f, 1f, 1f, TextAlignmentOptions.Left, FontStyles.Normal); }
 
-            npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 1);
+            /*npcName.GetComponent<TextMeshProUGUI>().color = new Color(1, 1, 1, 1);
             npcImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 1);
             playerImage.GetComponent<Image>().color = new Vector4(1, 1, 1, 0.5f);
             dialogueText.alignment = TextAlignmentOptions.Left;
-            dialogueText.fontStyle = FontStyles.Normal;
+            dialogueText.fontStyle = FontStyles.Normal;*/
         }
     }
 
@@ -256,14 +303,14 @@ public class ArrivalManager : DialogueBox
 
         gameManager.AnimateTransition(1f, false);
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Floor2");
+        SceneManager.LoadScene("Class");
     }
 
     public IEnumerator FirstClass()
     {
         BasicPlayerCutsceneConfig();
 
-        for (int i = 0; i <= 11/*19*/; i++) dialogue.Add(arrivalDialogue[i]);
+        for (int i = 0; i <= 19/*11*/; i++) dialogue.Add(arrivalDialogue[i]);
         _playercontroller.gameObject.SetActive(false);
         if (!npcs[0].gameObject.activeSelf) npcs[0].SetActive(true);
         npcs[0].GetComponent<Animator>().Play("IdleD");
@@ -274,7 +321,56 @@ public class ArrivalManager : DialogueBox
 
         classroomDoor.ChangeState(true);
         _playercontroller.gameObject.SetActive(true);
+        yield return new WaitForSeconds(8f);
 
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_WalkingLeft");
+        _playercontroller.SetSpeed(1f);
+        StartCoroutine(_playercontroller.GoTo(1f, new Vector2(3.91f, _playercontroller.gameObject.transform.localPosition.y), 'x', false));
+        yield return new WaitForSeconds(1f);
+
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_WalkingDown");
+        StartCoroutine(_playercontroller.GoTo(10f, new Vector2(_playercontroller.gameObject.transform.localPosition.x, -8.550989f), 'y', false));
+        npcs[0].GetComponent<Animator>().Play("IdleD");
+        yield return new WaitForSeconds(10f);
+
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_WalkingRight");
+        _playercontroller.SetSpeed(0.5f);
+        StartCoroutine(_playercontroller.GoTo(2f, new Vector2(5.9964f, _playercontroller.gameObject.transform.localPosition.y), 'x', false));
+        yield return new WaitForSeconds(2f);
+
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleUp");
+        yield return new WaitForSeconds(1f);
+
+        estellaView.gameObject.SetActive(true);
+        npcs[1].transform.Find("part1").gameObject.GetComponent<SpriteRenderer>().sprite = npcImages[1];
+
+        while (_i != 19) { yield return null; }
+        yield return new WaitForSeconds(3f);
+
+        gameManager.AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("Floor2");
+    }
+
+    public IEnumerator FirstConflictSequence()
+    {
+        BasicPlayerCutsceneConfig();
+        for (int i = 0; i <= 50; i++) dialogue.Add(arrivalDialogue[i]);
+
+        StartCoroutine(StartAutomaticTalk(20));
+        yield return new WaitForSeconds(2f);
+        ezequielView.gameObject.SetActive(true);
+
+        while (_i != 22) { yield return null; }
+        estella.gameObject.transform.localPosition = new Vector2(21.79f, _playercontroller.gameObject.transform.localPosition.y);
+        estella.gameObject.SetActive(true);
+        estella.gameObject.GetComponent<Animator>().Play("Idle_L");
+        estellaView.gameObject.transform.localPosition = new Vector3(estellaView.gameObject.transform.localPosition.x, estella.gameObject.transform.localPosition.y, -10);
+        estellaView.gameObject.SetActive(true);
+        ezequielView.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(5f);
+        estellaView.gameObject.SetActive(false);
     }
 
     private void BasicPlayerCutsceneConfig()

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDrawManager : MonoBehaviour
 {
-    public List<GameObject> rows = new List<GameObject>();
+    //[SerializeField] private List<GameObject> rows = new List<GameObject>();
     public GameObject player;
     public SpriteRenderer playerSR;
 
@@ -37,28 +37,28 @@ public class PlayerDrawManager : MonoBehaviour
     public void DrawManagement()
     {
         if (!_playerIsSet) return;
-        if (SceneManager.GetActiveScene().name == "Classroom" && _playerIsSet)
+        if (SceneManager.GetActiveScene().name == "Class" && _playerIsSet)
         {
-            if (player.transform.position.y > rows[0].transform.position.y)
+            if (player.transform.localPosition.y > 5.08f)
             {
                 playerSR.sortingOrder = 0;
             }
-            else if (player.transform.position.y > rows[1].transform.position.y && player.transform.position.y < rows[0].transform.position.y)
+            else if (player.transform.localPosition.y > 1.35f && player.transform.localPosition.y < 5.08f)
             {
                 playerSR.sortingOrder = 1;
             }
-            else if (player.transform.position.y > rows[2].transform.position.y && player.transform.position.y < rows[1].transform.position.y)
+            else if (player.transform.localPosition.y > -1.56f && player.transform.localPosition.y < 1.35f)
             {
                 playerSR.sortingOrder = 2;
             }
-            else if (player.transform.position.y > rows[4].transform.position.y && player.transform.position.y < rows[2].transform.position.y)
+            else if (player.transform.localPosition.y > -4.58f && player.transform.localPosition.y < -1.56f)
             {
                 playerSR.sortingOrder = 3;
             }
-            else if (player.transform.position.y > rows[3].transform.position.y && player.transform.position.y < rows[4].transform.position.y)
+            else if (player.transform.localPosition.y > -7.6f && player.transform.localPosition.y < -4.58f)
             {
                 playerSR.sortingOrder = 4;
-            }
+            }else if(player.transform.localPosition.y < -7.6f){ playerSR.sortingOrder = 5; }
         }
         else if (SceneManager.GetActiveScene().name == "PrototypeScene")
         {

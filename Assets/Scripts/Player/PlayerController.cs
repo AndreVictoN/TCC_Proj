@@ -100,6 +100,10 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             this.gameObject.transform.localPosition = new Vector2(4.54f, 8.05f);
         }
+        else if (SceneManager.GetActiveScene().name == "Floor2" && PlayerPrefs.GetString("currentState").Equals("Start"))
+        {
+            this.gameObject.transform.localPosition = new Vector2(-17.47f, 4.59f);
+        }
         else
         {
             _defaultAnimatorSpeed = animator.speed;
@@ -364,6 +368,11 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             _canMove = false;
             Notify(EventsEnum.FirstInteraction);
+        }
+        else if (collision.gameObject.CompareTag("FirstConflictTrigger"))
+        {
+            _canMove = false;
+            Notify(EventsEnum.FirstConflict);
         }
     }
 

@@ -14,5 +14,6 @@ public enum EventsEnum
     EnterSchool,
     Inventory,
     NewItem,
-    FirstInteraction
+    FirstInteraction,
+    FirstConflict
 }

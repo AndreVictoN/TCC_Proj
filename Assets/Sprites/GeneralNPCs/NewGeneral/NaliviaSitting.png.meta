@@ -1,22 +1,19 @@
 fileFormatVersion: 2
-guid: 55ae91edbc21f384395c4bf8b634b925
+guid: 8428293ab436ebc4498e7bc4c993a582
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5071324787140080236
-    second: Romulao_0
+      213: 6586277963992950842
+    second: NaliviaSitting_0
   - first:
-      213: -2984702878574060846
-    second: Romulao_1
+      213: 3484546130245586912
+    second: NaliviaSitting_1
   - first:
-      213: -4565973169397546287
-    second: Romulao_2
+      213: 6181705661970037796
+    second: NaliviaSitting_2
   - first:
-      213: -656907708326502194
-    second: Romulao_3
-  - first:
-      213: -6619943511073222095
-    second: Romulao_4
+      213: -1259463051491100615
+    second: NaliviaSitting_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -112,123 +109,255 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Romulao_0
+      name: NaliviaSitting_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3868c3a9e8276b50800000000000000
+      internalID: 6586277963992950842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: B1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ef00c85e389b5030800000000000000
+      internalID: 3484546130245586912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 1
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42cbeb72c84d9c550800000000000000
+      internalID: 6181705661970037796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NaliviaSitting_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 32
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 938b420170d758ee0800000000000000
+      internalID: -1259463051491100615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NaliviaSitting_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a73eee09f996a3b48974fd6c0ef00984
+      internalID: 1414210045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NaliviaSitting_5
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3138c009e4ab77541a3cf724973d54d6
+      internalID: -1850778739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 16
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 891fd863465d7e5418c30271e48176f9
+      internalID: 985460231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NaliviaSitting_7
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 16
+        width: 32
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 889fdbb0b193d7a479a87b5f28e56d7f
+      internalID: 611723714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NaliviaSitting_8
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 32
-        height: 64
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c623e1e5607f06640800000000000000
-      internalID: 5071324787140080236
+      spriteID: d1c532d9f854de84581c891f09343de5
+      internalID: 1416009519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Romulao_1
+      name: NaliviaSitting_9
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 32
-        height: 64
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2dad18aab843496d0800000000000000
-      internalID: -2984702878574060846
+      spriteID: 9eb926558c2a6244a889fb24bf1eb64c
+      internalID: -1973977044
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Romulao_2
+      name: 3
       rect:
         serializedVersion: 2
         x: 64
         y: 0
         width: 32
-        height: 64
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1d24810189762a0c0800000000000000
-      internalID: -4565973169397546287
+      spriteID: cf2387a6d4167e84d91e00117ce68871
+      internalID: -1973805673
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Romulao_3
+      name: NaliviaSitting_11
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ec0abf27be132e6f0800000000000000
-      internalID: -656907708326502194
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Romulao_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 64
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 132145d537c3124a0800000000000000
-      internalID: -6619943511073222095
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: S1
-      rect:
-        serializedVersion: 2
-        x: 321
-        y: 40
-        width: 32
-        height: 17
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,30 +366,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 93a2234126c53c840955666ad007c5ca
-      internalID: 274517314
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: S2
-      rect:
-        serializedVersion: 2
-        x: 321
-        y: 23
-        width: 32
-        height: 17
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c04105b11f6f227429331fe7fe0673fa
-      internalID: -2012642640
+      spriteID: 922d100bac579634da908b874c6ba18f
+      internalID: 1425486114
       vertices: []
       indices: 
       edges: []
@@ -269,7 +376,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 2593c327b1142ec4688a2490e4b59503
+    spriteID: 9d1dc9aa41b5d544f8931dff356d95e9
     internalID: 0
     vertices: []
     indices: 
@@ -277,15 +384,22 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Romulao_0: 5071324787140080236
-      Romulao_1: -2984702878574060846
-      Romulao_2: -4565973169397546287
-      Romulao_3: -656907708326502194
-      Romulao_4: -6619943511073222095
-      S1: 274517314
-      S2: -2012642640
+      1: 6181705661970037796
+      2: 985460231
+      3: -1973805673
+      B1: 3484546130245586912
+      NaliviaSitting_0: 6586277963992950842
+      NaliviaSitting_11: 1425486114
+      NaliviaSitting_3: -1259463051491100615
+      NaliviaSitting_4: 1414210045
+      NaliviaSitting_5: -1850778739
+      NaliviaSitting_7: 611723714
+      NaliviaSitting_8: 1416009519
+      NaliviaSitting_9: -1973977044
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

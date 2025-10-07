@@ -50,6 +50,7 @@ TagManager:
   - Instruction
   - FirstInteractionTrigger
   - ToOtherFloor
+  - FirstConflictTrigger
   layers:
   - Default
   - TransparentFX
