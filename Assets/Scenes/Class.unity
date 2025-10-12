@@ -38455,7 +38455,7 @@ GameObject:
   - component: {fileID: 1961493138}
   m_Layer: 0
   m_Name: ArrivalManager
-  m_TagString: Untagged
+  m_TagString: ArrivalManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -38562,6 +38562,7 @@ MonoBehaviour:
   - C-C-Claro!
   - "Ok! Combinado ent\xC3o."
   - "At\xC9 amanh\xC3!"
+  - "At\xC9!!"
   playerImages: []
   npcImages:
   - {fileID: 2483297053536778140, guid: 3d0848f6885579140bae9d0d0c54de17, type: 3}

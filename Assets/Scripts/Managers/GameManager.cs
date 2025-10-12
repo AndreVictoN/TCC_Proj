@@ -43,6 +43,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     [SerializeField] private PlayerController _playerController;
     [SerializeField] private Ezequiel _ezequiel;
     private string _classroomScene = "Classroom";
+    private string _currentScene;
     private bool _isTyping;
     private bool _skipped;
     private bool _canSkip;
@@ -50,6 +51,8 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     protected override void Awake()
     {
+        if (SceneManager.GetActiveScene().name.Equals("BattleScene")) return;
+        base.Awake();
         /*PlayerPrefs.SetString("pastScene", "Menu");
         PlayerPrefs.SetString("currentState", "Start");
         PlayerPrefs.SetString("transitionType", "");*/
@@ -60,21 +63,28 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     void Start()
     {
-        if (SceneManager.GetActiveScene().name.Equals("PrototypeScene"))
+        SceneManagement();
+    }
+
+    private void SceneManagement()
+    {
+        _currentScene = SceneManager.GetActiveScene().name;
+        
+        if (_currentScene.Equals("PrototypeScene"))
         {
             PrototypeConfig();
         }
-        else if (SceneManager.GetActiveScene().name.Equals("Terreo"))
+        else if (_currentScene.Equals("Terreo"))
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start")) ArrivalConfig();
-            else{ GroundFloorConfig(); }
+            else { GroundFloorConfig(); }
         }
-        else if (SceneManager.GetActiveScene().name.Equals("Class"))
+        else if (_currentScene.Equals("Class"))
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start") && PlayerPrefs.GetString("pastScene").Equals("Floor2")) SecondClassConfig();
             else if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
         }
-        else if (SceneManager.GetActiveScene().name.Equals("Floor2"))
+        else if (_currentScene.Equals("Floor2"))
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start")) TransitionConfig();
             else if (PlayerPrefs.GetString("currentState").Equals("FirstLeaving")) SecondFloorConfig(PlayerPrefs.GetString("currentState"));
@@ -95,9 +105,10 @@ public class GameManager : Singleton<GameManager>, IObserver
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(3f, true);
         if (currentDay != null) AnimateText(currentDay, 3f, true);
+        arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
         arrivalManager.SetGameManager(this);
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>(); }
-        if (instruction == null) instruction = GameObject.FindGameObjectWithTag("Instruction").GetComponent<TextMeshProUGUI>();
+        if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
         StartCoroutine(arrivalManager.FirstLines());
     }
 
@@ -113,9 +124,10 @@ public class GameManager : Singleton<GameManager>, IObserver
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(1f, true);
         if (currentDay != null) currentDay.gameObject.SetActive(false);
+        arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
         arrivalManager.SetGameManager(this);
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>(); }
-        if (instruction == null) instruction = GameObject.FindGameObjectWithTag("Instruction").GetComponent<TextMeshProUGUI>();
+        if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
     }
 
     private void FirstClassConfig()
@@ -123,6 +135,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(3f, true);
+        arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
         arrivalManager.SetGameManager(this);
         StartCoroutine(arrivalManager.FirstClass());
     }
@@ -132,6 +145,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(3f, true);
+        arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
         arrivalManager.SetGameManager(this);
         StartCoroutine(arrivalManager.SecondClass());
     }
@@ -142,9 +156,10 @@ public class GameManager : Singleton<GameManager>, IObserver
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(3f, true);
+        arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
         arrivalManager.SetGameManager(this);
-        if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>(); }
-        if (instruction == null) instruction = GameObject.FindGameObjectWithTag("Instruction").GetComponent<TextMeshProUGUI>();
+        if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").transform.Find("Objective").GetComponent<TextMeshProUGUI>(); }
+        if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
         
         if(state.Equals("FirstLeaving")) StartCoroutine(arrivalManager.FirstLeavingConfig());
     }
@@ -430,6 +445,8 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     public void OnNotify(EventsEnum evt)
     {
+        if (SceneManager.GetActiveScene().name.Equals("BattleScene")) return;
+        
         if (evt == EventsEnum.CallPrototypeEzequiel)
         {
             CallEzequiel("PrototypeEzequielTrigger1");
@@ -741,6 +758,9 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     void Update()
     {
+        if (SceneManager.GetActiveScene().name.Equals("BattleScene")) return;
+
+        if(!SceneManager.GetActiveScene().name.Equals(_currentScene)){ SceneManagement(); }
         if (!arrivalManager || !arrivalManager.gameObject.activeSelf)
         {
             if (_canSkip && Input.GetKeyDown(KeyCode.Return) && _isTyping)
@@ -761,6 +781,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     public IEnumerator LoadBattleScene(string pastScene)
     {
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
+        if (_playerController == null) _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>(); 
         _playerController.SetCanMove(false);
         AnimateTransition(1f, false);
         yield return new WaitForSeconds(1f);

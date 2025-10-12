@@ -58,6 +58,7 @@ TagManager:
   - EsMaxSanity
   - Illustration
   - ArrivalManager
+  - GameManager
   layers:
   - Default
   - TransparentFX

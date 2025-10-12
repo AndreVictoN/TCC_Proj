@@ -116,16 +116,16 @@ public class ArrivalManager : DialogueBox
         npcName = GameObject.FindGameObjectWithTag("NPC_Name");
         playerName = GameObject.FindGameObjectWithTag("PlayerName");
 
-        if (i < 3 || i == 6 || i == 7 || (i >= 12 && i <= 14) || (i >= 17 && i <= 19) || i == 23 || i == 24 || i == 27 || i == 33 || i == 35 || i == 40 || i == 43 || i == 51 || i == 52 || i == 55 || i == 57 || i == 58)
+        if (i < 3 || i == 6 || i == 7 || (i >= 12 && i <= 14) || (i >= 17 && i <= 19) || i == 23 || i == 24 || i == 27 || i == 33 || i == 35 || i == 40 || i == 43 || i == 51 || i == 52 || i == 56 || i == 58 || i == 59)
         {
             if (i < 3)
             {
                 DialoguePanelSettings(0f, 0.5f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal);
             }
-            else if (i == 6 || i == 7 || i == 52 || i == 55)
+            else if (i == 6 || i == 7 || i == 52 || i == 56)
             {
                 if (i == 6) _secondsToReturn = 8f;
-                if (i == 55) _secondsToReturn = 5f;
+                if (i == 56) _secondsToReturn = 5f;
                 DialoguePanelSettings(0f, 0f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal);
             }
             else if (i == 12) { _secondsToReturn = 11f; DialoguePanelSettings(0f, 0f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal); }
@@ -157,7 +157,7 @@ public class ArrivalManager : DialogueBox
                 playerImage.GetComponent<Image>().sprite = playerImages[2];
                 DialoguePanelSettings(1f, 0.5f, 1f, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
             }
-            else if(i == 58)
+            else if(i == 59)
             {
                 playerImage.GetComponent<Image>().sprite = playerImages[1];
                 DialoguePanelSettings(1f, 0.5f, 1f, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
@@ -167,7 +167,7 @@ public class ArrivalManager : DialogueBox
                 DialoguePanelSettings(1f, 0.5f, 1f, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
             }
         }
-        else if (i == 3 || i == 5 || i == 10 || (i >= 20 && i <= 22) || i == 25 || i == 26 || i == 34 || i == 36 || i == 38 || i == 41 || i == 44 || i == 47 || i == 50 || i == 59 || i == 62)
+        else if (i == 3 || i == 5 || i == 10 || (i >= 20 && i <= 22) || i == 25 || i == 26 || i == 34 || i == 36 || i == 38 || i == 41 || i == 44 || i == 47 || i == 50 || i == 60 || i == 63)
         {
             if (i == 3 || (i >= 20 && i <= 22) || i == 25)
             {
@@ -189,7 +189,7 @@ public class ArrivalManager : DialogueBox
                 DialoguePanelSettings(1f, 1f, 1f, 0.5f, TextAlignmentOptions.Right, FontStyles.Italic);
             }
         }
-        else if (i == 4 || i == 8 || i == 9 || i == 15 || i == 16 || i == 11 || (i >= 28 && i <= 32) || i == 37 || i == 39 || i == 42 || i == 45 || i == 46 || i == 48 || i == 49 || (i >= 53 && i <= 55) || i == 56 || i == 60 || i == 61)
+        else if (i == 4 || i == 8 || i == 9 || i == 15 || i == 16 || i == 11 || (i >= 28 && i <= 32) || i == 37 || i == 39 || i == 42 || i == 45 || i == 46 || i == 48 || i == 49 || (i >= 53 && i <= 55) || i == 57 || i == 61 || i == 62)
         {
             if (i == 4)
             {
@@ -217,8 +217,8 @@ public class ArrivalManager : DialogueBox
                 npcImage.GetComponent<Image>().sprite = npcImages[0]; npcName.GetComponent<TextMeshProUGUI>().text = "?";
                 _secondsToReturn = 2.5f;
             }
-            else if (i == 46 || i == 56) {
-                if (i == 56)
+            else if (i == 46 || i == 57) {
+                if (i == 57)
                 {
                     _secondsToReturn = 1.5f;
                     npcImage.GetComponent<Image>().sprite = npcImages[1];
@@ -264,7 +264,7 @@ public class ArrivalManager : DialogueBox
             if (skipText != null) skipText.SetActive(true);
             if (!_canSkip) _canSkip = true;
         }
-        if(_i != 28 && _i != 51 && _i != 55 && _i != 62) _playercontroller.SetCanMove(true);
+        if(_i != 28 && _i != 51 && _i != 55 && _i != 63) _playercontroller.SetCanMove(true);
     }
 
     public IEnumerator FirstInteractionScene()
@@ -471,6 +471,8 @@ public class ArrivalManager : DialogueBox
 
     private IEnumerator PostBattleArrival()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
         BasicPlayerCutsceneConfig();
         for (int i = 0; i <= 51; i++) dialogue.Add(arrivalDialogue[i]);
 
@@ -496,6 +498,7 @@ public class ArrivalManager : DialogueBox
         StartCoroutine(estella.GoTo(5f, new Vector2(estella.gameObject.transform.localPosition.x, 3.6f), 'y'));
         yield return new WaitForSeconds(3f);
 
+        gameManager = GameManager.Instance;
         gameManager.AnimateTransition(1.5f, false);
         yield return new WaitForSeconds(2f);
         PlayerPrefs.SetString("pastScene", "Floor2");
@@ -532,9 +535,11 @@ public class ArrivalManager : DialogueBox
         _playercontroller?.SetCanMove(true);
         _canSkip = true;
 
+        if (gameManager.instruction == null) Debug.Log("Bongers");
         gameManager.instruction.text = "Confira seu novo objetivo (TAB)";
         gameManager.instruction.gameObject.SetActive(true);
-        gameManager.currentObjective.text = "OBJETIVO: Saia da escola";
+        if (gameManager.currentObjective == null) Debug.Log("Chongers");
+        gameManager.currentObjective.text = "Objetivo: Saia da escola";
         yield return new WaitForSeconds(5f);
         gameManager.instruction.gameObject.SetActive(false);
     }
@@ -545,7 +550,7 @@ public class ArrivalManager : DialogueBox
         gameManager.AnimateTransition(1f, false);
         yield return new WaitForSeconds(1f);
         foreach (String line in arrivalDialogue) dialogue.Add(line);
-        StartCoroutine(StartAutomaticTalk(55));
+        StartCoroutine(StartAutomaticTalk(56));
         estella.gameObject.SetActive(true);
         estella.gameObject.GetComponent<CircleCollider2D>().enabled = false;
         estella.gameObject.transform.localPosition = new Vector2(7.2f, 2f);
@@ -554,7 +559,7 @@ public class ArrivalManager : DialogueBox
         yield return new WaitForSeconds(5f);
         gameManager.AnimateTransition(2f, true);
 
-        while (_i != 57) { yield return null; }
+        while (_i != 58) { yield return null; }
         _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleR");
         yield return new WaitForSeconds(1);
         _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleUp");

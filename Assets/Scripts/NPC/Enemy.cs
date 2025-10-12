@@ -38,11 +38,11 @@ public class Enemy : Subject, IHealthManager
 
     void Update()
     {
-        if(healthAmount == 0 && !_isDead)
+        if(healthAmount <= 0 && !_isDead)
         {
             _isDead = true;
-            Destroy(this.gameObject);
             Notify(EventsEnum.EnemyDead);
+            Destroy(this.gameObject);
         }
     }
 

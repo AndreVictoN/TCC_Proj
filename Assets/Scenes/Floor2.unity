@@ -1879,12 +1879,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92828817}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1268731992}
+  m_Father: {fileID: 574009857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &92828819
 BoxCollider2D:
@@ -2855,6 +2855,7 @@ Transform:
   - {fileID: 1395524295}
   - {fileID: 862871353}
   - {fileID: 1315132677}
+  - {fileID: 574009857}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &394006865
@@ -3423,6 +3424,40 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &574009856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 574009857}
+  m_Layer: 0
+  m_Name: Triggers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &574009857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574009856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1490754551}
+  - {fileID: 92828818}
+  - {fileID: 1371832898}
+  m_Father: {fileID: 388182273}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &591858994
 GameObject:
   m_ObjectHideFlags: 0
@@ -11690,6 +11725,7 @@ MonoBehaviour:
   - "*Durante a aula... voc\xCA fica assustado com o an\xDAncio do professor.*"
   - "Bom, queridos alunos, amanh\xC3 faremos uma din\xC2mica em grupos na nossa aula."
   - "Tentem escolher os participantes at\xC9 l\xC1! Tenham um \xD3timo descan\xC7o."
+  - "Est\xC3o liberados."
   - "*Enquanto espera sua m\xC3e, na sa\xCDda, voc\xCA sente que algu\xC9m est\xC1
     te cutucando.*"
   - "Ei ei, Alex, quer fazer a din\xC2mica em grupo comigo, amanh\xC3?"
@@ -11698,6 +11734,7 @@ MonoBehaviour:
   - C-C-Claro!
   - "Ok! Combinado ent\xC3o."
   - "At\xC9 amanh\xC3!"
+  - "At\xC9!!"
   playerImages:
   - {fileID: -7513653127177280571, guid: 0fd72d7a4e9df804bae42ed17523d83f, type: 3}
   - {fileID: 941068024, guid: 0fd72d7a4e9df804bae42ed17523d83f, type: 3}
@@ -11968,10 +12005,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1490754551}
-  - {fileID: 92828818}
-  - {fileID: 1371832898}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1297955599
@@ -24120,12 +24154,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371832897}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23.66, y: 13.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1268731992}
+  m_Father: {fileID: 574009857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1371832899
 BoxCollider2D:
@@ -31628,12 +31662,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1490754548}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.5733, y: -1.3463, z: 0}
   m_LocalScale: {x: 0.1934, y: 2.4470258, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1268731992}
+  m_Father: {fileID: 574009857}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1528907901 stripped
 Transform:
