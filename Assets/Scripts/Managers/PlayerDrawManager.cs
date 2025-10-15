@@ -92,9 +92,15 @@ public class PlayerDrawManager : MonoBehaviour
                 playerSR.sortingOrder = -1;
             }
         }
-        else if (player.transform.position.x >= 1 && player.transform.position.x <= 8.9f)
+        else if (player.transform.position.x >= 1 && player.transform.position.x <= 8.9f && player.transform.position.y >= 77.42691f && player.transform.position.y <= 86.1f)
         {
             if ((player.transform.position.y >= 85.3f && player.transform.position.y <= 86.1f) || (player.transform.position.y >= 80.36f && player.transform.position.y <= 81.17f))
+            {
+                playerSR.sortingOrder = -1;
+            }else { playerSR.sortingOrder = 1; }
+        }else if(player.transform.position.x >= -4 && player.transform.position.x <= 4.9)
+        {
+            if(player.transform.position.y >= 76.60f && player.transform.position.y <= 77.62f)
             {
                 playerSR.sortingOrder = -1;
             }
