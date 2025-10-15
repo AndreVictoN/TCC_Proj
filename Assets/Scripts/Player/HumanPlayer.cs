@@ -15,8 +15,12 @@ public class HumanPlayer : PlayerController
     protected override void Awake()
     {
         base.Awake();
-
-        animator.runtimeAnimatorController = _noMask;
+    }
+    
+    void Start()
+    {
+        if (PlayerPrefs.GetString("isMasked").Equals("true")) { this._isMasked = true; animator.runtimeAnimatorController = _withMask; }
+        else { this._isMasked = false; animator.runtimeAnimatorController = _noMask; }
     }
 
     void Update()
@@ -33,6 +37,12 @@ public class HumanPlayer : PlayerController
                 {
                     if (_inventorySet) { Notify(EventsEnum.Inventory); }
                 }else{ Notify(EventsEnum.Inventory); }
+            } else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (!_canMove)
+                {
+                    if (_menuSet) { Notify(EventsEnum.Menu); }
+                }else{ Notify(EventsEnum.Menu); }
             }
         }
 

@@ -34,6 +34,7 @@ public class ArrivalManager : DialogueBox
     void Awake()
     {
         if (battleTrigger != null) battleTrigger.SetActive(false);
+        if (SceneManager.GetActiveScene().name.Equals("Floor2") && PlayerPrefs.GetString("currentState").Equals("Start")) { npcs[0].SetActive(true); }
     }
 
     void Start()
@@ -53,6 +54,7 @@ public class ArrivalManager : DialogueBox
 
     public IEnumerator FirstLines()
     {
+        if (_playercontroller == null) _playercontroller = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         _playercontroller.SetCanMove(false);
         _canSkip = true;
         yield return new WaitForSeconds(3f);
@@ -419,6 +421,7 @@ public class ArrivalManager : DialogueBox
     {
         BasicPlayerCutsceneConfig();
         for (int i = 0; i <= 28; i++) dialogue.Add(arrivalDialogue[i]);
+        npcs[0].SetActive(true);
 
         StartCoroutine(StartAutomaticTalk(20));
         yield return new WaitForSeconds(2f);
@@ -535,10 +538,8 @@ public class ArrivalManager : DialogueBox
         _playercontroller?.SetCanMove(true);
         _canSkip = true;
 
-        if (gameManager.instruction == null) Debug.Log("Bongers");
         gameManager.instruction.text = "Confira seu novo objetivo (TAB)";
         gameManager.instruction.gameObject.SetActive(true);
-        if (gameManager.currentObjective == null) Debug.Log("Chongers");
         gameManager.currentObjective.text = "Objetivo: Saia da escola";
         yield return new WaitForSeconds(5f);
         gameManager.instruction.gameObject.SetActive(false);

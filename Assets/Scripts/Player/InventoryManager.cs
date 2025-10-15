@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Core.Singleton;
 
 public class InventoryManager : MonoBehaviour, IObserver
 {
@@ -15,6 +16,7 @@ public class InventoryManager : MonoBehaviour, IObserver
     private GameObject _currentItemImage;
     private GameObject _player;
     private int _lastItemSpriteIndex;
+    private int _itemsAdded;
 
     #region Masks Images
     [SerializeField] private Sprite _alexNoMask;
@@ -23,6 +25,8 @@ public class InventoryManager : MonoBehaviour, IObserver
 
     void Awake()
     {
+        if (PlayerPrefs.GetInt("itemsNumber") == 0) _itemsAdded = 0;
+        
         alexImage.sprite = _alexNoMask;
         if (_player == null) { _player = GameObject.FindGameObjectWithTag("Player"); }
         BasicSettings();
@@ -49,6 +53,38 @@ public class InventoryManager : MonoBehaviour, IObserver
             }
 
             i++;
+        }
+
+        if(PlayerPrefs.GetInt("itemsNumber") > 0)
+        {
+            //Debug.Log("Tem Item");
+            for(int iterator = 0; iterator < PlayerPrefs.GetInt("itemsNumber"); iterator++)
+            {
+                if(!itemsSprites[PlayerPrefs.GetInt("item" + iterator)].name.Equals(PlayerPrefs.GetString("currentItem")))
+                {
+                    bool alreadyInInventory = false;
+
+                    foreach (Image image in itemsImages)
+                    {
+                        if (image.gameObject.activeSelf && image.sprite == itemsSprites[PlayerPrefs.GetInt("item" + iterator)])
+                        {
+                            alreadyInInventory = true;
+                            break;
+                        }
+                    }
+
+                    if (!alreadyInInventory)
+                    {
+                        itemsImages[iterator].gameObject.SetActive(true);
+                        itemsImages[iterator].sprite = itemsSprites[PlayerPrefs.GetInt("item" + iterator)];
+                    }
+                }else
+                {
+                    currentMask.gameObject.SetActive(true);
+                    PlayerPrefs.SetString("isMasked", "true");
+                    currentMask.sprite = itemsSprites[PlayerPrefs.GetInt("item" + iterator)];
+                }
+            }
         }
     }
 
@@ -104,6 +140,7 @@ public class InventoryManager : MonoBehaviour, IObserver
 
             if (_currentItemImage.activeSelf)
             {
+                PlayerPrefs.SetString("currentItem", itemsImages[_selectedSlot - 1].sprite.name);
                 if (!currentMask.gameObject.activeSelf)
                 {
                     currentMask.gameObject.SetActive(true);
@@ -126,6 +163,7 @@ public class InventoryManager : MonoBehaviour, IObserver
 
                 if (_player == null) { _player = GameObject.FindGameObjectWithTag("Player"); }
                 _player?.GetComponent<HumanPlayer>().SetIsMasked(true);
+                PlayerPrefs.SetString("isMasked", "true");
             }
             else
             {
@@ -143,6 +181,8 @@ public class InventoryManager : MonoBehaviour, IObserver
                     }
 
                     currentMask.gameObject.SetActive(false);
+                    PlayerPrefs.SetString("isMasked", "false");
+                    PlayerPrefs.SetString("currentItem", "");
                 }
             }
         }
@@ -156,6 +196,11 @@ public class InventoryManager : MonoBehaviour, IObserver
             {
                 image.gameObject.SetActive(true);
                 image.sprite = itemsSprites[_lastItemSpriteIndex];
+
+                PlayerPrefs.SetInt("item" + _itemsAdded, _lastItemSpriteIndex);
+                _itemsAdded++;
+                PlayerPrefs.SetInt("itemsNumber", _itemsAdded);
+                //Debug.Log(PlayerPrefs.GetInt("itemsNumber"));
                 break;
             }
         }

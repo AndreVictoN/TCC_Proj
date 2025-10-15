@@ -4,13 +4,13 @@ namespace Core.Singleton
 {
     public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     {
-        public static T Instance;
+        public static T Instance { get; private set; }
 
         protected virtual void Awake()
         {
             if(Instance == null)
             {
-                Instance = GetComponent<T>();
+                Instance = this as T;
             }else
             {
                 Destroy(gameObject);

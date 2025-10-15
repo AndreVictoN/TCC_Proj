@@ -76,6 +76,7 @@ public abstract class PlayerController : Subject, IHealthManager
     protected string collisionTag = "collision";
     private float _defaultAnimatorSpeed;
     protected bool _inventorySet;
+    protected bool _menuSet;
     #endregion
 
     protected override void Awake()
@@ -112,6 +113,10 @@ public abstract class PlayerController : Subject, IHealthManager
             }else if (PlayerPrefs.GetString("transitionType").Equals("backTransition"))
             {
                 this.gameObject.transform.localPosition = new Vector2(33.75f, 10.03f);
+            }
+            else
+            {
+                this.gameObject.transform.localPosition = new Vector2(-17.47f, 4.59f);
             }
         }
         else
@@ -289,6 +294,15 @@ public abstract class PlayerController : Subject, IHealthManager
             else if (SceneManager.GetActiveScene().name == classroom)
             {
                 sceneToLoad = testScene;
+                gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
+            }else if(SceneManager.GetActiveScene().name.Equals("Floor2"))
+            {
+                sceneToLoad = "Class";
+                gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
+            }else if(SceneManager.GetActiveScene().name.Equals("Class"))
+            {
+                sceneToLoad = "Floor2";
+                PlayerPrefs.SetString("transitionType", "");
                 gameManager.StartLoadNewScene(sceneToLoad, this.gameObject, collision.gameObject);
             }
             _canMove = false;
@@ -495,6 +509,13 @@ public abstract class PlayerController : Subject, IHealthManager
     public void InventorySet(bool isSet)
     {
         _inventorySet = isSet;
+        if (isSet) _canMove = false;
+        else _canMove = true;
+    }
+
+    public void MenuSet(bool isSet)
+    {
+        _menuSet = isSet;
         if (isSet) _canMove = false;
         else _canMove = true;
     }

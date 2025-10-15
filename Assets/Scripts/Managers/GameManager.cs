@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     public TextMeshProUGUI instruction;
     public GameObject exitGame;
     public GameObject inventory;
+    public GameObject menu;
 
     [Header("Days")]
     public ArrivalManager arrivalManager;
@@ -57,6 +58,12 @@ public class GameManager : Singleton<GameManager>, IObserver
         /*PlayerPrefs.SetString("pastScene", "Menu");
         PlayerPrefs.SetString("currentState", "Start");
         PlayerPrefs.SetString("transitionType", "");*/
+        /*PlayerPrefs.SetString("pastScene", "Menu");
+        PlayerPrefs.SetString("currentState", "StartDayTwo");
+        PlayerPrefs.SetString("transitionType", "");*/
+        /*PlayerPrefs.SetString("isMasked", "false");
+        PlayerPrefs.SetInt("itemsNumber", 0);
+        PlayerPrefs.SetString("currentItem", "");*/
         if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo")) {
             arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
             Destroy(arrivalManager);
@@ -89,11 +96,13 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start") && PlayerPrefs.GetString("pastScene").Equals("Floor2")) SecondClassConfig();
             else if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
+            else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo")) ClassConfig(PlayerPrefs.GetString("currentState"));
         }
         else if (_currentScene.Equals("Floor2"))
         {
-            if (PlayerPrefs.GetString("currentState").Equals("Start")) TransitionConfig();
+            if (PlayerPrefs.GetString("currentState").Equals("Start")) { PlayerPrefs.SetString("isMasked", "false"); TransitionConfig(); }
             else if (PlayerPrefs.GetString("currentState").Equals("FirstLeaving")) SecondFloorConfig(PlayerPrefs.GetString("currentState"));
+            else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo")) SecondFloorConfig(PlayerPrefs.GetString("currentState"));
         }
     }
 
@@ -106,6 +115,9 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     private void ArrivalConfig()
     {
+        PlayerPrefs.SetString("isMasked", "false");
+        PlayerPrefs.SetInt("itemsNumber", 0);
+        PlayerPrefs.SetString("currentItem", "");
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         if (currentDay == null) { currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>(); }
         currentDay.text = "Dia 1";
@@ -113,7 +125,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         AnimateTransition(3f, true);
         if (currentDay != null) AnimateText(currentDay, 3f, true);
         arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
-        arrivalManager.gameObject.SetActive(false);
+        arrivalManager.gameObject.SetActive(true);
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Objective").GetComponent<TextMeshProUGUI>(); }
         if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
         StartCoroutine(arrivalManager.FirstLines());
@@ -121,6 +133,9 @@ public class GameManager : Singleton<GameManager>, IObserver
     
     private void ArrivalSecondDayConfig()
     {
+        PlayerPrefs.SetString("isMasked", "false");
+        PlayerPrefs.SetInt("itemsNumber", 0);
+        PlayerPrefs.SetString("currentItem", "");
         if (!_stopTrigger) _stopTrigger = GameObject.FindGameObjectWithTag("StopTrigger");
         _stopTrigger?.SetActive(false);
         if (!_firstInteractionTrigger) _firstInteractionTrigger = GameObject.FindGameObjectWithTag("FirstInteractionTrigger");
@@ -166,6 +181,20 @@ public class GameManager : Singleton<GameManager>, IObserver
         StartCoroutine(arrivalManager.FirstClass());
     }
 
+    private void ClassConfig(String state)
+    {
+        transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
+        transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
+        AnimateTransition(3f, true);
+        daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
+        daysManager.SetGameManager(this);
+
+        if (state.Equals("StartDayTwo"))
+        {
+            StartCoroutine(daysManager.GroupClass());
+        }
+    }
+
     private void SecondClassConfig()
     {
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
@@ -182,12 +211,23 @@ public class GameManager : Singleton<GameManager>, IObserver
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
         AnimateTransition(3f, true);
-        arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
-        arrivalManager.SetGameManager(this);
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").transform.Find("Objective").GetComponent<TextMeshProUGUI>(); }
         if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
-        
-        if(state.Equals("FirstLeaving")) StartCoroutine(arrivalManager.FirstLeavingConfig());
+
+        if (state.Equals("FirstLeaving"))
+        {
+            PlayerPrefs.SetString("isMasked", "false");
+            PlayerPrefs.SetInt("itemsNumber", 0);
+            PlayerPrefs.SetString("currentItem", "");
+            arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
+            arrivalManager.SetGameManager(this);
+            StartCoroutine(arrivalManager.FirstLeavingConfig());
+        }else if (state.Equals("StartDayTwo"))
+        {
+            daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
+            daysManager.SetGameManager(this);
+            daysManager.SecondArrivalConfig();
+        }
     }
 
     private void PrototypeConfig()
@@ -279,7 +319,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         string identifier = toOtherScene.GetComponentInChildren<Door>().identifier;
 
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
-        if (!sceneName.Equals("Floor2"))
+        if (!sceneName.Equals("Floor2") && !sceneName.Equals("Class"))
         {
             yield return null;
 
@@ -476,7 +516,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     public void OnNotify(EventsEnum evt)
     {
         if (SceneManager.GetActiveScene().name.Equals("BattleScene")) return;
-        
+
         if (evt == EventsEnum.CallPrototypeEzequiel)
         {
             CallEzequiel("PrototypeEzequielTrigger1");
@@ -504,10 +544,12 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
         else if (evt == EventsEnum.ToOutside)
         {
-            if (PlayerPrefs.GetString("currentState").Equals("FirstLeaving")){
+            if (PlayerPrefs.GetString("currentState").Equals("FirstLeaving"))
+            {
                 if (!arrivalManager.gameObject.activeSelf) arrivalManager.gameObject.SetActive(true);
                 StartCoroutine(arrivalManager.ExitFirstDay());
-            }else { StartCoroutine(OutSchool()); }
+            }
+            else { StartCoroutine(OutSchool()); }
         }
         else if (evt == EventsEnum.ExitGame)
         {
@@ -520,6 +562,10 @@ public class GameManager : Singleton<GameManager>, IObserver
         else if (evt == EventsEnum.Inventory)
         {
             Inventory();
+        }
+        else if (evt == EventsEnum.Menu)
+        {
+            Menu();
         }
         else if (evt == EventsEnum.FirstInteraction)
         {
@@ -551,10 +597,28 @@ public class GameManager : Singleton<GameManager>, IObserver
 
             if (inventoryHUD != null && inventoryHUD.activeSelf == false)
             {
-                if(instruction != null && instruction.IsActive()){ instruction.gameObject.SetActive(false); }
+                if (instruction != null && instruction.IsActive()) { instruction.gameObject.SetActive(false); }
                 inventoryHUD.SetActive(true); _playerController.InventorySet(true);
             }
             else if (inventoryHUD != null && inventoryHUD.activeSelf == true) { inventoryHUD.SetActive(false); _playerController.InventorySet(false); }
+        }
+    }
+    
+    private void Menu()
+    {
+        if (menu == null) menu = GameObject.FindGameObjectWithTag("PauseMenu");
+
+        if (menu != null)
+        {
+            if (_playerController == null) _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            GameObject menuHUD = menu.transform.Find("Menu").gameObject;
+
+            if (menuHUD != null && menuHUD.activeSelf == false)
+            {
+                if(instruction != null && instruction.IsActive()){ instruction.gameObject.SetActive(false); }
+                menuHUD.SetActive(true); _playerController.MenuSet(true);
+            }
+            else if (menuHUD != null && menuHUD.activeSelf == true) { menuHUD.SetActive(false); _playerController.MenuSet(false); }
         }
     }
 

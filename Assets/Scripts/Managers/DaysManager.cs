@@ -10,12 +10,15 @@ using UnityEngine.UI;
 public class DaysManager : DialogueBox
 {
     public List<string> secondDayDialogue = new();
+    public List<string> thirdDayDialogue = new();
+    public List<string> fourthDayDialogue = new();
     public List<Sprite> playerImages = new();
     public List<Sprite> npcImages = new();
     public List<GameObject> npcs = new();
     public GameManager gameManager;
-    private PlayerController _playercontroller;
+    private GameObject instance;
 
+    [SerializeField]private PlayerController _playercontroller;
     [SerializeField] private List<GameObject> _toOtherFloors = new();
     [SerializeField] private GameObject battleTrigger;
     [SerializeField] private Door toOtherFloorDoor;
@@ -24,13 +27,27 @@ public class DaysManager : DialogueBox
     [SerializeField] private Door classroomDoor;
     [SerializeField] private Image illustration;
     [SerializeField] private Image playerImage;
-    [SerializeField] private NPC estella;
     [SerializeField] private Image npcImage;
     private float defaultTimeToReturn;
     private string _currentDialogueState;
 
+    private void baseAwakeSingleton()
+    {
+        instance = GameObject.FindGameObjectWithTag("DaysManager");
+
+        if(instance == null)
+        {
+            instance = this.gameObject;
+        }else if (instance != this.gameObject)
+        {
+            Destroy(instance);
+        }
+    }
+
     void Awake()
     {
+        baseAwakeSingleton();
+
         if (battleTrigger != null) battleTrigger.SetActive(false);
     }
 
@@ -50,7 +67,7 @@ public class DaysManager : DialogueBox
     {
         BasicPlayerCutsceneConfig();
         if (_toOtherFloors.Count > 0) foreach (GameObject toOtherFloor in _toOtherFloors) toOtherFloor.SetActive(true);
-        
+
         _playercontroller.SetCanMove(false);
         _canSkip = true;
         _currentDialogueState = "SecondDayDialogue";
@@ -69,12 +86,34 @@ public class DaysManager : DialogueBox
         gameManager.currentObjective.text = "OBJETIVO: VÁ para sua sala.";
         yield return new WaitForSeconds(5f);
         gameManager.instruction.gameObject.SetActive(false);
+    }
 
-        this.gameObject.SetActive(false);
+    public void SecondArrivalConfig()
+    {
+        foreach (GameObject npc in npcs)
+        {
+            if (npc != null && npc.activeSelf) { if (npc.name.Equals("Estella") || npc.name.Equals("Ezequiel")) npc.SetActive(false); }
+        }
+
+        BasicPlayerCutsceneConfig();
+        _playercontroller?.SetCanMove(true);
+        _isAutomatic = false;
+        _canSkip = true;
+
+        gameManager.currentObjective.text = "Objetivo: VÁ para sua sala.";
+    }
+    
+    public IEnumerator GroupClass()
+    {
+        //BasicPlayerCutsceneConfig();
+
+        if (!npcs[0].gameObject.activeSelf) npcs[0].SetActive(true);
+        npcs[0].GetComponent<Animator>().Play("IdleD");
+        yield return null;
     }
 
     protected void StartDialogue()
-    {   
+    {
         if (!dialoguePanel.activeSelf)
         {
             dialogueText.text = "";
@@ -126,7 +165,7 @@ public class DaysManager : DialogueBox
                     playerName.GetComponent<TextMeshProUGUI>().text = "Alex";
                     break;
                 case 1: case 2:
-                    DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal);
+                    DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Normal);
                     break;
             }
         }

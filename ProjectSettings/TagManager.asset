@@ -61,6 +61,8 @@ TagManager:
   - GameManager
   - DaysManager
   - DialoguePanel
+  - ItemImage
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
