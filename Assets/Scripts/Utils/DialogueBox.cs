@@ -80,7 +80,6 @@ public abstract class DialogueBox : MonoBehaviour
         if(_i < dialogue.Count - 1)
         {
             _i++;
-            CheckCharacter(_i);
             dialogueText.text = "";
             StartCoroutine(Typing());
         }else

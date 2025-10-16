@@ -131,7 +131,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1
+      name: M_B1
       rect:
         serializedVersion: 2
         x: 32
@@ -197,7 +197,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MatheusSitting_4
+      name: M_B2
       rect:
         serializedVersion: 2
         x: 0
@@ -307,7 +307,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MatheusSitting_9
+      name: M_B3
       rect:
         serializedVersion: 2
         x: 32
@@ -391,15 +391,15 @@ TextureImporter:
       1: 8006857100659466752
       2: -1475108679
       3: 508939226
-      B1: 6279435821347407456
+      M_B1: 6279435821347407456
+      M_B2: 1098673614
+      M_B3: -1267376842
       MatheusSitting_0: -5397455018668563906
       MatheusSitting_11: 49833709
       MatheusSitting_3: 5517249848116347359
-      MatheusSitting_4: 1098673614
       MatheusSitting_5: -1316631643
       MatheusSitting_7: 409486580
       MatheusSitting_8: -1359124137
-      MatheusSitting_9: -1267376842
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

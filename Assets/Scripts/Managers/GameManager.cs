@@ -65,7 +65,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         /*PlayerPrefs.SetString("isMasked", "false");
         PlayerPrefs.SetInt("itemsNumber", 0);
         PlayerPrefs.SetString("currentItem", "");*/
-        if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo")) {
+        if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass")) {
             arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
             Destroy(arrivalManager);
         }
@@ -97,7 +97,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start") && PlayerPrefs.GetString("pastScene").Equals("Floor2")) SecondClassConfig();
             else if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
-            else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo")) ClassConfig(PlayerPrefs.GetString("currentState"));
+            else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass")) ClassConfig(PlayerPrefs.GetString("currentState"));
         }
         else if (_currentScene.Equals("Floor2"))
         {
@@ -186,14 +186,14 @@ public class GameManager : Singleton<GameManager>, IObserver
     {
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
-        AnimateTransition(3f, true);
         daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
         daysManager.SetGameManager(this);
 
-        if (state.Equals("StartDayTwo"))
+        if (state.Equals("StartDayTwo") || state.Equals("GroupClass"))
         {
+            PlayerPrefs.SetString("currentState", "GroupClass");
             StartCoroutine(daysManager.GroupClass());
-        }
+        }else{AnimateTransition(3f, true);}
     }
 
     private void SecondClassConfig()
@@ -227,7 +227,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
             daysManager.SetGameManager(this);
-            daysManager.SecondArrivalConfig();
+            daysManager.SecondDayFloor2Config();
         }
     }
 

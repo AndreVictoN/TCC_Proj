@@ -220,7 +220,7 @@ public abstract class NPC : DialogueBox, IHealthManager
             }*/
         }
 
-        if (!_isMoving)
+        if (!_isMoving && !PlayerPrefs.GetString("currentState").Equals("GroupClass"))
         {
             if (_player?.gameObject.transform.localPosition.y >= this.gameObject.transform.localPosition.y)
             {

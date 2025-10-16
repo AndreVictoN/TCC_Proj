@@ -131,7 +131,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: B1
+      name: N_B1
       rect:
         serializedVersion: 2
         x: 32
@@ -219,7 +219,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NaliviaSitting_5
+      name: N_B2
       rect:
         serializedVersion: 2
         x: 32
@@ -307,7 +307,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: NaliviaSitting_9
+      name: N_B3
       rect:
         serializedVersion: 2
         x: 32
@@ -391,15 +391,15 @@ TextureImporter:
       1: 6181705661970037796
       2: 985460231
       3: -1973805673
-      B1: 3484546130245586912
+      N_B1: 3484546130245586912
+      N_B2: -1850778739
+      N_B3: -1973977044
       NaliviaSitting_0: 6586277963992950842
       NaliviaSitting_11: 1425486114
       NaliviaSitting_3: -1259463051491100615
       NaliviaSitting_4: 1414210045
-      NaliviaSitting_5: -1850778739
       NaliviaSitting_7: 611723714
       NaliviaSitting_8: 1416009519
-      NaliviaSitting_9: -1973977044
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

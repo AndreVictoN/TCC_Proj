@@ -12532,6 +12532,7 @@ MonoBehaviour:
   instruction: {fileID: 1853289134}
   exitGame: {fileID: 0}
   inventory: {fileID: 1815560600}
+  menu: {fileID: 0}
   arrivalManager: {fileID: 1167176347}
   daysManager: {fileID: 0}
   _prototypeTeacher: {fileID: 0}
@@ -32271,6 +32272,102 @@ MonoBehaviour:
   - "*Refletindo antes do in\xCDcio das aulas, voc\xCA se encontra conturbado...*"
   - "-Ser\xC1 que Estella conseguiu alguma amiga para completar o trio?-"
   - "-Tenho medo de ficarmos sem algu\xC9m...-"
+  - "*E assim, voc\xCA segue rapidamente para sua sala, j\xE1 que n\xE3o queria se
+    atrasar novamente.*"
+  - "*Voc\xCA chegou em sala.*"
+  - "*O professor anuncia ent\xE3o o inicio da din\xC2mica, com isso a sala se enche
+    de vozes.*"
+  - "*Os grupos ao seu redor v\xC3o se formando de forma natural.*"
+  - "*Estella se junta a voc\xCA, e ainda sim, estavam sem um integrante.*"
+  - "*Foi ent\xE3o que ele ouviu passos se aproximando. Lentos, mas decididos.*"
+  - "Posso me juntar a voc\xCAs?"
+  - "*A voz era animada, demonstrando um entusiasmo claro, por\xC9m, quem era essa
+    pessoa?*"
+  - "*Alex congelou. Por\xC9m, Estella responde pela dupla:*"
+  - "Fique \xE0 vontade, est\xC1vamos mesmo precisando de algu\xC9m. "
+  - "Ezequiel puxou uma cadeira e se sentou pr\xF3ximo, mas n\xC3o invadindo demais
+    o espa\xE7o."
+  - "Valeu! Eu vi que voc\xEAs estavam s\xD3s e pensei\u2026 bom, talvez fosse legal
+    trabalharmos juntos."
+  - " -Voc\xCA n\xE3o conseguia olhar diretamente para ele.-"
+  - "*Alex temia pois o garoto era imprevis\xCDvel, al\xC9m de aparentar ser popular,
+    at\xC9 porque Alex o havia visto conversando com outros alunos.*"
+  - "Ezequiel tinha sido gentil, sim, mas aquela gentileza era dif\xCDcil de processar."
+  - "Eu\u2026 acho que\u2026 \u2013 Voc\xCA tentou falar, mas a sua voz saiu como
+    um sussurro."
+  - '*Ezequiel inclinou-se um pouco para frente, com cuidado.*'
+  - "Tudo bem, cara. Sem press\xC3o. A gente pode dividir as partes do trabalho de
+    um jeito que fique confort\xC1vel pra todo mundo."
+  - " *Estella observava a intera\xE7\xC3o com curiosidade.*"
+  - "*Ela n\xE3o conhecia Ezequiel bem, mas pensava que ele era popular \u2013 ou,
+    pelo menos, vis\xCDvel. Diferente deles.*"
+  - "Voc\xEA j\xE1 tem alguma ideia do que fazer? Perguntou ela, quebrando o gelo."
+  - ' *Ezequiel animou-se*'
+  - "Tenho sim! J\xC1 pensei em uns slides com uns efeitos maneiros, e se a gente
+    focar na parte visual\u2026"
+  - "*Alex ouvia, mas suas m\xE3os tremiam sob a mesa. Ele n\xE3o queria decepcionar.
+    N\xE3o queria ser um peso*"
+  - "*Sentiu a sala tomar outro tema, algo escuro se fechando em sua mente, as cores
+    da sala come\xE7ando a se distorcer\u2026*"
+  - ' Alex? *Disse Ezequiel*'
+  - ' *A voz de Ezequiel soou suave, mas firme*'
+  - " *Alex levantou os olhos, por um instante, e viu que Ezequiel n\xE3o estava
+    olhando com pena, nem com irrita\xE7\xE3o.*"
+  - " *Havia uma preocupa\xE7\xE3o genu\xEDna ali.*"
+  - "Eu\u2026 eu posso ficar com a pesquisa *Voc\xCA diz finalmente.*"
+  - ' Gosto de escrever.'
+  - ' *Ezequiel sorriu, dessa vez mais aberto.*'
+  - "Perfeito! Eu cuido da parte t\xC9cnica e dos efeitos. E voc\xCA, Estella?"
+  - ' Eu posso organizar o roteiro e revisar tudo.'
+  - " Combinado ent\xE3o *Disse Ezequiel*"
+  - " *Ezequiel estendeu a m\xC3o no centro da mesa, como um gesto de equipe.*"
+  - " *Em dado momento, o grupo precisou apresentar um tema de interesse comum do
+    grupo e tamb\xE9m os alunos integrantes,*"
+  - " *como uma din\xE2mica de inicia\xE7\xE3o para que os alunos conhecessem melhor
+    uns aos outros.*"
+  - ' *Assim que o professor anuncia que cada grupo deveria se apresentar brevemente,
+    *'
+  - "*uma onda imediata de p\xE2nico percorreu o corpo de Alex. O simples pensamento
+    de todos os olhares voltados para ele fez com que o mundo ao seu redor come\xE7asse
+    a se dissolver.*"
+  - " -\u201CEles est\xE3o todos me olhando\u2026 Eles v\xE3o me julgar\u2026 V\xE3o
+    rir de mim\u2026\u201D-"
+  - ' *Esses pensamentos intrusivos ecoavam em sua mente como sussurros venenosos.
+    *'
+  - " *De repente, Alex n\xE3o estava mais na sala de aula, pelo menos n\xE3o a que
+    estava a alguns momentos atr\xE1s,*"
+  - '*era agora um local distorcido. No lugar dos colegas, criaturas com olhos gigantes
+    e brilhantes os observavam fixamente.*'
+  - " *uma representa\xE7\xE3o direta de seu medo de ser avaliado. *"
+  - " Voc\xEA n\xE3o \xE9 capaz!"
+  - " In\xFAtil\u2026"
+  - ' Esquisito'
+  - ' *E entre outras palavras, essas compunham o ataque do monstro contra nossos
+    protagonistas.*'
+  - " *Nesse momento Alex cria al\xED uma forma de combater esse medo de frente,*"
+  - " *uma maneira eficiente de lidar com essas situa\xE7\xF5es que antes representavam
+    seu maior medo.*"
+  - " *Alex com seus dons art\xEDsticos para criar uma m\xE1scara, algo perfeito
+    para aquele momento, Alex criou a M\xE1scara da Confian\xE7a.*"
+  - " *Alex, ainda tremendo, sentiu uma fa\xEDsca de coragem.*"
+  - "*Ent\xC3o ergueu as m\xC3os e lan\xE7ou seu ataque diretamente contra o monstro,
+    mostrando assim que n\xE3o tinha desistido.*"
+  - "*Ao final da batalha, o monstro se desfez em part\xEDculas de luz.*"
+  - '*Alex piscou e se viu novamente na carteira, com Ezequiel e Estella olhando
+    para ele com sorrisos encorajadores.*'
+  - " Voc\xEA conseguiu, Alex"
+  - " *Estella acenou com a cabe\xE7a, seus olhos transmitindo uma cumplicidade silenciosa.*"
+  - " *A apresenta\xE7\xE3o \xE9 conclu\xEDda, mesmo que com dificuldade, Alex consegue,
+    mais ainda Alex se v\xEA muito feliz,*"
+  - " *pois entende que Ezequiel n\xE3o pretende e nunca pretendeu nada contra ele,
+    o garoto o olhava simplesmente por querer se enturmar tamb\xE9m,*"
+  - ' *isso abriu os olhos de Alex que podia ver um novo futuro para si dentro dessa
+    escola.*'
+  - " *O dia segue at\xE9 seu fim, onde Alex segue para a portaria s\xF3zinho, at\xE9
+    escutar uma voz pedindo-o para que esperasse.*"
+  - ' *Era Ezequiel, que segue junto com o garoto em uma cutscene final.*'
+  - " *O dia segue at\xE9 seu fim, onde Alex segue para a portaria s\xF3zinho, at\xE9
+    escutar uma voz pedindo-o para que esperasse.*"
   thirdDayDialogue: []
   fourthDayDialogue: []
   playerImages: []

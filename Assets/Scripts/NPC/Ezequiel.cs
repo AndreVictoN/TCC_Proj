@@ -16,7 +16,7 @@ public class Ezequiel : NPC
     {
         BasicSettings();
         
-        this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
+        if(!PlayerPrefs.GetString("currentState").Equals("GroupClass")) this.gameObject.GetComponent<CircleCollider2D>().enabled = true;
         if(SceneManager.GetActiveScene().name == "PrototypeScene"){dialogue = prototypeDialogue; _inPrototype = true;}
     }
 
