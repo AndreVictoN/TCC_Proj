@@ -97,7 +97,9 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start") && PlayerPrefs.GetString("pastScene").Equals("Floor2")) SecondClassConfig();
             else if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
-            else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass")) ClassConfig(PlayerPrefs.GetString("currentState"));
+            else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") ||
+            (PlayerPrefs.GetString("currentState").Equals("GroupClass") && !PlayerPrefs.GetString("pastScene").Equals("BattleScene"))) ClassConfig(PlayerPrefs.GetString("currentState"));
+            else if (PlayerPrefs.GetString("currentState").Equals("GroupClass") && PlayerPrefs.GetString("pastScene").Equals("BattleScene")) PostBattleClassConfig();
         }
         else if (_currentScene.Equals("Floor2"))
         {
@@ -193,7 +195,13 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             PlayerPrefs.SetString("currentState", "GroupClass");
             StartCoroutine(daysManager.GroupClass());
-        }else{AnimateTransition(3f, true);}
+        }
+        else { AnimateTransition(3f, true); }
+    }
+    
+    private void PostBattleClassConfig()
+    {
+        
     }
 
     private void SecondClassConfig()
