@@ -13,6 +13,7 @@ public class DaysManager : DialogueBox
     public List<string> secondDayDialogue = new();
     public List<string> thirdDayDialogue = new();
     public List<string> fourthDayDialogue = new();
+    public List<Sprite> cutsceneImages = new();
     public List<Sprite> playerImages = new();
     public List<Sprite> npcImages = new();
     public List<GameObject> npcs = new();
@@ -21,6 +22,7 @@ public class DaysManager : DialogueBox
     public GameObject baseCollisions;
     public GameObject groupGrid;
     public GameObject groupCollisions;
+    public GameObject background;
     private GameObject instance;
 
     [SerializeField]private PlayerController _playercontroller;
@@ -135,7 +137,7 @@ public class DaysManager : DialogueBox
 
         while (!_isClosed) { yield return null; }
         dialogue.Clear();
-        for (int i = 0; i <= 57; i++) dialogue.Add(secondDayDialogue[i]);
+        for (int i = 0; i <= 41; i++) dialogue.Add(secondDayDialogue[i]);
 
         _canSkip = false;
         _isAutomatic = true;
@@ -173,6 +175,37 @@ public class DaysManager : DialogueBox
         while (_i != 33) yield return null;
         ezequielView.GetComponent<CinemachineCamera>().Lens.Dutch = 0f;
         gameManager.AnimateTransition(5f, true);
+
+        while (!_isClosed) yield return null;
+        dialogue.Clear();
+        for (int i = 0; i <= 53; i++) dialogue.Add(secondDayDialogue[i]);
+
+        gameManager.AnimateTransition(1f, false);
+        yield return new WaitForSeconds(2f);
+
+        _canSkip = true;
+        _isAutomatic = false;
+        StartDialogue(42);
+
+        gameManager.AnimateTransition(1f, true);
+
+        while (_i != 45) yield return null;
+        background.GetComponent<Image>().sprite = cutsceneImages[0];
+        background.SetActive(true);
+
+        while (_i != 48) yield return null;
+        background.GetComponent<Animator>().Play("BgTransition");
+        yield return new WaitForSeconds(0.5f);
+        background.GetComponent<Image>().sprite = cutsceneImages[1];
+
+        while (!_isClosed) yield return null;
+        if (!battleTrigger) battleTrigger = GameObject.FindGameObjectWithTag("BattleTrigger");
+        _playercontroller.gameObject.GetComponent<Animator>().Play("TransformUp");
+        PlayerPrefs.SetString("pastScene", "Class");
+        yield return new WaitForSeconds(3f);
+        battleTrigger?.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        Destroy(battleTrigger);
     }
     
     private IEnumerator CameraRoll(float time)
@@ -315,12 +348,14 @@ public class DaysManager : DialogueBox
             if(i == 0) playerName.GetComponent<TextMeshProUGUI>().text = "Alex";
 
             if (i < 4) { DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
-            else if (i >= 4 && i < 8) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
-            else {
+            else if ((i >= 4 && i < 8) || (i >= 42 && i <= 45) || (i >= 47 && i <= 50)) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
+            else if (i >= 51 && i <= 53) { DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Center, FontStyles.Italic); }
+            else
+            {
                 DialoguePanelSettings(1, 0.5f, 1, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
                 if (i == 24) npcImage.sprite = npcImages[7];
                 if (i == 29) playerImage.sprite = playerImages[1];
-                if (i == 32) playerImage.sprite = playerImages[2];
+                if (i == 32) { playerImage.sprite = playerImages[2]; _secondsToReturn = 2f; }
             }
 
             if(i == 8){ DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); _secondsToReturn = 11f; wordSpeed = 0.06f; }
@@ -330,7 +365,8 @@ public class DaysManager : DialogueBox
             DialoguePanelSettings(1f, 0.5f, 1, 1, TextAlignmentOptions.Left, FontStyles.Normal);
             
             if(i == 9 || i == 13 || i == 15 || i == 23 || i == 28 || i == 31 || i == 38 || i == 40){
-                if(i == 9) _secondsToReturn = 2f;
+                if (i == 9) _secondsToReturn = 2f;
+                else if (i == 31) _secondsToReturn = 3f;
                 npcImage.sprite = npcImages[6];
                 npcName.GetComponent<TextMeshProUGUI>().text = "Ezequiel";
             }else if(i == 12 || i == 14 || i == 16 || i == 26 || i == 39 || i == 62)
@@ -343,7 +379,8 @@ public class DaysManager : DialogueBox
         {
             DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Normal);
 
-            if(i == 36) playerImage.sprite = playerImages[0];
+            if (i == 36) playerImage.sprite = playerImages[0];
+            if(i == 46) DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Italic);
         }
     }
 
@@ -380,7 +417,7 @@ public class DaysManager : DialogueBox
             if (skipText != null) skipText.SetActive(true);
             if (!_canSkip) _canSkip = true;
         //}
-        if(_i != 57) _playercontroller.SetCanMove(true);
+        if(_i != 66) _playercontroller.SetCanMove(true);
     }
 
     private void BasicPlayerCutsceneConfig()
@@ -406,7 +443,7 @@ public class DaysManager : DialogueBox
         { 0, 3, 4, 5, 6, 7, 8, 10, 11, 17, 18, 19, 20, 22, 24, 27, 29, 30, 32, 33, 34, 37, 41, 42, 43, 44, 45, 47, 48, 49, 50, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 68, 69 };
 
         _secondDayPlayer = new HashSet<int>
-        { 21, 35, 36, 76 };
+        { 21, 35, 36, 46 };
 
         _secondDayNPC = new HashSet<int>
         { 9, 12, 13, 14, 15, 16, 23, 26, 28, 31, 38, 39, 40, 62 };

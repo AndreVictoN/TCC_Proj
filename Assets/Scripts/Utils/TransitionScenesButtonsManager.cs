@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NextDayButton : MonoBehaviour
+public class TransitionScenesButtonsManager : MonoBehaviour
 {
     public void LoadNextDay()
     {
@@ -10,6 +10,15 @@ public class NextDayButton : MonoBehaviour
             PlayerPrefs.SetString("currentState", "StartDayTwo");
             PlayerPrefs.SetString("pastScene", "Menu");
             SceneManager.LoadScene("Terreo");
+        }
+    }
+
+    public void ReloadBattle()
+    {
+        if (PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            PlayerPrefs.SetString("pastScene", "Class");
+            SceneManager.LoadScene("BattleScene");
         }
     }
 }

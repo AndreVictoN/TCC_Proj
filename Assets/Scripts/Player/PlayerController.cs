@@ -60,6 +60,7 @@ public abstract class PlayerController : Subject, IHealthManager
     [SerializeField] protected int _numAnxiety;
     [SerializeField] protected int _numMaxSanity;
     [SerializeField] protected int _numMaxAnxiety;
+    private int toLoseTurn;
 
     #region Privates
     protected Vector2 _moveDirection;
@@ -171,6 +172,7 @@ public abstract class PlayerController : Subject, IHealthManager
         defaultPosition = new Vector3(-3.7f, 1.3f, 0);
         if (PlayerPrefs.GetString("pastScene").Equals("PrototypeScene")) { myDamage = 5f; }
         else if (PlayerPrefs.GetString("pastScene") == "Floor2" && PlayerPrefs.GetString("currentState").Equals("Start")) { myDamage = 15f; }
+        else if (PlayerPrefs.GetString("pastScene") == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass")) { myDamage = 20f; }
         this.gameObject.transform.position = defaultPosition;
 
         if (sanity == null) sanity = GameObject.FindGameObjectWithTag("AlexSanity").GetComponent<TextMeshProUGUI>();
@@ -178,12 +180,17 @@ public abstract class PlayerController : Subject, IHealthManager
         if (anxiety == null) anxiety = GameObject.FindGameObjectWithTag("AlexAnxiety").GetComponent<TextMeshProUGUI>();
         if (maxAnxiety == null) maxAnxiety = GameObject.FindGameObjectWithTag("AlexMaxAnxiety").GetComponent<TextMeshProUGUI>();
 
+        if(PlayerPrefs.GetString("pastScene") == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        { _numMaxAnxiety = 120; }
+
         maxAnxiety.text = "/" + _numMaxAnxiety.ToString();
         maxSanity.text = "/" + _numMaxSanity.ToString();
         _numAnxiety = _numMaxAnxiety - _numMaxAnxiety + _numMaxAnxiety / 2;
         _numSanity = _numMaxSanity;
         anxiety.text = _numAnxiety.ToString();
         sanity.text = _numSanity.ToString();
+
+        toLoseTurn = 0;
     }
 
     public void AnimateMovement()
@@ -252,6 +259,18 @@ public abstract class PlayerController : Subject, IHealthManager
         _myTurn = false;
         yield return new WaitForSeconds(0.5f);
         playerSplash.gameObject.SetActive(false);
+    }
+
+    public void AddToLoseTurn()
+    {
+        if(toLoseTurn == 0)
+        {
+            toLoseTurn++;
+        }else if(toLoseTurn == 1)
+        {
+            _myTurn = false;
+            toLoseTurn = 0;
+        }
     }
 
     void OnMouseExit()
@@ -532,15 +551,26 @@ public abstract class PlayerController : Subject, IHealthManager
 
         float criticalHitRatio = UnityEngine.Random.value;
 
-        if(criticalHitRatio <= 0.1f){ damage *= 2; }
+        if (criticalHitRatio <= 0.1f) { damage *= 2; }
 
         _numSanity -= (int)Math.Round(damage);
-        if (_numSanity < 0) _numSanity = 0;
+        if (_numSanity < 1) _numSanity = 0;
         sanity.text = _numSanity.ToString();
 
         _numAnxiety += (int)(Math.Round(damage) * 1.5);
-        if (_numAnxiety > 100) _numAnxiety = 100;
+        if (_numAnxiety > _numMaxAnxiety) _numAnxiety = _numMaxAnxiety;
         anxiety.text = _numAnxiety.ToString();
+
+        StartCoroutine(CheckDefeat());
+    }
+    
+    private IEnumerator CheckDefeat()
+    {
+        yield return new WaitForSeconds(1f);
+        if (_numSanity < 1 && _numAnxiety > _numMaxAnxiety - 1) {
+            Subscribe(GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>());
+            Notify(EventsEnum.Lose);
+            }
     }
 
     public void Heal(float healingAmount)

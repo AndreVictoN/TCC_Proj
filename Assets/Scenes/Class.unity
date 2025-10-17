@@ -15245,6 +15245,104 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &368876640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 368876641}
+  - component: {fileID: 368876644}
+  - component: {fileID: 368876643}
+  - component: {fileID: 368876642}
+  m_Layer: 5
+  m_Name: Background
+  m_TagString: TransitionImage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &368876641
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368876640}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 784719359}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &368876642
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368876640}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 86bb7d252e4b75c4abeae9b936e91d99, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &368876643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368876640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: c9b3bf935c5ff9b4ba281ba83b9e836d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &368876644
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 368876640}
+  m_CullTransparentMesh: 1
 --- !u!1 &375880608
 GameObject:
   m_ObjectHideFlags: 0
@@ -16291,6 +16389,84 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4335070979778776018, guid: c24e280079688a344ad91dd711c201bf, type: 3}
   m_PrefabInstance: {fileID: 432766252}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &470281333
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 470281334}
+  - component: {fileID: 470281335}
+  m_Layer: 0
+  m_Name: BattleTrigger
+  m_TagString: BattleTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &470281334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470281333}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.87, y: -8.84, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2002391757}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &470281335
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470281333}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &499918227
 GameObject:
   m_ObjectHideFlags: 0
@@ -22583,6 +22759,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 368876641}
   - {fileID: 955253604}
   - {fileID: 732227925}
   m_Father: {fileID: 0}
@@ -56929,29 +57106,28 @@ MonoBehaviour:
   - '*Ezequiel sorriu, dessa vez mais aberto.*'
   - "Perfeito! Eu cuido da parte t\xC9cnica e dos efeitos. E voc\xCA, Estella?"
   - Eu posso organizar o roteiro e revisar tudo.
-  - "Combinado ent\xE3o *Disse Ezequiel*"
+  - "Combinado ent\xC3o *Disse Ezequiel*"
   - "*Ezequiel estendeu a m\xC3o no centro da mesa, como um gesto de equipe.*"
-  - "*Em dado momento, o grupo precisou apresentar um tema de interesse comum do
-    grupo e tamb\xE9m os alunos integrantes,*"
-  - "*como uma din\xE2mica de inicia\xE7\xE3o para que os alunos conhecessem melhor
-    uns aos outros.*"
-  - '*Assim que o professor anuncia que cada grupo deveria se apresentar brevemente,
+  - "*Seu grupo decidiu fazer uma apresenta\xC7\xC3o sobre jogos, visto que o tema
+    era livre...*"
+  - "*como era uma din\xC2mica de inicia\xC7\xC3o para que os alunos conhecessem
+    melhor uns aos outros.*"
+  - '*Assim que o professor anunciou que cada grupo deveria se apresentar brevemente...
     *'
-  - "*uma onda imediata de p\xE2nico percorreu o corpo de Alex. O simples pensamento
-    de todos os olhares voltados para ele fez com que o mundo ao seu redor come\xE7asse
+  - "*uma onda imediata de p\xC2nico percorreu seu corpo. O simples pensamento de
+    todos os olhares voltados para si fez com que o mundo ao seu redor come\xC7asse
     a se dissolver.*"
-  - "-Eles est\xE3o todos me olhando\u2026 Eles v\xE3o me julgar\u2026 V\xE3o rir
-    de mim\u2026-"
+  - "-Eles est\xC3o todos me olhando... Eles v\xC3o rir de mim...-"
   - '*Esses pensamentos intrusivos ecoavam em sua mente como sussurros venenosos.
     *'
-  - "*De repente, Alex n\xE3o estava mais na sala de aula, pelo menos n\xE3o a que
-    estava a alguns momentos atr\xE1s,*"
+  - "*De repente, voc\xCA n\xC3o estava mais na mesma sala de aula que estava a alguns
+    momentos atr\xC1s...*"
   - '*era agora um local distorcido. No lugar dos colegas, criaturas com olhos gigantes
     e brilhantes os observavam fixamente.*'
-  - "*uma representa\xE7\xE3o direta de seu medo de ser avaliado. *"
-  - "Voc\xEA n\xE3o \xE9 capaz!"
-  - "In\xFAtil\u2026"
-  - Esquisito
+  - "*uma representa\xC7\xC3o direta de seu medo de ser avaliado.*"
+  - "-Voc\xCA n\xC3o \xC9 capaz!-"
+  - "-N\xC3o passa de um peso...-"
+  - "-I n \xDA t i l !-"
   - '*E entre outras palavras, essas compunham o ataque do monstro contra nossos
     protagonistas.*'
   - "*Nesse momento voc\xCA cria al\xCD uma forma de combater esse medo de frente,*"
@@ -56980,6 +57156,9 @@ MonoBehaviour:
     at\xE9 escutar uma voz pedindo-o para que esperasse.*"
   thirdDayDialogue: []
   fourthDayDialogue: []
+  cutsceneImages:
+  - {fileID: 21300000, guid: c9b3bf935c5ff9b4ba281ba83b9e836d, type: 3}
+  - {fileID: 21300000, guid: 6c55e9271a8781141a3b25f4e615832f, type: 3}
   playerImages:
   - {fileID: -7513653127177280571, guid: 0fd72d7a4e9df804bae42ed17523d83f, type: 3}
   - {fileID: 1486897114, guid: 0fd72d7a4e9df804bae42ed17523d83f, type: 3}
@@ -57008,11 +57187,10 @@ MonoBehaviour:
   baseCollisions: {fileID: 1557526744}
   groupGrid: {fileID: 1070211172}
   groupCollisions: {fileID: 375880608}
+  background: {fileID: 368876640}
   _playercontroller: {fileID: 0}
-  _toOtherFloors:
-  - {fileID: 0}
-  - {fileID: 0}
-  battleTrigger: {fileID: 0}
+  _toOtherFloors: []
+  battleTrigger: {fileID: 470281333}
   allClassView: {fileID: 198007725}
   ezequielView: {fileID: 1310805362}
   toOtherFloorDoor: {fileID: 0}
@@ -70498,7 +70676,8 @@ Transform:
   m_LocalPosition: {x: 1.08131, y: 0.76209, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 470281334}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2002391758

@@ -29,6 +29,11 @@ public class Enemy : Subject, IHealthManager
             healthAmount = 100;
             if (PlayerPrefs.GetString("pastScene").Equals("Floor2")) myDamage = 7;
             else myDamage = 10;
+        }else if(PlayerPrefs.GetString("pastScene") == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            healthAmount = 115;
+            if (PlayerPrefs.GetString("pastScene").Equals("Floor2")) myDamage = 7;
+            else myDamage = 10;
         }
         /*for (int i = 0; i < 10; i++)
         {
@@ -55,7 +60,8 @@ public class Enemy : Subject, IHealthManager
     {
         yield return new WaitForSeconds(1f);
         animator.SetTrigger("Attack");
-        yield return new WaitForSeconds(1f);
+        if (PlayerPrefs.GetString("pastScene") == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass")) yield return new WaitForSeconds(0.3f);
+        else { yield return new WaitForSeconds(1f); }
         player.SetAnimationTrigger("Damage");
         player.TakeDamage(myDamage);
         yield return new WaitForSeconds(1f);
@@ -79,7 +85,10 @@ public class Enemy : Subject, IHealthManager
         if(criticalHitRatio <= 0.1f){ damage *= 2; }
 
         healthAmount -= damage;
-        healthBar.fillAmount = healthAmount / 100f;
+        if (PlayerPrefs.GetString("pastScene") == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            healthBar.fillAmount = healthAmount / 115f;
+        }else{ healthBar.fillAmount = healthAmount / 100f; }
     }
 
     public void Heal(float healingAmount)

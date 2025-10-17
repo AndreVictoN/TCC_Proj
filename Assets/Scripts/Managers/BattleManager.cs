@@ -14,8 +14,10 @@ public class BattleManager : Singleton<BattleManager>, IObserver
     public Enemy enemy;
     public Sprite mothSprite;
     public Sprite birdSprite;
+    public Sprite lizardSprite;
     public AnimatorController mothAnimator;
     public AnimatorController birdAnimator;
+    public AnimatorController lizardAnimator;
     public Ezequiel ezequiel;
     public Estella estella;
     public PlayerController player;
@@ -24,6 +26,7 @@ public class BattleManager : Singleton<BattleManager>, IObserver
     public Cards cardEstella;
     public TextMeshProUGUI battleText;
     public GameObject textBox;
+    public GameObject estellaHealing;
     public float wordSpeed = 0.06f;
     public Image transitionImage;
 
@@ -54,7 +57,7 @@ public class BattleManager : Singleton<BattleManager>, IObserver
         player.SetMyTurn(true);
 
         if(_pastScene == "PrototypeScene"){PrototypeBattleSetup();}
-        if(_pastScene == "Floor2" && PlayerPrefs.GetString("currentState").Equals("Start")){BattleSetup(_pastScene);}
+        else {BattleSetup(_pastScene);}
     }
 
     void Update()
@@ -105,8 +108,9 @@ public class BattleManager : Singleton<BattleManager>, IObserver
         }
     }
 
-    public void ShowAttackkWarning()
+    public void ShowAttackWarning()
     {
+        if(player.GetAnxiety() < 110f){ player.SetCanAttack(true); }
         if(player.GetCanAttack()) return;
 
         if(_currentTextCoroutine != null && _currentTextCoroutine != _ezequielCoroutine)
@@ -124,7 +128,7 @@ public class BattleManager : Singleton<BattleManager>, IObserver
         if(actionType == "action")
         {
             battleText.text = "VocÊ nÃo pode fazer isso agora";
-        }else { battleText.text = "Alex estÁ muito mal para isso"; }
+        }else { battleText.text = "VocÊ estÁ muito mal para isso"; }
         textBox.SetActive(true);
         textBox.GetComponent<Animator>().Play("warningText");
         yield return new WaitForSeconds(3f);
@@ -141,7 +145,15 @@ public class BattleManager : Singleton<BattleManager>, IObserver
             enemy.gameObject.GetComponent<SpriteRenderer>().sprite = birdSprite;
             enemy.gameObject.transform.localPosition = new Vector2(enemy.gameObject.transform.localPosition.x, 1f);
             enemy.gameObject.transform.localScale = new Vector2(1.6f, 1.6f);
-            _enemyName.text = "Panibird";
+            _enemyName.text = "Feabird";
+            _setupMade = true;
+        }else if(pastScene.Equals("Class") && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            enemy.gameObject.GetComponent<Animator>().runtimeAnimatorController = lizardAnimator;
+            enemy.gameObject.GetComponent<SpriteRenderer>().sprite = lizardSprite;
+            enemy.gameObject.transform.localPosition = new Vector2(enemy.gameObject.transform.localPosition.x, 1.15f);
+            enemy.gameObject.transform.localScale = new Vector2(1.6f, 1.6f);
+            _enemyName.text = "Judgzy";
             _setupMade = true;
         }
 
@@ -153,15 +165,32 @@ public class BattleManager : Singleton<BattleManager>, IObserver
     {
         if (!_setupMade && _pastScene != null) BattleSetup(_pastScene);
 
-        if(player.GetAnxiety() >= 95 && !_estellaInScene)
+        if (_pastScene.Equals("Floor2") && PlayerPrefs.GetString("currentState").Equals("Start")){
+            if (player.GetAnxiety() >= 95 && !_estellaInScene)
+            {
+                estella.gameObject.SetActive(true);
+                cardEstella.gameObject.SetActive(true);
+
+                _estellaInScene = true;
+
+                _estellaCoroutine = StartCoroutine(SomeoneShowsUp());
+                _currentTextCoroutine = _estellaCoroutine;
+            }
+        } else if(_pastScene.Equals("Class") && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
         {
-            estella.gameObject.SetActive(true);
-            cardEstella.gameObject.SetActive(true);
+            if (player.GetAnxiety() >= 100 && !_estellaInScene && !_ezequielInScene)
+            {
+                estella.gameObject.SetActive(true);
+                ezequiel.gameObject.SetActive(true);
+                cardEstella.gameObject.SetActive(true);
+                cardEzequiel.gameObject.SetActive(true);
+                estellaHealing.SetActive(true);
 
-            _estellaInScene = true;
+                _estellaInScene = true;
+                _ezequielInScene = true;
 
-            _estellaCoroutine = StartCoroutine(SomeoneShowsUp());
-            _currentTextCoroutine = _estellaCoroutine;
+                _currentTextCoroutine = StartCoroutine(SomeoneShowsUp());
+            }
         }
     }
 
@@ -263,30 +292,80 @@ public class BattleManager : Singleton<BattleManager>, IObserver
         _enemyName.gameObject.SetActive(false);
 
         if (_pastScene == "PrototypeScene") { StartCoroutine(PrototypeWin()); }
-        else{ StartCoroutine(Win()); }
+        else { StartCoroutine(Win()); }
     }
-    
+
+    private void LoseSettings()
+    {
+        cards.AddRange(GameObject.FindGameObjectsWithTag("Card"));
+        cards.ForEach(card => card.SetActive(false));
+        enemy.gameObject.SetActive(false);
+
+        if (_pastScene == "Class") { StartCoroutine(Lose()); }
+    }
+
     private IEnumerator Win()
+    {
+        if(_pastScene == "Floor2" && PlayerPrefs.GetString("currentState").Equals("Start"))
+        {
+            yield return new WaitForSeconds(0.3f);
+            textBox.SetActive(true);
+            battleText.text = "";
+
+            _stringToType = "\"O-O que foi isso...?\"";
+            if (_currentTextCoroutine != null) StopCoroutine(_currentTextCoroutine);
+            StartCoroutine(Typing());
+            yield return new WaitForSeconds(1f);
+
+            transitionImage.gameObject.SetActive(true);
+            StartCoroutine(FadeTransition(transitionImage.color, new Color(0, 0, 0, 1), 1));
+            PlayerPrefs.SetString("pastScene", "BattleScene");
+            yield return new WaitForSeconds(1f);
+
+            //Destroy(player);
+            player.GetComponent<Animator>().StopPlayback();
+            //cards.ForEach(card => card.GetComponent<Animator>().StopPlayback());
+            DOTween.KillAll();
+            SceneManager.LoadScene("Floor2");
+        }else if (_pastScene == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            yield return new WaitForSeconds(0.3f);
+            textBox.SetActive(true);
+            battleText.text = "";
+
+            _stringToType = "\"Eu... tive uma ideia...\"";
+            if (_currentTextCoroutine != null) StopCoroutine(_currentTextCoroutine);
+            StartCoroutine(Typing());
+            yield return new WaitForSeconds(1f);
+
+            transitionImage.gameObject.SetActive(true);
+            StartCoroutine(FadeTransition(transitionImage.color, new Color(0, 0, 0, 1), 1));
+            PlayerPrefs.SetString("pastScene", "BattleScene");
+            yield return new WaitForSeconds(1f);
+
+            //Destroy(player);
+            player.GetComponent<Animator>().StopPlayback();
+            //cards.ForEach(card => card.GetComponent<Animator>().StopPlayback());
+            DOTween.KillAll();
+            SceneManager.LoadScene("Class");
+        }
+    }
+
+    private IEnumerator Lose()
     {
         yield return new WaitForSeconds(0.3f);
         textBox.SetActive(true);
         battleText.text = "";
 
-        _stringToType = "\"O-O que foi isso...?\"";
-        if(_currentTextCoroutine != null) StopCoroutine(_currentTextCoroutine);
-        StartCoroutine(Typing());
-        yield return new WaitForSeconds(1f);
-
         transitionImage.gameObject.SetActive(true);
-        StartCoroutine(FadeTransition(transitionImage.color, new Color(0,0,0,1), 1));
-        PlayerPrefs.SetString("pastScene", "BattleScene");
+        StartCoroutine(FadeTransition(transitionImage.color, new Color(0, 0, 0, 1), 1));
         yield return new WaitForSeconds(1f);
 
         //Destroy(player);
         player.GetComponent<Animator>().StopPlayback();
         //cards.ForEach(card => card.GetComponent<Animator>().StopPlayback());
         DOTween.KillAll();
-        SceneManager.LoadScene("Floor2");
+        SceneManager.LoadScene("DefeatScene");
     }
 
     private IEnumerator PrototypeWin()
@@ -332,6 +411,9 @@ public class BattleManager : Singleton<BattleManager>, IObserver
         if(evt == EventsEnum.EnemyDead)
         {
             WinSettings();
+        }else if(evt == EventsEnum.Lose)
+        {
+            LoseSettings();
         }
     }
 

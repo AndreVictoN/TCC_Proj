@@ -583,7 +583,8 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
         else if (evt == EventsEnum.Battle)
         {
-            StartCoroutine(LoadBattleScene("Floor2"));
+            if (PlayerPrefs.GetString("currentState").Equals("Start")) StartCoroutine(LoadBattleScene("Floor2"));
+            else if (PlayerPrefs.GetString("currentState").Equals("GroupClass")) StartCoroutine(LoadBattleScene("Class"));
         }
     }
 
@@ -886,7 +887,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (_stopTrigger != null) Destroy(_stopTrigger);
             if (_battleTrigger != null) Destroy(_battleTrigger);
-            exitGame.SetActive(true);
+            if(exitGame != null) exitGame.SetActive(true);
         }
         SceneManager.LoadScene("BattleScene", LoadSceneMode.Single);
     }

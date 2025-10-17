@@ -259,9 +259,16 @@ public abstract class NPC : DialogueBox, IHealthManager
 
     public void AnimateAttack()
     {
-        if (!_isBattling) return;
+        if (!_isBattling || (_isBattling && !GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetMyTurn())) return;
 
         StartCoroutine(AttackActions());
+    }
+
+    public void AnimateHealing()
+    {
+        if (!_isBattling || (_isBattling && !GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().GetMyTurn())) return;
+
+        StartCoroutine(HealingActions());
     }
 
     private IEnumerator AttackActions()
@@ -269,7 +276,32 @@ public abstract class NPC : DialogueBox, IHealthManager
         yield return new WaitForSeconds(0.3f);
         battleAnimator.SetTrigger("Attack");
         yield return new WaitForSeconds(0.2f);
-        battleManager.DamageEnemy(enemy.GetComponent<Enemy>().GetHealth());
+
+        if (PlayerPrefs.GetString("pastScene").Equals("PrototypeScene") || (PlayerPrefs.GetString("pastScene").Equals("Floor2") && PlayerPrefs.GetString("currentState").Equals("Start")))
+        {
+            battleManager.DamageEnemy(enemy.GetComponent<Enemy>().GetHealth());
+        }
+        else
+        {
+            if (this.gameObject.name.Equals("Ezequiel")) battleManager.DamageEnemy(20);
+            else if (this.gameObject.name.Equals("Estella")) battleManager.DamageEnemy(10);
+        }
+
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().AddToLoseTurn();
+    }
+    
+    private IEnumerator HealingActions()
+    {
+        yield return new WaitForSeconds(0.3f);
+        /*battleAnimator.SetTrigger("Attack");
+        yield return new WaitForSeconds(0.2f);*/
+
+        if (PlayerPrefs.GetString("pastScene").Equals("Class") && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            if (this.gameObject.name.Equals("Estella")) GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().Heal(15f);
+        }
+        
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().AddToLoseTurn();
     }
 
     public virtual void RecieveTrigger(GameObject player, string trigger) { }

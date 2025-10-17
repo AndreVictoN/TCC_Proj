@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 45de21d811d41714ca7e15ad0ecec8b4
+guid: c9b3bf935c5ff9b4ba281ba83b9e836d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -9008213828966234399
-    second: enemy-screaming_harpy_0
+      213: -6668826529969693957
+    second: cut6_classgroups_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -100,45 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: enemy-screaming_harpy_0
+      name: cut6_classgroups_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 96
-        height: 96
+        width: 480
+        height: 270
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1e6c4b700456cf280800000000000000
-      internalID: -9008213828966234399
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: enemy-screaming_harpy_1
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 96
-        height: 96
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8b727cb0ed25579418e3806bb70dfd49
-      internalID: -1475899912
+      spriteID: bfa947c9a919373a0800000000000000
+      internalID: -6668826529969693957
       vertices: []
       indices: 
       edges: []
@@ -155,12 +133,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":96.0,"y":96.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      enemy-screaming_harpy_0: -9008213828966234399
-      enemy-screaming_harpy_1: -1475899912
+      cut6_classgroups_0: -6668826529969693957
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

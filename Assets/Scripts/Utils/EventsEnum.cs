@@ -17,5 +17,6 @@ public enum EventsEnum
     FirstInteraction,
     FirstConflict,
     Battle,
-    Menu
+    Menu,
+    Lose
 }
