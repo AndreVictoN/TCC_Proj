@@ -106,6 +106,7 @@ public class GameManager : Singleton<GameManager>, IObserver
             if (PlayerPrefs.GetString("currentState").Equals("Start")) { PlayerPrefs.SetString("isMasked", "false"); TransitionConfig(); }
             else if (PlayerPrefs.GetString("currentState").Equals("FirstLeaving")) SecondFloorConfig(PlayerPrefs.GetString("currentState"));
             else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo")) SecondFloorConfig(PlayerPrefs.GetString("currentState"));
+            else if (PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay")) SecondFloorConfig(PlayerPrefs.GetString("currentState"));
         }
     }
 
@@ -236,7 +237,7 @@ public class GameManager : Singleton<GameManager>, IObserver
             arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
             arrivalManager.SetGameManager(this);
             StartCoroutine(arrivalManager.FirstLeavingConfig());
-        }else if (state.Equals("StartDayTwo"))
+        }else if (state.Equals("StartDayTwo") || state.Equals("LeavingSecondDay"))
         {
             daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
             daysManager.SetGameManager(this);

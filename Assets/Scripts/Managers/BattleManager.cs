@@ -81,13 +81,16 @@ public class BattleManager : Singleton<BattleManager>, IObserver
     {
         textBox.SetActive(true);
         textBox.GetComponent<Animator>().Play("battleText");
-        _stringToType = "AlguÉm se juntou A vocÊ";
+
+        if (!PlayerPrefs.GetString("currentState").Equals("GroupClass")) _stringToType = "AlguÉm se juntou A vocÊ";
+        else { _stringToType = "VocÊ se lembra de que nÃo estÁ sozinho..."; }
+
         StartCoroutine(Typing());
         
         player.SetCanAct(false);
         player.SetCanAttack(false);
 
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(10f);
         textBox.SetActive(false);
 
         _currentTextCoroutine = null;

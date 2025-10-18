@@ -221,4 +221,35 @@ public class InventoryManager : MonoBehaviour, IObserver
             _lastItemSpriteIndex = itemsSprites.IndexOf(itemSprite);
         }
     }
+
+    public void SetItem(Sprite itemSprite)
+    {
+        _currentItemImage = this.gameObject.transform.Find("Slots").Find("Slot").Find("ItemImage").gameObject;
+        _currentItemImage.SetActive(true);
+        _currentItemImage.GetComponent<Image>().sprite = itemSprite;
+
+        if (_currentItemImage.activeSelf)
+        {
+            PlayerPrefs.SetString("currentItem", itemSprite.name);
+            if (!currentMask.gameObject.activeSelf)
+            {
+                currentMask.gameObject.SetActive(true);
+                currentMask.sprite = _currentItemImage.GetComponent<Image>().sprite;
+
+                _currentItemImage.SetActive(false);
+            }
+
+            for (int i = 0; i < itemsSprites.Count; i++)
+            {
+                if (currentMask.sprite == itemsSprites[i])
+                {
+                    alexImage.sprite = _alexMasks[i];
+                }
+            }
+
+            if (_player == null) { _player = GameObject.FindGameObjectWithTag("Player"); }
+            _player?.GetComponent<HumanPlayer>().SetIsMasked(true);
+            PlayerPrefs.SetString("isMasked", "true");
+        }
+    }
 }

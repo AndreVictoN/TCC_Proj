@@ -32370,21 +32370,31 @@ MonoBehaviour:
     escutar uma voz pedindo-o para que esperasse.*"
   thirdDayDialogue: []
   fourthDayDialogue: []
+  cutsceneImages: []
   playerImages: []
   npcImages: []
   npcs:
   - {fileID: 6089518222379318621}
   - {fileID: 652817622}
   gameManager: {fileID: 0}
+  baseGrid: {fileID: 0}
+  baseCollisions: {fileID: 0}
+  groupGrid: {fileID: 0}
+  groupCollisions: {fileID: 0}
+  background: {fileID: 0}
+  inventoryManager: {fileID: 0}
   _playercontroller: {fileID: 0}
   _toOtherFloors:
   - {fileID: 1589269592}
   - {fileID: 218740214}
   battleTrigger: {fileID: 0}
+  allClassView: {fileID: 0}
+  ezequielView: {fileID: 0}
+  maskedUpSprite: {fileID: 0}
   toOtherFloorDoor: {fileID: 0}
   playerName: {fileID: 0}
   npcName: {fileID: 0}
-  classroomDoor: {fileID: 0}
+  classroomDoor: {fileID: 296099817}
   illustration: {fileID: 0}
   playerImage: {fileID: 0}
   npcImage: {fileID: 0}

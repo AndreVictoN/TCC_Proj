@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Cinemachine;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Splines.ExtrusionShapes;
@@ -25,11 +26,13 @@ public class DaysManager : DialogueBox
     public GameObject background;
     private GameObject instance;
 
-    [SerializeField]private PlayerController _playercontroller;
+    [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private PlayerController _playercontroller;
     [SerializeField] private List<GameObject> _toOtherFloors = new();
     [SerializeField] private GameObject battleTrigger;
     [SerializeField] private GameObject allClassView;
     [SerializeField] private GameObject ezequielView;
+    [SerializeField] private Sprite maskedUpSprite;
     [SerializeField] private Door toOtherFloorDoor;
     [SerializeField] private GameObject playerName;
     [SerializeField] private GameObject npcName;
@@ -46,6 +49,10 @@ public class DaysManager : DialogueBox
 
     private void baseAwakeSingleton()
     {
+        /*PlayerPrefs.SetString("currentItem", "");
+        PlayerPrefs.SetString("currentState", "GroupClass");
+        PlayerPrefs.SetString("pastScene", "BattleScene");*/
+
         instance = GameObject.FindGameObjectWithTag("DaysManager");
 
         if(instance == null)
@@ -116,7 +123,14 @@ public class DaysManager : DialogueBox
         _isAutomatic = false;
         _canSkip = true;
 
-        gameManager.currentObjective.text = "Objetivo: VÁ para sua sala.";
+        if (!PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay")) gameManager.currentObjective.text = "Objetivo: VÁ para sua sala.";
+        else gameManager.currentObjective.text = "Saia da escola";
+
+        if(PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay"))
+        {
+            PlayerPrefs.SetString("pastScene", "Class");
+            Physics2D.IgnoreCollision(_playercontroller.gameObject.GetComponent<BoxCollider2D>(), classroomDoor.gameObject.GetComponent<CapsuleCollider2D>(), true);
+        }
     }
 
     public IEnumerator PostBattleClass()
@@ -125,7 +139,7 @@ public class DaysManager : DialogueBox
         GroupClassSettings();
         _currentDialogueState = "SecondDayDialogue";
         dialogue.Clear();
-        for (int i = 0; i <= 69; i++) dialogue.Add(secondDayDialogue[i]);
+        for (int i = 0; i <= 63; i++) dialogue.Add(secondDayDialogue[i]);
 
         yield return null;
 
@@ -133,8 +147,49 @@ public class DaysManager : DialogueBox
         _isAutomatic = false;
         StartDialogue(54);
 
-        /*while (!_isClosed) { yield return null; }
-        _playercontroller.SetCanMove(true); */
+        while (_i != 58) yield return null;
+        gameManager.AnimateTransition(3f, true);
+        yield return new WaitForSeconds(3f);
+
+        while (!_isClosed) yield return null;
+        ChangeTalkMethod(65, 64, true);
+        gameManager.AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1f);
+        npcs[7].GetComponent<Animator>().Play("Idle_D");
+        npcs[8].GetComponent<Animator>().Play("H_IdleD");
+        yield return new WaitForSeconds(4f);
+        gameManager.AnimateTransition(3f, true);
+        yield return new WaitForSeconds(3f);
+
+        while (!_isClosed) { yield return null; }
+        ChangeTalkMethod(67, 66, false);
+
+        while (_i != 67) { yield return null; }
+        gameManager.AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1f);
+        EndGroupClassSettings();
+        while(!_isClosed) { yield return null; }
+        gameManager.AnimateTransition(1f, true);
+        _playercontroller.SetCanMove(true);
+    }
+
+    private void ChangeTalkMethod(int sizeToAdd, int startTalkAt, bool isAutomatic)
+    {
+        dialogue.Clear();
+        for (int i = 0; i <= sizeToAdd; i++) dialogue.Add(secondDayDialogue[i]);
+
+        if (isAutomatic)
+        {
+            _canSkip = false;
+            _isAutomatic = true;
+            StartCoroutine(StartAutomaticTalk(startTalkAt));
+        }
+        else
+        {
+            _canSkip = true;
+            _isAutomatic = false;
+            StartDialogue(startTalkAt);
+        }
     }
 
     public IEnumerator GroupClass()
@@ -154,12 +209,7 @@ public class DaysManager : DialogueBox
         StartDialogue(4);
 
         while (!_isClosed) { yield return null; }
-        dialogue.Clear();
-        for (int i = 0; i <= 41; i++) dialogue.Add(secondDayDialogue[i]);
-
-        _canSkip = false;
-        _isAutomatic = true;
-        StartCoroutine(StartAutomaticTalk(8));
+        ChangeTalkMethod(41, 8, true);
         gameManager.AnimateTransition(1f, true);
 
         npcs[8].GetComponent<Animator>().Play("H_WalkingR");
@@ -196,14 +246,10 @@ public class DaysManager : DialogueBox
 
         while (!_isClosed) yield return null;
         dialogue.Clear();
-        for (int i = 0; i <= 53; i++) dialogue.Add(secondDayDialogue[i]);
-
         gameManager.AnimateTransition(1f, false);
         yield return new WaitForSeconds(2f);
-
-        _canSkip = true;
-        _isAutomatic = false;
-        StartDialogue(42);
+        
+        ChangeTalkMethod(53, 42, false);
 
         gameManager.AnimateTransition(1f, true);
 
@@ -286,21 +332,45 @@ public class DaysManager : DialogueBox
             _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleUp");
 
             allClassView.SetActive(true);
-        }else
+        }
+        else
         {
             npcs[0].SetActive(false);
             npcs[7].GetComponent<SpriteRenderer>().sortingOrder = 1;
             npcs[7].transform.localPosition = new Vector2(1.63f, 7.02f);
-            npcs[7].GetComponent<Animator>().Play("Idle_D");
+            npcs[7].GetComponent<Animator>().Play("Idle_L");
 
-            npcs[8].GetComponent<SpriteRenderer>().sortingOrder = 1;
+            npcs[8].GetComponent<SpriteRenderer>().sortingOrder = -1;
             //npcs[8].transform.localPosition = new Vector2(6, -5.62f);
             npcs[8].transform.localPosition = new Vector2(-2.16f, 7.02f);
-            npcs[8].GetComponent<Animator>().Play("H_IdleD");
+            npcs[8].GetComponent<Animator>().Play("H_IdleR");
 
             _playercontroller.gameObject.transform.localPosition = new Vector2(0, 7.27f);
             _playercontroller.gameObject.GetComponent<Animator>().Play("H_Idle");
+            if (inventoryManager == null) inventoryManager = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").gameObject.GetComponent<InventoryManager>();
+            inventoryManager.LastItemRecieved(playerImages[3]);
+            _playercontroller.NotifyFromItem(EventsEnum.NewItem);
+            inventoryManager.SetItem(playerImages[3]);
         }
+    }
+    
+    private void EndGroupClassSettings()
+    {
+        PlayerPrefs.SetString("currentState", "LeavingSecondDay");
+        PlayerPrefs.SetString("pastScene", "Class");
+        baseGrid.SetActive(true);
+        groupGrid.SetActive(false);
+        baseCollisions.SetActive(true);
+        groupCollisions.SetActive(false);
+
+        foreach (GameObject go in npcs)
+        {
+            go.SetActive(false);
+        }
+
+        _playercontroller.gameObject.transform.localPosition = new Vector2(5.9964f, -8.550989f);
+        _playercontroller.gameObject.GetComponent<Animator>().SetFloat("LastVertical", 1);
+        _playercontroller.gameObject.GetComponent<SpriteRenderer>().sprite = maskedUpSprite;
     }
     
     private void SetNpcParts(int npcIndex)
@@ -383,14 +453,17 @@ public class DaysManager : DialogueBox
             if(i == 0) playerName.GetComponent<TextMeshProUGUI>().text = "Alex";
 
             if (i < 4) { DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
-            else if ((i >= 4 && i < 8) || (i >= 42 && i <= 45) || (i >= 47 && i <= 50)|| (i >= 54 && i <= 61)) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
+            else if ((i >= 4 && i < 8) || (i >= 42 && i <= 45) || (i >= 47 && i <= 50) || (i >= 54 && i <= 61) || (i >= 63 && i <= 67)) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
             else if (i >= 51 && i <= 53) { DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Center, FontStyles.Italic); }
             else
             {
                 DialoguePanelSettings(1, 0.5f, 1, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
-                if (i == 24) npcImage.sprite = npcImages[7];
-                if (i == 29) playerImage.sprite = playerImages[1];
-                if (i == 32) { playerImage.sprite = playerImages[2]; _secondsToReturn = 2f; }
+                if (i == 24) { npcImage.sprite = npcImages[7]; }
+                else if (i == 29) { playerImage.sprite = playerImages[1]; }
+                else if (i == 32) { playerImage.sprite = playerImages[2]; _secondsToReturn = 2f; }
+                else if (i == 63) { _secondsToReturn = 4f; }
+                else if (i == 64) { _secondsToReturn = 7f; wordSpeed = 0.09f; }
+                else if (i == 65) { _secondsToReturn = 2f; }
             }
 
             if(i == 8){ DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); _secondsToReturn = 11f; wordSpeed = 0.06f; }
@@ -452,7 +525,7 @@ public class DaysManager : DialogueBox
             if (skipText != null) skipText.SetActive(true);
             if (!_canSkip) _canSkip = true;
         //}
-        if(_i != 66) _playercontroller.SetCanMove(true);
+        if(_i != 41 && _i != 65 && _i == 67) _playercontroller.SetCanMove(true);
     }
 
     private void BasicPlayerCutsceneConfig()

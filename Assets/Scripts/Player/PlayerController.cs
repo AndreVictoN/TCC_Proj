@@ -82,6 +82,8 @@ public abstract class PlayerController : Subject, IHealthManager
 
     protected override void Awake()
     {
+        PlayerPrefs.SetString("pastScene", "Class");
+        PlayerPrefs.SetString("currentState", "LeavingSecondDay");
         gameManager = GameObject.FindFirstObjectByType<GameManager>();
         Subscribe(gameManager);
 
@@ -102,7 +104,8 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             this.gameObject.transform.localPosition = new Vector2(4.54f, 8.05f);
         }
-        else if (SceneManager.GetActiveScene().name == "Floor2" && (PlayerPrefs.GetString("currentState").Equals("Start") || PlayerPrefs.GetString("currentState").Equals("FirstLeaving")))
+        else if (SceneManager.GetActiveScene().name == "Floor2" && (PlayerPrefs.GetString("currentState").Equals("Start") 
+        || PlayerPrefs.GetString("currentState").Equals("FirstLeaving") || PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay")))
         {
             if (!PlayerPrefs.GetString("pastScene").Equals("BattleScene")) this.gameObject.transform.localPosition = new Vector2(-17.47f, 4.59f);
             else this.gameObject.transform.localPosition = new Vector2(23.46f, 14.32541f);
