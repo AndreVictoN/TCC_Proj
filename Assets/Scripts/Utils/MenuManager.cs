@@ -39,7 +39,13 @@ public class MenuManager : MonoBehaviour
         StartCoroutine(FadeTransition(transitionImage.color, newColor, 0.5f));
 
         yield return new WaitForSeconds(0.5f);
+
+        PlayerPrefs.SetInt("itemsNumber", 0);
+        PlayerPrefs.SetFloat("Volume", 100f);
+        PlayerPrefs.SetString("isMasked", "false");
+        PlayerPrefs.SetString("currentItem", "");
         PlayerPrefs.SetString("pastScene", "Menu");
+        PlayerPrefs.SetString("transitionType", "");
         PlayerPrefs.SetString("currentState", "Start");
         SceneManager.LoadScene("Cutscene");
     }

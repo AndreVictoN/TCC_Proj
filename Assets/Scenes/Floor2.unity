@@ -12493,7 +12493,7 @@ GameObject:
   - component: {fileID: 1268731990}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12542,6 +12542,7 @@ MonoBehaviour:
   _ezequielTrigger: {fileID: 0}
   _firstInteractionTrigger: {fileID: 0}
   _stopTrigger: {fileID: 1490754548}
+  _ezequielCallingTrigger: {fileID: 0}
   stopDialogue: "Eu... acho que eu deveria tentar encontrar uma informa\xC7\xC3o
     de onde s\xC3o as salas."
   dialoguePanel: {fileID: 1931031556}
@@ -32274,100 +32275,97 @@ MonoBehaviour:
   - "-Tenho medo de ficarmos sem algu\xC9m...-"
   - "*E assim, voc\xCA segue rapidamente para sua sala, j\xE1 que n\xE3o queria se
     atrasar novamente.*"
-  - "*Voc\xCA chegou em sala.*"
-  - "*O professor anuncia ent\xE3o o inicio da din\xC2mica, com isso a sala se enche
-    de vozes.*"
+  - "*Voc\xCA finalmente chega em sala.*"
+  - "*O professor anuncia, ent\xC3o, o in\xCDcio da din\xC2mica. Com isso, a sala
+    se enche de vozes.*"
   - "*Os grupos ao seu redor v\xC3o se formando de forma natural.*"
   - "*Estella se junta a voc\xCA, e ainda sim, estavam sem um integrante.*"
-  - "*Foi ent\xE3o que ele ouviu passos se aproximando. Lentos, mas decididos.*"
+  - "*Foi ent\xC3o que voc\xCA ouviu passos se aproximando. Lentos, mas decididos.*"
   - "Posso me juntar a voc\xCAs?"
   - "*A voz era animada, demonstrando um entusiasmo claro, por\xC9m, quem era essa
     pessoa?*"
-  - "*Alex congelou. Por\xC9m, Estella responde pela dupla:*"
-  - "Fique \xE0 vontade, est\xC1vamos mesmo precisando de algu\xC9m. "
-  - "Ezequiel puxou uma cadeira e se sentou pr\xF3ximo, mas n\xC3o invadindo demais
-    o espa\xE7o."
-  - "Valeu! Eu vi que voc\xEAs estavam s\xD3s e pensei\u2026 bom, talvez fosse legal
+  - "*Voc\xCA congelou. Por\xC9m, Estella responde pela dupla:*"
+  - "Fique \xC0 vontade, est\xC1vamos mesmo precisando de algu\xC9m. "
+  - "Valeu! Eu vi que voc\xCAs estavam s\xD3s e pensei... bom, talvez fosse legal
     trabalharmos juntos."
-  - " -Voc\xCA n\xE3o conseguia olhar diretamente para ele.-"
-  - "*Alex temia pois o garoto era imprevis\xCDvel, al\xC9m de aparentar ser popular,
-    at\xC9 porque Alex o havia visto conversando com outros alunos.*"
-  - "Ezequiel tinha sido gentil, sim, mas aquela gentileza era dif\xCDcil de processar."
-  - "Eu\u2026 acho que\u2026 \u2013 Voc\xCA tentou falar, mas a sua voz saiu como
-    um sussurro."
+  - "Qual \xC9 seu nome?"
+  - "\xC9 Ezequiel, e o de voc\xCAs?"
+  - "O meu \xC9 Estella... E o del@ \xC9 Alex!"
+  - "*Ezequiel se sentou pr\xD3ximo, mas tomando cuidado para n\xC3o ser t\xC3o invasivo.*"
+  - " *Voc\xCA n\xC3o conseguia olhar diretamente para ele.*"
+  - "*tinha receio, pois o garoto era imprevis\xCDvel, al\xC9m de aparentar ser popular,
+    devido a voc\xCA o ter visto conversando com outros alunos.*"
+  - "*Ezequiel tinha sido gentil, sim, mas aquela gentileza era dif\xCDcil de processar.*"
+  - "Eu... acho que... *Voc\xCA tentou falar, mas a sua voz saiu como um sussurro.*"
   - '*Ezequiel inclinou-se um pouco para frente, com cuidado.*'
   - "Tudo bem, cara. Sem press\xC3o. A gente pode dividir as partes do trabalho de
     um jeito que fique confort\xC1vel pra todo mundo."
-  - " *Estella observava a intera\xE7\xC3o com curiosidade.*"
-  - "*Ela n\xE3o conhecia Ezequiel bem, mas pensava que ele era popular \u2013 ou,
-    pelo menos, vis\xCDvel. Diferente deles.*"
-  - "Voc\xEA j\xE1 tem alguma ideia do que fazer? Perguntou ela, quebrando o gelo."
-  - ' *Ezequiel animou-se*'
+  - "*Estella observava a intera\xC7\xC3o com curiosidade.*"
+  - "*Ela n\xC3o conhecia Ezequiel bem, mas pensava que ele era popular - ou, pelo
+    menos, vis\xCDvel. Diferente deles.*"
+  - "Voc\xCA j\xC1 tem alguma ideia do que fazer? *Perguntou ela, quebrando o gelo.*"
+  - '*Ezequiel animou-se*'
   - "Tenho sim! J\xC1 pensei em uns slides com uns efeitos maneiros, e se a gente
-    focar na parte visual\u2026"
-  - "*Alex ouvia, mas suas m\xE3os tremiam sob a mesa. Ele n\xE3o queria decepcionar.
-    N\xE3o queria ser um peso*"
-  - "*Sentiu a sala tomar outro tema, algo escuro se fechando em sua mente, as cores
-    da sala come\xE7ando a se distorcer\u2026*"
-  - ' Alex? *Disse Ezequiel*'
-  - ' *A voz de Ezequiel soou suave, mas firme*'
-  - " *Alex levantou os olhos, por um instante, e viu que Ezequiel n\xE3o estava
-    olhando com pena, nem com irrita\xE7\xE3o.*"
-  - " *Havia uma preocupa\xE7\xE3o genu\xEDna ali.*"
-  - "Eu\u2026 eu posso ficar com a pesquisa *Voc\xCA diz finalmente.*"
-  - ' Gosto de escrever.'
-  - ' *Ezequiel sorriu, dessa vez mais aberto.*'
+    focar na parte visual..."
+  - "*Suas m\xC3os tremiam sob a mesa. N\xC3o queria decepcionar, muito menos ser
+    um peso*"
+  - "*Sentiu a sala tomar outro tema, algo escuro se fechando em sua mente, come\xC7ando
+    a se distorcer...*"
+  - Alex...? Ta tudo bem?
+  - '*A voz de Ezequiel soou suave, mas firme*'
+  - "*Voc\xCA levantou os olhos, por um instante, e viu que Ezequiel n\xC3o estava
+    olhando com pena, nem com irrita\xC7\xC3o.*"
+  - "*Havia uma preocupa\xC7\xC3o genu\xCDna ali.*"
+  - "Eu... eu posso ficar com a pesquisa *Voc\xCA diz finalmente.*"
+  - Gosto de escrever.
+  - '*Ezequiel sorriu, dessa vez mais aberto.*'
   - "Perfeito! Eu cuido da parte t\xC9cnica e dos efeitos. E voc\xCA, Estella?"
-  - ' Eu posso organizar o roteiro e revisar tudo.'
-  - " Combinado ent\xE3o *Disse Ezequiel*"
-  - " *Ezequiel estendeu a m\xC3o no centro da mesa, como um gesto de equipe.*"
-  - " *Em dado momento, o grupo precisou apresentar um tema de interesse comum do
-    grupo e tamb\xE9m os alunos integrantes,*"
-  - " *como uma din\xE2mica de inicia\xE7\xE3o para que os alunos conhecessem melhor
-    uns aos outros.*"
-  - ' *Assim que o professor anuncia que cada grupo deveria se apresentar brevemente,
+  - Eu posso organizar o roteiro e revisar tudo.
+  - "Combinado ent\xC3o *Disse Ezequiel*"
+  - "*Ezequiel estendeu a m\xC3o no centro da mesa, como um gesto de equipe.*"
+  - "*Seu grupo decidiu fazer uma apresenta\xC7\xC3o sobre jogos, visto que o tema
+    era livre...*"
+  - "*como era uma din\xC2mica de inicia\xC7\xC3o para que os alunos conhecessem
+    melhor uns aos outros.*"
+  - '*Assim que o professor anunciou que cada grupo deveria se apresentar brevemente...
     *'
-  - "*uma onda imediata de p\xE2nico percorreu o corpo de Alex. O simples pensamento
-    de todos os olhares voltados para ele fez com que o mundo ao seu redor come\xE7asse
+  - "*uma onda imediata de p\xC2nico percorreu seu corpo. O simples pensamento de
+    todos os olhares voltados para si fez com que o mundo ao seu redor come\xC7asse
     a se dissolver.*"
-  - " -\u201CEles est\xE3o todos me olhando\u2026 Eles v\xE3o me julgar\u2026 V\xE3o
-    rir de mim\u2026\u201D-"
-  - ' *Esses pensamentos intrusivos ecoavam em sua mente como sussurros venenosos.
+  - "-Eles est\xC3o todos me olhando... Eles v\xC3o rir de mim...-"
+  - '*Esses pensamentos intrusivos ecoavam em sua mente como sussurros venenosos.
     *'
-  - " *De repente, Alex n\xE3o estava mais na sala de aula, pelo menos n\xE3o a que
-    estava a alguns momentos atr\xE1s,*"
+  - "*De repente, voc\xCA n\xC3o estava mais na mesma sala de aula que estava a alguns
+    momentos atr\xC1s...*"
   - '*era agora um local distorcido. No lugar dos colegas, criaturas com olhos gigantes
     e brilhantes os observavam fixamente.*'
-  - " *uma representa\xE7\xE3o direta de seu medo de ser avaliado. *"
-  - " Voc\xEA n\xE3o \xE9 capaz!"
-  - " In\xFAtil\u2026"
-  - ' Esquisito'
-  - ' *E entre outras palavras, essas compunham o ataque do monstro contra nossos
-    protagonistas.*'
-  - " *Nesse momento Alex cria al\xED uma forma de combater esse medo de frente,*"
-  - " *uma maneira eficiente de lidar com essas situa\xE7\xF5es que antes representavam
+  - "*uma representa\xC7\xC3o direta de seu medo de ser avaliado.*"
+  - "-Voc\xCA n\xC3o \xC9 capaz!-"
+  - "-N\xC3o passa de um peso...-"
+  - "-I n \xDA t i l !-"
+  - '*Depois de se acalmar...*'
+  - "*Voc\xCA consegue criar uma forma de combater esse medo...*"
+  - "*uma maneira eficiente de lidar com essas situa\xC7\xD5es que antes representavam
     seu maior medo.*"
-  - " *Alex com seus dons art\xEDsticos para criar uma m\xE1scara, algo perfeito
-    para aquele momento, Alex criou a M\xE1scara da Confian\xE7a.*"
-  - " *Alex, ainda tremendo, sentiu uma fa\xEDsca de coragem.*"
-  - "*Ent\xC3o ergueu as m\xC3os e lan\xE7ou seu ataque diretamente contra o monstro,
-    mostrando assim que n\xE3o tinha desistido.*"
-  - "*Ao final da batalha, o monstro se desfez em part\xEDculas de luz.*"
-  - '*Alex piscou e se viu novamente na carteira, com Ezequiel e Estella olhando
-    para ele com sorrisos encorajadores.*'
-  - " Voc\xEA conseguiu, Alex"
-  - " *Estella acenou com a cabe\xE7a, seus olhos transmitindo uma cumplicidade silenciosa.*"
-  - " *A apresenta\xE7\xE3o \xE9 conclu\xEDda, mesmo que com dificuldade, Alex consegue,
-    mais ainda Alex se v\xEA muito feliz,*"
-  - " *pois entende que Ezequiel n\xE3o pretende e nunca pretendeu nada contra ele,
-    o garoto o olhava simplesmente por querer se enturmar tamb\xE9m,*"
-  - ' *isso abriu os olhos de Alex que podia ver um novo futuro para si dentro dessa
+  - "*Voc\xCA usa seus dons art\xCDsticos e imaginativos para criar uma m\xC1scara
+    psicol\xD3gica, algo perfeito para aquele momento, algo que escondia seus medos.*"
+  - "*Ainda tremendo, sentiu uma fa\xCDsca de coragem, mesmo que fingindo algo irreal.*"
+  - '*Agora acreditava que conseguiria apresentar bem.*'
+  - "*Voc\xCA volta \xC0 realidade e...*"
+  - "*Se v\xCA, agora, na frente da turma, com Ezequiel e Estella olhando em sua
+    dire\xC7\xC3o com sorrisos encorajadores.*"
+  - "Voc\xCA consegue, Alex!"
+  - "*Estella acenou com a cabe\xC7a, seus olhos transmitindo um ar de suporte.*"
+  - "*A apresenta\xC7\xC3o \xC9 conclu\xCDda, mesmo com dificuldade voc\xCA consegue.
+    Mais ainda, voc\xCA se encontra muito feliz,*"
+  - "*pois entende que Ezequiel n\xC3o pretende e nunca pretendeu nada contra sua
+    pessoa, o garoto o olhava simplesmente por querer se enturmar...*"
+  - '*isso abriu os seus olhos, que podia ver um novo futuro para si dentro dessa
     escola.*'
-  - " *O dia segue at\xE9 seu fim, onde Alex segue para a portaria s\xF3zinho, at\xE9
-    escutar uma voz pedindo-o para que esperasse.*"
-  - ' *Era Ezequiel, que segue junto com o garoto em uma cutscene final.*'
-  - " *O dia segue at\xE9 seu fim, onde Alex segue para a portaria s\xF3zinho, at\xE9
-    escutar uma voz pedindo-o para que esperasse.*"
+  - "*A aula segue at\xC9 seu fim, at\xC9 o momento que todos saem de sala. Voc\xCA
+    fica por \xDAltimo, como \xC9 de costume, para n\xC3o ter que enfrentar uma multid\xC3o.*"
+  - "ALEX!!! *Voc\xCA escuta algu\xC9m te chamando, de longe.*"
+  - "*Era Ezequiel, que decide seguir junto com voc\xCA at\xC9 a sa\xCDda.*"
   thirdDayDialogue: []
   fourthDayDialogue: []
   cutsceneImages: []

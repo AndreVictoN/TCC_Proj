@@ -18,5 +18,6 @@ public enum EventsEnum
     FirstConflict,
     Battle,
     Menu,
-    Lose
+    Lose,
+    EzequielCalling
 }

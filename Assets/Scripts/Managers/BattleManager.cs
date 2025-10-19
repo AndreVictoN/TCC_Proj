@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Core.Singleton;
 using DG.Tweening;
 using TMPro;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,9 +14,9 @@ public class BattleManager : Singleton<BattleManager>, IObserver
     public Sprite mothSprite;
     public Sprite birdSprite;
     public Sprite lizardSprite;
-    public AnimatorController mothAnimator;
-    public AnimatorController birdAnimator;
-    public AnimatorController lizardAnimator;
+    public RuntimeAnimatorController mothAnimator;
+    public RuntimeAnimatorController birdAnimator;
+    public RuntimeAnimatorController lizardAnimator;
     public Ezequiel ezequiel;
     public Estella estella;
     public PlayerController player;
@@ -113,14 +112,15 @@ public class BattleManager : Singleton<BattleManager>, IObserver
 
     public void ShowAttackWarning()
     {
-        if(player.GetAnxiety() < 110f){ player.SetCanAttack(true); }
-        if(player.GetCanAttack()) return;
+        if (player.GetAnxiety() < 110f && !PlayerPrefs.GetString("pastScene").Equals("Floor2")) { player.SetCanAttack(true); }
+        if (player.GetCanAttack()) return;
 
-        if(_currentTextCoroutine != null && _currentTextCoroutine != _ezequielCoroutine)
+        if (_currentTextCoroutine != null && _currentTextCoroutine != _ezequielCoroutine)
         {
             StopCoroutine(_currentTextCoroutine);
             _currentTextCoroutine = StartCoroutine(ActionkWarningCoroutine("attack"));
-        }else if(_currentTextCoroutine == null)
+        }
+        else if (_currentTextCoroutine == null)
         {
             _currentTextCoroutine = StartCoroutine(ActionkWarningCoroutine("attack"));
         }
@@ -330,7 +330,7 @@ public class BattleManager : Singleton<BattleManager>, IObserver
             //cards.ForEach(card => card.GetComponent<Animator>().StopPlayback());
             DOTween.KillAll();
             SceneManager.LoadScene("Floor2");
-        }else if (_pastScene == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        }else if (_pastScene.Equals("Class") && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
         {
             yield return new WaitForSeconds(0.3f);
             textBox.SetActive(true);
@@ -343,13 +343,14 @@ public class BattleManager : Singleton<BattleManager>, IObserver
 
             transitionImage.gameObject.SetActive(true);
             StartCoroutine(FadeTransition(transitionImage.color, new Color(0, 0, 0, 1), 1));
-            PlayerPrefs.SetString("pastScene", "BattleScene");
             yield return new WaitForSeconds(1f);
 
             //Destroy(player);
             player.GetComponent<Animator>().StopPlayback();
             //cards.ForEach(card => card.GetComponent<Animator>().StopPlayback());
             DOTween.KillAll();
+            PlayerPrefs.SetString("currentState", "GroupClass");
+            PlayerPrefs.SetString("pastScene", "BattleScene");
             SceneManager.LoadScene("Class");
         }
     }

@@ -27,7 +27,6 @@ public class InventoryManager : MonoBehaviour, IObserver
     {
         if (PlayerPrefs.GetInt("itemsNumber") == 0) _itemsAdded = 0;
         
-        alexImage.sprite = _alexNoMask;
         if (_player == null) { _player = GameObject.FindGameObjectWithTag("Player"); }
         BasicSettings();
     }
@@ -41,6 +40,18 @@ public class InventoryManager : MonoBehaviour, IObserver
     {
         ColorUtility.TryParseHtmlString("#EF776F", out _defaultSlotColor);
         _selectedSlot = 1;
+
+        if (currentMask.sprite == null) { alexImage.sprite = _alexNoMask; }
+        else
+        {
+            foreach (Sprite itemSprite in itemsSprites)
+            {
+                if (currentMask.sprite == itemSprite)
+                {
+                    alexImage.sprite = _alexMasks[itemsSprites.IndexOf(itemSprite)];
+                }
+            }
+        }
 
         int i = 0;
         foreach (Image image in itemsImages)
@@ -251,5 +262,10 @@ public class InventoryManager : MonoBehaviour, IObserver
             _player?.GetComponent<HumanPlayer>().SetIsMasked(true);
             PlayerPrefs.SetString("isMasked", "true");
         }
+    }
+
+    public void SetAlexImage(int index)
+    {
+        alexImage.sprite = _alexMasks[index];
     }
 }

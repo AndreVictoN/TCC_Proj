@@ -64,6 +64,7 @@ TagManager:
   - ItemImage
   - PauseMenu
   - BaseGrid
+  - EzequielCallingTrigger
   layers:
   - Default
   - TransparentFX

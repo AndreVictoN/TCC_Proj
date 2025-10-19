@@ -82,8 +82,8 @@ public abstract class PlayerController : Subject, IHealthManager
 
     protected override void Awake()
     {
-        PlayerPrefs.SetString("pastScene", "Class");
-        PlayerPrefs.SetString("currentState", "LeavingSecondDay");
+        /*PlayerPrefs.SetString("pastScene", "Class");
+        PlayerPrefs.SetString("currentState", "LeavingSecondDay");*/
         gameManager = GameObject.FindFirstObjectByType<GameManager>();
         Subscribe(gameManager);
 
@@ -184,7 +184,8 @@ public abstract class PlayerController : Subject, IHealthManager
         if (maxAnxiety == null) maxAnxiety = GameObject.FindGameObjectWithTag("AlexMaxAnxiety").GetComponent<TextMeshProUGUI>();
 
         if(PlayerPrefs.GetString("pastScene") == "Class" && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
-        { _numMaxAnxiety = 120; }
+        { _numMaxAnxiety = 120; } else if (PlayerPrefs.GetString("pastScene").Equals("Floor2") && PlayerPrefs.GetString("currentState").Equals("Start")) 
+        { _numMaxAnxiety = 100; }
 
         maxAnxiety.text = "/" + _numMaxAnxiety.ToString();
         maxSanity.text = "/" + _numMaxSanity.ToString();
@@ -443,6 +444,10 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             Notify(EventsEnum.Battle);
         }
+        else if (collision.gameObject.CompareTag("EzequielCallingTrigger"))
+        {
+            Notify(EventsEnum.EzequielCalling);
+        }
     }
 
     public void SetAnimation(string animation, float animationSpeed)
@@ -573,7 +578,7 @@ public abstract class PlayerController : Subject, IHealthManager
         if (_numSanity < 1 && _numAnxiety > _numMaxAnxiety - 1) {
             Subscribe(GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>());
             Notify(EventsEnum.Lose);
-            }
+        }
     }
 
     public void Heal(float healingAmount)

@@ -16966,12 +16966,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 470281333}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.87, y: -8.84, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5.95131, y: -8.07791, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2002391757}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &470281335
 BoxCollider2D:
@@ -59323,9 +59323,8 @@ MonoBehaviour:
     escola.*'
   - "*A aula segue at\xC9 seu fim, at\xC9 o momento que todos saem de sala. Voc\xCA
     fica por \xDAltimo, como \xC9 de costume, para n\xC3o ter que enfrentar uma multid\xC3o.*"
-  - "*O dia segue at\xE9 seu fim, onde voc\xCA segue para a portaria s\xF3zinho,
-    at\xE9 escutar uma voz pedindo-o para que esperasse.*"
-  - '*Era Ezequiel, que segue junto com o garoto em uma cutscene final.*'
+  - "ALEX!!! *Voc\xCA escuta algu\xC9m te chamando, de longe.*"
+  - "*Era Ezequiel, que decide seguir junto com voc\xCA at\xC9 a sa\xCDda.*"
   thirdDayDialogue: []
   fourthDayDialogue: []
   cutsceneImages:
@@ -73177,8 +73176,7 @@ Transform:
   m_LocalPosition: {x: 1.08131, y: 0.76209, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 470281334}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2002391758
@@ -73213,6 +73211,7 @@ MonoBehaviour:
   _ezequielTrigger: {fileID: 0}
   _firstInteractionTrigger: {fileID: 0}
   _stopTrigger: {fileID: 0}
+  _ezequielCallingTrigger: {fileID: 0}
   stopDialogue: 
   dialoguePanel: {fileID: 732227930}
   dialogueText: {fileID: 732227929}
@@ -73560,6 +73559,7 @@ SceneRoots:
   - {fileID: 1951720969}
   - {fileID: 1054584372}
   - {fileID: 1070211174}
+  - {fileID: 470281334}
   - {fileID: 2002391757}
   - {fileID: 1961493137}
   - {fileID: 975089283}

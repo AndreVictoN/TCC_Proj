@@ -34,6 +34,7 @@ public class GameManager : Singleton<GameManager>, IObserver
     [SerializeField] private GameObject _ezequielTrigger;
     [SerializeField] private GameObject _firstInteractionTrigger;
     [SerializeField] private GameObject _stopTrigger;
+    [SerializeField] private GameObject _ezequielCallingTrigger;
     public string stopDialogue;
 
     [Header("Texts")]
@@ -76,6 +77,12 @@ public class GameManager : Singleton<GameManager>, IObserver
 
     void Start()
     {
+        StartCoroutine(CallSceneManagement());
+    }
+
+    private IEnumerator CallSceneManagement()
+    {
+        yield return null;
         SceneManagement();
     }
 
@@ -95,11 +102,15 @@ public class GameManager : Singleton<GameManager>, IObserver
         }
         else if (_currentScene.Equals("Class"))
         {
-            if (PlayerPrefs.GetString("currentState").Equals("Start") && PlayerPrefs.GetString("pastScene").Equals("Floor2")) SecondClassConfig();
-            else if (PlayerPrefs.GetString("currentState").Equals("Start")) FirstClassConfig();
+            Debug.Log(PlayerPrefs.GetString("pastScene") + " " + PlayerPrefs.GetString("currentState"));
+
+            if (PlayerPrefs.GetString("pastScene").Equals("BattleScene")) Debug.Log("aaa");
+
+            if (PlayerPrefs.GetString("currentState").Equals("Start") && PlayerPrefs.GetString("pastScene").Equals("Floor2")) { SecondClassConfig(); }
+            else if (PlayerPrefs.GetString("currentState").Equals("Start")) { FirstClassConfig(); }
+            else if (PlayerPrefs.GetString("currentState").Equals("GroupClass") && PlayerPrefs.GetString("pastScene").Equals("BattleScene")) { PostBattleClassConfig(); }
             else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") ||
-            (PlayerPrefs.GetString("currentState").Equals("GroupClass") && !PlayerPrefs.GetString("pastScene").Equals("BattleScene"))) ClassConfig(PlayerPrefs.GetString("currentState"));
-            else if (PlayerPrefs.GetString("currentState").Equals("GroupClass") && PlayerPrefs.GetString("pastScene").Equals("BattleScene")) PostBattleClassConfig();
+            (PlayerPrefs.GetString("currentState").Equals("GroupClass") && PlayerPrefs.GetString("pastScene").Equals("Menu"))) { ClassConfig(PlayerPrefs.GetString("currentState")); }
         }
         else if (_currentScene.Equals("Floor2"))
         {
@@ -122,6 +133,8 @@ public class GameManager : Singleton<GameManager>, IObserver
         PlayerPrefs.SetString("isMasked", "false");
         PlayerPrefs.SetInt("itemsNumber", 0);
         PlayerPrefs.SetString("currentItem", "");
+        if (!_ezequielCallingTrigger) _ezequielCallingTrigger = GameObject.FindGameObjectWithTag("EzequielCallingTrigger");
+        _ezequielCallingTrigger?.SetActive(false);
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         if (currentDay == null) { currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>(); }
         currentDay.text = "Dia 1";
@@ -142,6 +155,8 @@ public class GameManager : Singleton<GameManager>, IObserver
         PlayerPrefs.SetString("currentItem", "");
         if (!_stopTrigger) _stopTrigger = GameObject.FindGameObjectWithTag("StopTrigger");
         _stopTrigger?.SetActive(false);
+        if (!_ezequielCallingTrigger) _ezequielCallingTrigger = GameObject.FindGameObjectWithTag("EzequielCallingTrigger");
+        _ezequielCallingTrigger?.SetActive(false);
         if (!_firstInteractionTrigger) _firstInteractionTrigger = GameObject.FindGameObjectWithTag("FirstInteractionTrigger");
         _firstInteractionTrigger?.SetActive(false);
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
@@ -173,6 +188,20 @@ public class GameManager : Singleton<GameManager>, IObserver
         arrivalManager?.SetGameManager(this);
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").transform.Find("Objective").GetComponent<TextMeshProUGUI>(); }
         if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
+
+        if (PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay"))
+        {
+            if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").transform.Find("Objective").GetComponent<TextMeshProUGUI>(); }
+            currentObjective.text = "Objetivo: Saia da Escola.";
+
+            if (!_ezequielCallingTrigger) _ezequielCallingTrigger = GameObject.FindGameObjectWithTag("EzequielCallingTrigger");
+            _ezequielCallingTrigger?.SetActive(true);
+        }
+        else
+        {
+            if (!_ezequielCallingTrigger) _ezequielCallingTrigger = GameObject.FindGameObjectWithTag("EzequielCallingTrigger");
+            _ezequielCallingTrigger?.SetActive(false);
+        }
     }
 
     private void FirstClassConfig()
@@ -599,6 +628,12 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start")) StartCoroutine(LoadBattleScene("Floor2"));
             else if (PlayerPrefs.GetString("currentState").Equals("GroupClass")) StartCoroutine(LoadBattleScene("Class"));
+        }else if(evt == EventsEnum.EzequielCalling)
+        {
+            if (daysManager == null) daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
+            daysManager.SetGameManager(this);
+            Destroy(GameObject.FindGameObjectWithTag("EzequielCallingTrigger"));
+            StartCoroutine(daysManager.EndSecondDay());
         }
     }
 
@@ -901,7 +936,12 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (_stopTrigger != null) Destroy(_stopTrigger);
             if (_battleTrigger != null) Destroy(_battleTrigger);
-            if(exitGame != null) exitGame.SetActive(true);
+            if (exitGame != null) exitGame.SetActive(true);
+        }
+        
+        if(SceneManager.GetActiveScene().name.Equals("Class") && PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        {
+            PlayerPrefs.SetString("pastScene", "Class");
         }
         SceneManager.LoadScene("BattleScene", LoadSceneMode.Single);
     }

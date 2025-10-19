@@ -50,6 +50,7 @@ public class DaysManager : DialogueBox
     private void baseAwakeSingleton()
     {
         /*PlayerPrefs.SetString("currentItem", "");
+        PlayerPrefs.SetInt("itemsNumber", 0);
         PlayerPrefs.SetString("currentState", "GroupClass");
         PlayerPrefs.SetString("pastScene", "BattleScene");*/
 
@@ -124,11 +125,15 @@ public class DaysManager : DialogueBox
         _canSkip = true;
 
         if (!PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay")) gameManager.currentObjective.text = "Objetivo: VÁ para sua sala.";
-        else gameManager.currentObjective.text = "Saia da escola";
+        else gameManager.currentObjective.text = "Objetivo: Saia da escola";
 
         if(PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay"))
         {
             PlayerPrefs.SetString("pastScene", "Class");
+            if(classroomDoor == null)
+            {
+                classroomDoor = GameObject.FindGameObjectWithTag("ToOtherScene").transform.Find("Door").GetComponent<Door>();
+            }
             Physics2D.IgnoreCollision(_playercontroller.gameObject.GetComponent<BoxCollider2D>(), classroomDoor.gameObject.GetComponent<CapsuleCollider2D>(), true);
         }
     }
@@ -263,11 +268,11 @@ public class DaysManager : DialogueBox
         background.GetComponent<Image>().sprite = cutsceneImages[1];
 
         while (!_isClosed) yield return null;
-        if (!battleTrigger) battleTrigger = GameObject.FindGameObjectWithTag("BattleTrigger");
+        if (battleTrigger == null) battleTrigger = GameObject.FindGameObjectWithTag("BattleTrigger");
         _playercontroller.gameObject.GetComponent<Animator>().Play("TransformUp");
-        PlayerPrefs.SetString("pastScene", "Class");
         yield return new WaitForSeconds(3f);
-        battleTrigger?.SetActive(true);
+        PlayerPrefs.SetString("pastScene", "Class");
+        battleTrigger.SetActive(true);
         yield return new WaitForSeconds(0.2f);
         Destroy(battleTrigger);
     }
@@ -351,9 +356,11 @@ public class DaysManager : DialogueBox
             inventoryManager.LastItemRecieved(playerImages[3]);
             _playercontroller.NotifyFromItem(EventsEnum.NewItem);
             inventoryManager.SetItem(playerImages[3]);
+            inventoryManager.SetAlexImage(0);
+            PlayerPrefs.SetInt("itemsNumber", 1);
         }
     }
-    
+
     private void EndGroupClassSettings()
     {
         PlayerPrefs.SetString("currentState", "LeavingSecondDay");
@@ -371,6 +378,65 @@ public class DaysManager : DialogueBox
         _playercontroller.gameObject.transform.localPosition = new Vector2(5.9964f, -8.550989f);
         _playercontroller.gameObject.GetComponent<Animator>().SetFloat("LastVertical", 1);
         _playercontroller.gameObject.GetComponent<SpriteRenderer>().sprite = maskedUpSprite;
+    }
+
+    public IEnumerator EndSecondDay()
+    {
+        BasicPlayerCutsceneConfig();
+        _currentDialogueState = "SecondDayDialogue";
+        ChangeTalkMethod(68, 68, true);
+        yield return new WaitForSeconds(0.5f);
+
+        while (!_isClosed) yield return null;
+
+        gameManager.AnimateTransition(1f, false);
+        yield return new WaitForSeconds(1f);
+        npcs[0].SetActive(true);
+        npcs[0].GetComponent<CircleCollider2D>().enabled = false;
+        npcs[0].transform.localPosition = new Vector2(_playercontroller.gameObject.transform.localPosition.x, _playercontroller.gameObject.transform.localPosition.y + 7);
+        StartCoroutine(npcs[0].GetComponent<Ezequiel>().GoTo(3f, new Vector2(npcs[0].transform.localPosition.x, _playercontroller.gameObject.transform.localPosition.y + 2), 'y'));
+        npcs[0].GetComponent<Animator>().Play("H_WalkingD");
+        yield return new WaitForSeconds(1f);
+        gameManager.AnimateTransition(1f, true);
+        yield return new WaitForSeconds(1f);
+        npcs[0].GetComponent<Animator>().Play("H_IdleD");
+        yield return new WaitForSeconds(0.5f);
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleR");
+        yield return new WaitForSeconds(0.5f);
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleUp");
+
+        ChangeTalkMethod(69, 69, true);
+        yield return new WaitForSeconds(2f);
+
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_IdleL");
+        yield return new WaitForSeconds(0.5f);
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_Idle");
+        yield return new WaitForSeconds(0.5f);
+
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_WalkingDown");
+        npcs[0].GetComponent<Animator>().Play("H_WalkingD");
+        StartCoroutine(_playercontroller.GoTo(5f, new Vector2(_playercontroller.gameObject.transform.localPosition.x, 34.99f), 'y', false));
+        StartCoroutine(npcs[0].GetComponent<Ezequiel>().GoTo(5f, new Vector2(_playercontroller.gameObject.transform.localPosition.x, 36.99f), 'y'));
+
+        yield return new WaitForSeconds(5f);
+
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_Idle");
+        npcs[0].GetComponent<Animator>().Play("H_WalkingL");
+        StartCoroutine(npcs[0].GetComponent<Ezequiel>().GoTo(1f, new Vector2(npcs[0].transform.localPosition.x - 2, _playercontroller.gameObject.transform.localPosition.y), 'x'));
+        yield return new WaitForSeconds(1f);
+        npcs[0].GetComponent<Animator>().Play("H_WalkingD");
+        StartCoroutine(npcs[0].GetComponent<Ezequiel>().GoTo(0.5f, new Vector2(npcs[0].transform.localPosition.x, _playercontroller.gameObject.transform.localPosition.y), 'y'));
+        yield return new WaitForSeconds(0.5f);
+        npcs[0].GetComponent<Animator>().Play("H_WalkingD");
+        _playercontroller.gameObject.GetComponent<Animator>().Play("H_WalkingDown");
+
+        StartCoroutine(_playercontroller.GoTo(6f, new Vector2(_playercontroller.gameObject.transform.localPosition.x, 26.76f), 'y', false));
+        StartCoroutine(npcs[0].GetComponent<Ezequiel>().GoTo(6f, new Vector2(npcs[0].transform.localPosition.x, 26.76f), 'y'));
+
+        yield return new WaitForSeconds(4.5f);
+        gameManager.AnimateTransition(1, false);
+        yield return new WaitForSeconds(1.5f);
+        SceneManager.LoadScene("GoToNextDay");
     }
     
     private void SetNpcParts(int npcIndex)
@@ -435,10 +501,10 @@ public class DaysManager : DialogueBox
 
     protected override void CheckCharacter(int i)
     {
-        npcName = GameObject.FindGameObjectWithTag("NPC_Name");
-        npcImage = GameObject.FindGameObjectWithTag("NPC_Image").GetComponent<Image>();
-        playerName = GameObject.FindGameObjectWithTag("PlayerName");
-        playerImage = GameObject.FindGameObjectWithTag("Player_Image").GetComponent<Image>();
+        if(npcName == null) npcName = GameObject.FindGameObjectWithTag("NPC_Name");
+        if(npcImage == null) npcImage = GameObject.FindGameObjectWithTag("NPC_Image").GetComponent<Image>();
+        if(playerName == null) playerName = GameObject.FindGameObjectWithTag("PlayerName");
+        if(playerImage == null) playerImage = GameObject.FindGameObjectWithTag("Player_Image").GetComponent<Image>();
 
         if (_currentDialogueState.Equals("SecondDayDialogue"))
         {
@@ -453,7 +519,7 @@ public class DaysManager : DialogueBox
             if(i == 0) playerName.GetComponent<TextMeshProUGUI>().text = "Alex";
 
             if (i < 4) { DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
-            else if ((i >= 4 && i < 8) || (i >= 42 && i <= 45) || (i >= 47 && i <= 50) || (i >= 54 && i <= 61) || (i >= 63 && i <= 67)) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
+            else if ((i >= 4 && i < 8) || (i >= 42 && i <= 45) || (i >= 47 && i <= 50) || (i >= 54 && i <= 61) || (i >= 63 && i <= 67) || i == 69) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
             else if (i >= 51 && i <= 53) { DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Center, FontStyles.Italic); }
             else
             {
@@ -472,7 +538,7 @@ public class DaysManager : DialogueBox
         {
             DialoguePanelSettings(1f, 0.5f, 1, 1, TextAlignmentOptions.Left, FontStyles.Normal);
             
-            if(i == 9 || i == 13 || i == 15 || i == 23 || i == 28 || i == 31 || i == 38 || i == 40){
+            if(i == 9 || i == 13 || i == 15 || i == 23 || i == 28 || i == 31 || i == 38 || i == 40 || i == 68){
                 if (i == 9) _secondsToReturn = 2f;
                 else if (i == 31) _secondsToReturn = 3f;
                 npcImage.sprite = npcImages[6];
@@ -520,12 +586,12 @@ public class DaysManager : DialogueBox
             }
         }
 
-        /*if ()
+        /*if (_i != 69)
         {*/
             if (skipText != null) skipText.SetActive(true);
             if (!_canSkip) _canSkip = true;
         //}
-        if(_i != 41 && _i != 65 && _i == 67) _playercontroller.SetCanMove(true);
+        if(_currentDialogueState.Equals("SecondDayDialogue") && _i != 41 && _i != 65 && _i == 67 && _i != 69) _playercontroller.SetCanMove(true);
     }
 
     private void BasicPlayerCutsceneConfig()
@@ -539,7 +605,7 @@ public class DaysManager : DialogueBox
 #region Initialize Dialogue Hashes
     private void InitializeDialogueHashes()
     {
-        if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass"))
+        if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass") || PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay"))
         {
             InitializeSecondDayHash();
         }
@@ -548,13 +614,13 @@ public class DaysManager : DialogueBox
     private void InitializeSecondDayHash()
     {
         _secondDayDialogueNarrator = new HashSet<int>
-        { 0, 3, 4, 5, 6, 7, 8, 10, 11, 17, 18, 19, 20, 22, 24, 27, 29, 30, 32, 33, 34, 37, 41, 42, 43, 44, 45, 47, 48, 49, 50, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 68, 69 };
+        { 0, 3, 4, 5, 6, 7, 8, 10, 11, 17, 18, 19, 20, 22, 24, 27, 29, 30, 32, 33, 34, 37, 41, 42, 43, 44, 45, 47, 48, 49, 50, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 69 };
 
         _secondDayPlayer = new HashSet<int>
         { 21, 35, 36, 46 };
 
         _secondDayNPC = new HashSet<int>
-        { 9, 12, 13, 14, 15, 16, 23, 26, 28, 31, 38, 39, 40, 62 };
+        { 9, 12, 13, 14, 15, 16, 23, 26, 28, 31, 38, 39, 40, 62, 68 };
     }
 #endregion
 }

@@ -10,6 +10,11 @@ public class TransitionScenesButtonsManager : MonoBehaviour
             PlayerPrefs.SetString("currentState", "StartDayTwo");
             PlayerPrefs.SetString("pastScene", "Menu");
             SceneManager.LoadScene("Terreo");
+        } else if (PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay"))
+        {
+            PlayerPrefs.SetString("currentState", "ThirdDay");
+            PlayerPrefs.SetString("pastScene", "Menu");
+            SceneManager.LoadScene("Terreo");
         }
     }
 
