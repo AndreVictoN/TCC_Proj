@@ -88,4 +88,9 @@ public class MenuManager : MonoBehaviour
         background.sprite = normalBackground;
         _currentBackgroundCoroutine = null;
     }
+
+    public void SairDoJogo()
+    {
+        Application.Quit();
+    }
 }
