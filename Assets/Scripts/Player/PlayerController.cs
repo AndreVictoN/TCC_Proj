@@ -580,7 +580,7 @@ public abstract class PlayerController : Subject, IHealthManager
     private IEnumerator CheckDefeat()
     {
         yield return new WaitForSeconds(1f);
-        if (_numSanity < 1 && _numAnxiety > _numMaxAnxiety - 1) {
+        if (_numSanity <= 0 && _numAnxiety >= _numMaxAnxiety) {
             Subscribe(GameObject.FindGameObjectWithTag("BattleManager").GetComponent<BattleManager>());
             Notify(EventsEnum.Lose);
         }
