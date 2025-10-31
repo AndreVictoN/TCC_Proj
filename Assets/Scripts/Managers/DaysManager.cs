@@ -44,6 +44,9 @@ public class DaysManager : DialogueBox
     private HashSet<int> _secondDayDialogueNarrator;
     private HashSet<int> _secondDayPlayer;
     private HashSet<int> _secondDayNPC;
+    private HashSet<int> _fourthDayDialogueNarrator;
+    private HashSet<int> _fourthDayPlayer;
+    private HashSet<int> _fourthDayNPC;
     private float defaultTimeToReturn;
     private string _currentDialogueState;
 
@@ -110,6 +113,28 @@ public class DaysManager : DialogueBox
         gameManager.currentObjective.text = "OBJETIVO: VÁ para sua sala.";
         yield return new WaitForSeconds(5f);
         gameManager.instruction.gameObject.SetActive(false);
+    }
+
+    public IEnumerator FourthDayInitialLines()
+    {
+        GameManager.Instance.SetDayConfigured(true);
+        BasicPlayerCutsceneConfig();
+        _playercontroller.gameObject.GetComponent<Animator>().SetFloat("LastVertical", 1);
+        _playercontroller.gameObject.GetComponent<SpriteRenderer>().sprite = _playercontroller.idleUp;
+        if (_toOtherFloors.Count > 0) foreach (GameObject toOtherFloor in _toOtherFloors) toOtherFloor.SetActive(true);
+
+        _playercontroller.SetCanMove(false);
+        _canSkip = true;
+        _currentDialogueState = "FourthDayDialogue";
+        yield return new WaitForSeconds(3f);
+
+        dialogue.Clear();
+        for (int iterator = 0; iterator < 14; iterator++) { dialogue.Add(fourthDayDialogue[iterator]); }
+
+        StartDialogue(0);
+
+        while (!_isClosed) { yield return null; }
+        _playercontroller.SetCanMove(true);
     }
 
     public void SecondDayFloor2Config()
@@ -512,14 +537,17 @@ public class DaysManager : DialogueBox
         if (_currentDialogueState.Equals("SecondDayDialogue"))
         {
             SecondDayDialogueCheck(i);
+        }else if(_currentDialogueState.Equals("FourthDayDialogue"))
+        {
+            FourthDayDialogueCheck(i);
         }
     }
 
     private void SecondDayDialogueCheck(int i)
     {
-        if(_secondDayDialogueNarrator.Contains(i))
+        if (_secondDayDialogueNarrator.Contains(i))
         {
-            if(i == 0) playerName.GetComponent<TextMeshProUGUI>().text = "Alex";
+            if (i == 0) playerName.GetComponent<TextMeshProUGUI>().text = "Alex";
 
             if (i < 4) { DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
             else if ((i >= 4 && i < 8) || (i >= 42 && i <= 45) || (i >= 47 && i <= 50) || (i >= 54 && i <= 61) || (i >= 63 && i <= 67) || i == 69) { DialoguePanelSettings(0, 0, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); }
@@ -535,29 +563,47 @@ public class DaysManager : DialogueBox
                 else if (i == 65) { _secondsToReturn = 2f; }
             }
 
-            if(i == 8){ DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); _secondsToReturn = 11f; wordSpeed = 0.06f; }
+            if (i == 8) { DialoguePanelSettings(1, 0.5f, 0, 0, TextAlignmentOptions.Center, FontStyles.Normal); _secondsToReturn = 11f; wordSpeed = 0.06f; }
         }
-        else if(_secondDayNPC.Contains(i))
+        else if (_secondDayNPC.Contains(i))
         {
             DialoguePanelSettings(1f, 0.5f, 1, 1, TextAlignmentOptions.Left, FontStyles.Normal);
-            
-            if(i == 9 || i == 13 || i == 15 || i == 23 || i == 28 || i == 31 || i == 38 || i == 40 || i == 68){
+
+            if (i == 9 || i == 13 || i == 15 || i == 23 || i == 28 || i == 31 || i == 38 || i == 40 || i == 68)
+            {
                 if (i == 9) _secondsToReturn = 2f;
                 else if (i == 31) _secondsToReturn = 3f;
                 npcImage.sprite = npcImages[6];
                 npcName.GetComponent<TextMeshProUGUI>().text = "Ezequiel";
-            }else if(i == 12 || i == 14 || i == 16 || i == 26 || i == 39 || i == 62)
+            }
+            else if (i == 12 || i == 14 || i == 16 || i == 26 || i == 39 || i == 62)
             {
                 npcImage.sprite = npcImages[7];
                 npcName.GetComponent<TextMeshProUGUI>().text = "Estella";
             }
         }
-        else if(_secondDayPlayer.Contains(i))
+        else if (_secondDayPlayer.Contains(i))
         {
             DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Normal);
 
             if (i == 36) playerImage.sprite = playerImages[0];
-            if(i == 46) DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Italic);
+            if (i == 46) DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Italic);
+        }
+    }
+    
+    private void FourthDayDialogueCheck(int i)
+    {
+        if (_fourthDayDialogueNarrator.Contains(i))
+        {
+            DialoguePanelSettings(1, 0.5f, 1, 0.5f, TextAlignmentOptions.Center, FontStyles.Normal);
+        }
+        else if (_fourthDayNPC.Contains(i))
+        {
+            DialoguePanelSettings(1f, 0.5f, 1, 1, TextAlignmentOptions.Left, FontStyles.Normal);
+        }
+        else if (_fourthDayPlayer.Contains(i))
+        {
+            DialoguePanelSettings(1, 1f, 0, 0, TextAlignmentOptions.Right, FontStyles.Normal);
         }
     }
 
@@ -611,6 +657,9 @@ public class DaysManager : DialogueBox
         if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass") || PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay"))
         {
             InitializeSecondDayHash();
+        }else if (PlayerPrefs.GetString("currentState").Equals("FourthDay"))
+        {
+            InitializeFourthDayHash();
         }
     }
 
@@ -624,6 +673,18 @@ public class DaysManager : DialogueBox
 
         _secondDayNPC = new HashSet<int>
         { 9, 12, 13, 14, 15, 16, 23, 26, 28, 31, 38, 39, 40, 62, 68 };
+    }
+
+    private void InitializeFourthDayHash()
+    {
+        _fourthDayDialogueNarrator = new HashSet<int>
+        { 0, 1, 2, 3, 4, 6, 7, 12, 14, 15, 16, 19, 20, 21, 25, 27, 28, 29, 30, 33, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 54, 55, 57, 58, 59, 60, 61, 62, 63, 64, 65, 68, 70, 72, 74, 76, 77, 78, 80 };
+
+        _fourthDayPlayer = new HashSet<int>
+        { 5, 13, 24, 31, 35, 50, 67, 69, 79 };
+
+        _fourthDayNPC = new HashSet<int>
+        { 8, 9, 10, 11, 17, 18, 22, 23, 26, 32, 34, 36, 48, 49, 51, 52, 53, 56, 66, 71, 73, 75, 81, 82 };
     }
 #endregion
 }

@@ -67,6 +67,8 @@ public class GameManager : Singleton<GameManager>, IObserver
         /*PlayerPrefs.SetString("isMasked", "false");
         PlayerPrefs.SetInt("itemsNumber", 0);
         PlayerPrefs.SetString("currentItem", "");*/
+        /*PlayerPrefs.SetString("currentState", "FourthDay");
+        PlayerPrefs.SetString("transitionType", "");*/
         if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") || PlayerPrefs.GetString("currentState").Equals("GroupClass")) {
             arrivalManager = GameObject.FindGameObjectWithTag("ArrivalManager").GetComponent<ArrivalManager>();
             Destroy(arrivalManager);
@@ -99,6 +101,7 @@ public class GameManager : Singleton<GameManager>, IObserver
         {
             if (PlayerPrefs.GetString("currentState").Equals("Start")) ArrivalConfig();
             else if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") && !_dayConfigured) ArrivalSecondDayConfig();
+            else if (PlayerPrefs.GetString("currentState").Equals("FourthDay") && !_dayConfigured) ArrivalFourthDayConfig();
             else { GroundFloorConfig(); }
         }
         else if (_currentScene.Equals("Class"))
@@ -146,20 +149,13 @@ public class GameManager : Singleton<GameManager>, IObserver
         if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
         StartCoroutine(arrivalManager.FirstLines());
     }
-    
+
     private void ArrivalSecondDayConfig()
     {
         PlayerPrefs.SetString("isMasked", "false");
         PlayerPrefs.SetInt("itemsNumber", 0);
         PlayerPrefs.SetString("currentItem", "");
-        if (!_stopTrigger) _stopTrigger = GameObject.FindGameObjectWithTag("StopTrigger");
-        _stopTrigger?.SetActive(false);
-        if (_ezequielCallingTrigger == null) _ezequielCallingTrigger = GameObject.FindGameObjectWithTag("EzequielCallingTrigger");
-        _ezequielCallingTrigger.GetComponent<EdgeCollider2D>().enabled = false;
-        if(_endDayOneTrigger == null) _endDayOneTrigger = GameObject.FindGameObjectWithTag("EndDay1Trigger");
-        _endDayOneTrigger.GetComponent<EdgeCollider2D>().enabled = false;
-        if (!_firstInteractionTrigger) _firstInteractionTrigger = GameObject.FindGameObjectWithTag("FirstInteractionTrigger");
-        _firstInteractionTrigger?.SetActive(false);
+        RemoveTriggers();
         transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
         if (currentDay == null) { currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>(); }
         currentDay.text = "Dia 2";
@@ -171,6 +167,34 @@ public class GameManager : Singleton<GameManager>, IObserver
         if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").transform.Find("Objective").GetComponent<TextMeshProUGUI>(); }
         if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
         StartCoroutine(daysManager.FirstLines());
+    }
+
+    private void ArrivalFourthDayConfig()
+    {
+        RemoveTriggers();
+        transitionImage = GameObject.FindGameObjectWithTag("TransitionImage").GetComponent<Image>();
+        if (currentDay == null) { currentDay = GameObject.FindGameObjectWithTag("CurrentDay").GetComponent<TextMeshProUGUI>(); }
+        currentDay.text = "Dia 4";
+        transitionImage.color = new Vector4(transitionImage.color.r, transitionImage.color.g, transitionImage.color.b, 1f);
+        AnimateTransition(3f, true);
+        if (currentDay != null) AnimateText(currentDay, 3f, true);
+        daysManager = GameObject.FindGameObjectWithTag("DaysManager").GetComponent<DaysManager>();
+        daysManager.SetGameManager(this);
+        if (currentObjective == null) { currentObjective = GameObject.FindGameObjectWithTag("Inventory").transform.Find("Inventory").transform.Find("Objective").GetComponent<TextMeshProUGUI>(); }
+        if (instruction == null) instruction = GameObject.Find("Canvas").transform.Find("Instruction").GetComponent<TextMeshProUGUI>();
+        StartCoroutine(daysManager.FourthDayInitialLines());
+    }
+    
+    private void RemoveTriggers()
+    {
+        if (!_stopTrigger) _stopTrigger = GameObject.FindGameObjectWithTag("StopTrigger");
+        _stopTrigger?.SetActive(false);
+        if (_ezequielCallingTrigger == null) _ezequielCallingTrigger = GameObject.FindGameObjectWithTag("EzequielCallingTrigger");
+        _ezequielCallingTrigger.GetComponent<EdgeCollider2D>().enabled = false;
+        if(_endDayOneTrigger == null) _endDayOneTrigger = GameObject.FindGameObjectWithTag("EndDay1Trigger");
+        _endDayOneTrigger.GetComponent<EdgeCollider2D>().enabled = false;
+        if (!_firstInteractionTrigger) _firstInteractionTrigger = GameObject.FindGameObjectWithTag("FirstInteractionTrigger");
+        _firstInteractionTrigger?.SetActive(false);
     }
 
     private void GroundFloorConfig()

@@ -24,6 +24,7 @@ public abstract class PlayerController : Subject, IHealthManager
     public Animator battleAnimator;
     public Sprite idleDown;
     public Sprite idleLeft;
+    public Sprite idleUp;
 
     #region tags to compare
     [Header("ScenesToLoad")]
@@ -104,17 +105,17 @@ public abstract class PlayerController : Subject, IHealthManager
         {
             this.gameObject.transform.localPosition = new Vector2(4.54f, 8.05f);
         }
-        else if (SceneManager.GetActiveScene().name == "Floor2" && (PlayerPrefs.GetString("currentState").Equals("Start") 
+        else if (SceneManager.GetActiveScene().name == "Floor2" && (PlayerPrefs.GetString("currentState").Equals("Start")
         || PlayerPrefs.GetString("currentState").Equals("FirstLeaving") || PlayerPrefs.GetString("currentState").Equals("LeavingSecondDay")))
         {
             if (!PlayerPrefs.GetString("pastScene").Equals("BattleScene")) this.gameObject.transform.localPosition = new Vector2(-17.47f, 4.59f);
             else this.gameObject.transform.localPosition = new Vector2(23.46f, 14.32541f);
-        }else if(SceneManager.GetActiveScene().name.Equals("Floor2") && PlayerPrefs.GetString("currentState").Equals("StartDayTwo"))
+        } else if (SceneManager.GetActiveScene().name.Equals("Floor2") && PlayerPrefs.GetString("currentState").Equals("StartDayTwo"))
         {
             if (PlayerPrefs.GetString("transitionType").Equals("frontTransition"))
             {
                 this.gameObject.transform.localPosition = new Vector2(-41.82f, 10.24f);
-            }else if (PlayerPrefs.GetString("transitionType").Equals("backTransition"))
+            } else if (PlayerPrefs.GetString("transitionType").Equals("backTransition"))
             {
                 this.gameObject.transform.localPosition = new Vector2(33.75f, 10.03f);
             }
@@ -129,10 +130,11 @@ public abstract class PlayerController : Subject, IHealthManager
             if (PlayerPrefs.GetString("currentState").Equals("StartDayTwo") && !GameManager.Instance.GetDayConfigured())
             {
                 this.gameObject.transform.localPosition = new Vector2(-2.26f, 72.24f);
-            }else if (SceneManager.GetActiveScene().name.Equals("Terreo") && PlayerPrefs.GetString("transitionType").Equals("frontTransition")) {
+            }else if (PlayerPrefs.GetString("currentState").Equals("FourthDay") && !GameManager.Instance.GetDayConfigured()){
+                this.gameObject.transform.localPosition = new Vector2(4.89f, 84.8793f);
+            }else if (SceneManager.GetActiveScene().name.Equals("Terreo") && PlayerPrefs.GetString("transitionType").Equals("frontTransition")){
                 this.gameObject.transform.localPosition = new Vector2(25.73f, 68.27f);
-            }
-            else if (SceneManager.GetActiveScene().name.Equals("Terreo") && PlayerPrefs.GetString("transitionType").Equals("backTransition")) {
+            }else if (SceneManager.GetActiveScene().name.Equals("Terreo") && PlayerPrefs.GetString("transitionType").Equals("backTransition")){
                 this.gameObject.transform.localPosition = new Vector2(17.88f, 111.86f);
             }
             else { this.gameObject.transform.position = new Vector3(0, 0, 0); }
