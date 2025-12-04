@@ -58,14 +58,31 @@ public class DaysManager : DialogueBox
         PlayerPrefs.SetString("currentState", "GroupClass");
         PlayerPrefs.SetString("pastScene", "BattleScene");*/
 
-        instance = GameObject.FindGameObjectWithTag("DaysManager");
+        if(SceneManager.GetActiveScene().name != "Library")
+        {
+            instance = GameObject.FindGameObjectWithTag("DaysManager");
 
-        if(instance == null)
+            if(instance == null)
+            {
+                instance = this.gameObject;
+            }else if (instance != this.gameObject)
+            {
+                Destroy(instance);
+            }
+        } else
         {
-            instance = this.gameObject;
-        }else if (instance != this.gameObject)
-        {
-            Destroy(instance);
+            GameObject[] instances = GameObject.FindGameObjectsWithTag("DaysManager");
+
+            if(instances.Length > 1)
+            {
+                foreach(GameObject instance in instances)
+                {
+                    if(instance != this.gameObject)
+                    {
+                        Destroy(instance);
+                    }
+                }
+            }
         }
     }
 
@@ -688,6 +705,7 @@ public class DaysManager : DialogueBox
     
     private void FourthDayDialogueCheck(int i)
     {
+        playerImage.sprite = playerImages[1];
         if (_fourthDayDialogueNarrator.Contains(i))
         {
             if(i < 9 || (i >= 14 && i <= 16)) { DialoguePanelSettings(1f, 0.5f, 0f, 0f, TextAlignmentOptions.Center, FontStyles.Normal); }

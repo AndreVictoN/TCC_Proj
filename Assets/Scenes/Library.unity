@@ -4281,8 +4281,8 @@ MonoBehaviour:
   _endDayOneTrigger: {fileID: 0}
   stopDialogue: "Eu... acho que eu deveria tentar encontrar uma informa\xC7\xC3o
     de onde s\xC3o as salas."
-  dialoguePanel: {fileID: 0}
-  dialogueText: {fileID: 0}
+  dialoguePanel: {fileID: 334138233}
+  dialogueText: {fileID: 334138232}
   dialogue: []
   wordSpeed: 0.05
   _playerController: {fileID: 0}
@@ -7808,7 +7808,9 @@ MonoBehaviour:
   cutsceneImages:
   - {fileID: 21300000, guid: 9709f3933aab87b46bae8d7c970feb0a, type: 3}
   - {fileID: 21300000, guid: 9cbdda9a8ef2f584fb0c4ee27e83a39c, type: 3}
-  playerImages: []
+  playerImages:
+  - {fileID: -7513653127177280571, guid: 0fd72d7a4e9df804bae42ed17523d83f, type: 3}
+  - {fileID: 5049085093676152963, guid: 41a04feacc5481b42b509b81eb832424, type: 3}
   npcImages:
   - {fileID: 3484546130245586912, guid: 8428293ab436ebc4498e7bc4c993a582, type: 3}
   - {fileID: -1850778739, guid: 8428293ab436ebc4498e7bc4c993a582, type: 3}
